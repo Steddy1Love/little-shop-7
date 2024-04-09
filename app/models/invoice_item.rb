@@ -1,4 +1,6 @@
 class InvoiceItem < ApplicationRecord
+  enum :status, [:pending, :packaged, :shipped]
+
   belongs_to :item
   has_one :merchant, through: :item
   belongs_to :invoice
