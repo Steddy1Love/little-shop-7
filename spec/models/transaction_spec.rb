@@ -8,4 +8,8 @@ RSpec.describe Transaction, type: :model do
     it { should have_many(:items).through(:invoice_items) }
     it { should have_many(:merchants).through(:items) }
   end
+
+  describe "enums" do
+    it { should define_enum_for(:result).with_values({ failed: 0, success: 1 }) }
+  end
 end

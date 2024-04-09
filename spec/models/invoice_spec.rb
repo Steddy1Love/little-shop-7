@@ -8,4 +8,8 @@ RSpec.describe Invoice, type: :model do
     it { should have_many(:items).through(:invoice_items) }
     it { should have_many(:merchants).through(:items) }
   end
+
+  describe "enums" do
+    it { should define_enum_for(:status).with_values({ cancelled: 0, in_progress: 1, completed: 2 }) }
+  end
 end
