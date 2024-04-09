@@ -1,5 +1,12 @@
 # Little Esty Shop
 
+## Helpful Links
+- Project Repo: https://github.com/JaredMHobson/little-shop-7
+- Project Board: https://github.com/users/JaredMHobson/projects/3
+- Project Schema DB Designer: https://dbdesigner.page.link/1D7uf9kW9khaE3Wt9
+- Project Schema DB Diagram: https://dbdiagram.io/home 
+- Project DTR: https://docs.google.com/document/d/1Xjl-11rwWg7Vugy38_FEegezFAYyIUg1pI-XZTSRSAg/edit?usp=sharing
+
 ## Background and Description
 
 "Little Esty Shop" is a group project that requires students to build a fictitious e-commerce platform where merchants and admins can manage inventory and fulfill customer invoices.
