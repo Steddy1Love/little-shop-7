@@ -1,6 +1,10 @@
 require "rails_helper"
 
 RSpec.describe Merchant, type: :model do
+  before :each do
+    @merchant = FactoryBot.create(:merchant)
+  end
+
   describe "relationships" do
     it { should have_many(:items) }
     it { should have_many(:invoice_items).through(:items) }
