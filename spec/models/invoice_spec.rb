@@ -3,7 +3,6 @@ require "rails_helper"
 RSpec.describe Invoice, type: :model do
   before :each do
     @invoice = FactoryBot.create(:invoice)
-    binding.pry
   end
 
   describe "relationships" do
@@ -15,6 +14,6 @@ RSpec.describe Invoice, type: :model do
   end
 
   describe "enums" do
-    it { should define_enum_for(:status).with_values({ cancelled: 0, in_progress: 1, completed: 2 }) }
+    it { should define_enum_for(:status).with_values({ 'in progress' => 0, 'completed' => 1, 'cancelled' => 2 }) }
   end
 end
