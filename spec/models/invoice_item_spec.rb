@@ -1,6 +1,9 @@
 require "rails_helper"
 
 RSpec.describe InvoiceItem, type: :model do
+  before :each do
+    @invoice_item = FactoryBot.create(:invoice_item)
+  end
   describe "relationships" do
     it { should belong_to(:item) }
     it { should have_one(:merchant).through(:item) }
