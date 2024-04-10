@@ -6,6 +6,10 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
 
+  namespace :admin do
+    resources :merchants, only: [:index, :show]
+  end
+
   resources :merchants, only: [:show] do
     member { get "dashboard"}
     resources :items, only: [:index]
