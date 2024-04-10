@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   # root "articles#index"
 
   namespace :admin do
-    resources :merchants, only: [:index, :show]
+    resources :merchants, only: [:index, :show, :edit, :update]
   end
 
   resources :merchants, only: [:show] do
