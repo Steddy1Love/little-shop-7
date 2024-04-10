@@ -10,5 +10,7 @@ Rails.application.routes.draw do
 
   resources :merchants, only: [:show] do
     member { get "dashboard"}
+    resources :items, only: [:index]
+    resources :invoices, only: [:index]
   end
 end
