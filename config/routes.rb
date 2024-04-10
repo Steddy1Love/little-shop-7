@@ -5,7 +5,10 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
-  get "/admin", to: "admin/dashboard#index"
-
+  namespace :admin do
+    resources :admin, only: [:index] do
+      member  {get "dashboard"}
+    end
+  end
 
 end
