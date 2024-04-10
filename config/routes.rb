@@ -5,9 +5,9 @@ Rails.application.routes.draw do
   # root "articles#index"
 
   namespace :admin do
-    resources :merchants, only: [:index]
+    resources :merchants, only: [:index, :show]
   end
-  
+
   resources :merchants, only: [:show] do
     member { get "dashboard"}
   end
