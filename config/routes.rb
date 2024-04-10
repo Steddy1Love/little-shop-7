@@ -11,8 +11,8 @@ Rails.application.routes.draw do
     resources :items, only: [:index]
     resources :invoices, only: [:index]
   end
-  namespace :admin do
-    resources :admin, only: [:index] do
-      member  {get "dashboard"}
-    end
+
+  resources :admin, only: [:index] do
+    
   end
+end
