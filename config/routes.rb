@@ -6,18 +6,15 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
 
-  namespace :admin do
-    resources :merchants, only: [:index, :show]
-  end
-
   resources :merchants, only: [:show] do
     member { get "dashboard"}
     resources :items, only: [:index]
     resources :invoices, only: [:index]
   end
 
-  namespace :admin, only: [:index] do
-    resources :merchants, only: [:index]
+  get '/admin', to: 'admin#index'
+  namespace :admin do
+    resources :merchants, only: [:index, :show]
     resources :invoices, only: [:index]
   end
 end
