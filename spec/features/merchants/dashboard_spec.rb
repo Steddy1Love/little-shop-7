@@ -3,48 +3,34 @@ require 'rails_helper'
 RSpec.describe 'merchant dashboard show page', type: :feature do
   before(:each) do
         @merchant1 = FactoryBot.create(:merchant)
-        @merchant2 = FactoryBot.create(:merchant)
+        # @merchant2 = FactoryBot.create(:merchant)
 
-        @item_1 = FactoryBot.create(:item, name: "Organic wood", merchant_id: @merchant1.id)
-        @item_2 = FactoryBot.create(:item, name: "Yoga mat", merchant_id: @merchant1.id)
-        @item_3 = FactoryBot.create(:item, name: "Headphones", merchant_id: @merchant1.id)
-        @item_4 = FactoryBot.create(:item, name: "Kangen water", merchant_id: @merchant1.id)
-        @item_5 = FactoryBot.create(:item, name: "Left shoe", merchant_id: @merchant1.id)
-        @item_6 = FactoryBot.create(:item, name: "Right shoe", merchant_id: @merchant1.id)
-        @item_7 = FactoryBot.create(:item, name: "Coffee mug", merchant_id: @merchant1.id)
-        @item_8 = FactoryBot.create(:item, name: "Bed frame", merchant_id: @merchant1.id)
-        @item_9 = FactoryBot.create(:item, name: "Tiny house", merchant_id: @merchant1.id)
-        @item_10 = FactoryBot.create(:item, name: "Cat litter", merchant_id: @merchant1.id)
+        @items_merchant1 = FactoryBot.create_list(:item, 5, merchant: @merchant1)
+        # @items_merchant2 = FactoryBot.create_list(:item, 5, merchant: @merchant2)
 
-        # @customer_list = FactoryBot.create_list(:customer, 8)
-        @customer_1 = (first_name: "Dana", last_name: "Howell")
-        @customer_2 = (first_name: "Nico", last_name: "Shanstrom")
-        @customer_3 = (first_name: "Jared", last_name: "Hobson")
-        @customer_4 = (first_name: "Steddy", last_name: "Bell")
-        @customer_5 = (first_name: "Jenna", last_name: "Goode")
-        @customer_6 = (first_name: "Grant", last_name: "Davis")
-        @customer_7 = (first_name: "Abdul", last_name: "Redd")
-        @customer_8 = (first_name: "Chris", last_name: "Simmons")
+        @customers = FactoryBot.create_list(:customer, 10)
 
-        # invoices_for_customer_1 = create_list(:invoice, 8 customer: @customer_1)
+        @invoices_customer1 = FactoryBot.create_list(:invoice, 5, customer: @customers.first)
+        @invoices_customer2 = FactoryBot.create_list(:invoice, 4, customer: @customers.second)
+        @invoices_customer3 = FactoryBot.create_list(:invoice, 6, customer: @customers.third)
+        @invoices_customer4 = FactoryBot.create_list(:invoice, 10, customer: @customers.fourth)
+        @invoices_customer5 = FactoryBot.create_list(:invoice, 3, customer: @customers.fifth)
+        @invoices_customer6 = FactoryBot.create_list(:invoice, 2, customer: @customers.last)
 
-        @invoice_1 = FactoryBot.create(:invoice, customer_id: @customer_1.id, status: 1)
-        @invoice_2 = FactoryBot.create(:invoice, customer_id: @customer_2.id, status: 1)
-        @invoice_3 = FactoryBot.create(:invoice, customer_id: @customer_3.id, status: 1)
-        @invoice_4 = FactoryBot.create(:invoice, customer_id: @customer_4.id, status: 1)
-        @invoice_5 = FactoryBot.create(:invoice, customer_id: @customer_5.id, status: 1)
-        @invoice_6 = FactoryBot.create(:invoice, customer_id: @customer_6.id, status: 1)
-        @invoice_7 = FactoryBot.create(:invoice, customer_id: @customer_7.id, status: 1)
-        @invoice_8 = FactoryBot.create(:invoice, customer_id: @customer_8.id, status: 1)
 
-        @invoice_item_1 = FactoryBot.create(:invoice_item, item_id: @item_1.id, invoice_id: @invoice_1.id)
-        @invoice_item_2 = FactoryBot.create(:invoice_item, item_id: @item_2.id, invoice_id: @invoice_1.id)
-        @invoice_item_3 = FactoryBot.create(:invoice_item, item_id: @item_3.id, invoice_id: @invoice_1.id)
-        @invoice_item_4 = FactoryBot.create(:invoice_item, item_id: @item_4.id, invoice_id: @invoice_2.id)
-        @invoice_item_5 = FactoryBot.create(:invoice_item, item_id: @item_5.id, invoice_id: @invoice_2.id)
-        @invoice_item_6 = FactoryBot.create(:invoice_item, item_id: @item_5.id, invoice_id: @invoice_3.id)
-        @invoice_item_7 = FactoryBot.create(:invoice_item, item_id: @item_5.id, invoice_id: @invoice_3.id)
+        @invoice_items1 = FactoryBot.create_list(:invoice_item, 3, invoice: @invoices_customer1.first, item: @items_merchant1.first )
+        @invoice_items2 = FactoryBot.create_list(:invoice_item, 4, invoice: @invoices_customer2.second, item: @items_merchant1.first )
+        @invoice_items3 = FactoryBot.create_list(:invoice_item, 6, invoice: @invoices_customer3.first, item: @items_merchant1.second )
+        @invoice_items4 = FactoryBot.create_list(:invoice_item, 5, invoice: @invoices_customer4.second, item: @items_merchant1.third )
+        @invoice_items5 = FactoryBot.create_list(:invoice_item, 4, invoice: @invoices_customer5.first, item: @items_merchant1.third )
+        @invoice_items6 = FactoryBot.create_list(:invoice_item, 3, invoice: @invoices_customer6.first, item: @items_merchant1.fifth )
 
+        @transactions_invoice1 = FactoryBot.create_list(:transaction, 5, invoice: @invoices_customer1.first, result: 1)
+        @transactions_invoice2 = FactoryBot.create_list(:transaction, 4, invoice: @invoices_customer2.first, result: 1)
+        @transactions_invoice3 = FactoryBot.create_list(:transaction, 6, invoice: @invoices_customer3.first, result: 1)
+        @transactions_invoice4 = FactoryBot.create_list(:transaction, 7, invoice: @invoices_customer4.second, result: 1)
+        @transactions_invoice5 = FactoryBot.create_list(:transaction, 3, invoice: @invoices_customer5.third, result: 1)
+        @transactions_invoice6 = FactoryBot.create_list(:transaction, 9, invoice: @invoices_customer6.first, result: 1)
         
         visit dashboard_merchant_path(@merchant1)
         #"/merchants/#{@merchant1.id}/dashboard"
@@ -81,11 +67,9 @@ RSpec.describe 'merchant dashboard show page', type: :feature do
       # And next to each customer name I see the number of successful transactions they have
       # conducted with my merchant
       within '.top5' do
-        expect(page).to have_content("Customer name: #{@customer1.name} - #{@customer1.successful_transations} successful transactions" )
-        expect(page).to have_content()
-        expect(page).to have_content()
-        expect(page).to have_content()
-        expect(page).to have_content()
+        top_customers.each do |customer|
+          expect(page).to have_content("Customer name: #{customer.first_name} #{customer.last_name} - #{customer.successful_transactions_count} successful transactions")
+        end
       end
     end
   end
