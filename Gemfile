@@ -57,7 +57,6 @@ group :development, :test do
   gem "faker"
   gem "launchy"
   gem "orderly"
-  gem "rspec-rails"
   gem "shoulda-matchers"
   gem "simplecov"
   gem "factory_bot_rails"
