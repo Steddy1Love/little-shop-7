@@ -11,7 +11,7 @@ class Customer < ApplicationRecord
 
   def self.goated_five_customers
     joins(:transactions)
-    .select("customers.*, COUNT(*) AS transaction_count")
+    .select("customers.*, COUNT(DISTINCT transactions.id) AS transaction_count")
     .where("result = 1")
     .group(:id)
     .order(transaction_count: :desc)
