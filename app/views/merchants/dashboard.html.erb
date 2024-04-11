@@ -3,3 +3,14 @@
 <h3><%= link_to "Merchant Items", merchant_items_path(@merchant) %></h3>
 <h3><%= link_to "Merchant Invoices", merchant_invoices_path(@merchant) %></h3>
 
+<section class='top5'>
+  <h2>Top 5 Customers</h2>
+  <ul>
+    <% @merchant.top_five_customers.each do |customer| %>
+      <li>
+        <%="Customer name: #{customer.first_name} #{customer.last_name} - #{customer.successful_transactions_count} successful transactions"%>
+      </li>
+    <%end%>
+  <ul>
+</section>
+
