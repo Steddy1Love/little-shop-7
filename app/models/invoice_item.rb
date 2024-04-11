@@ -13,3 +13,9 @@ class InvoiceItem < ApplicationRecord
 end
 
 
+# has_one **{ 
+#           :transaxtions,
+#           fk: :transaction_id,
+#           pk: :id,
+#           class_name: :Transaction
+#         }
