@@ -16,4 +16,8 @@ RSpec.describe Merchant, type: :model do
   describe "validations" do
     it { should validate_presence_of(:name) }
   end
+
+  describe "enums" do
+    it { should define_enum_for(:status).with_values({ disabled: 0, enabled: 1 }) }
+  end
 end
