@@ -17,4 +17,14 @@ RSpec.describe "Admin Dashboard Page", type: :feature do
       expect(page).to have_link("All Invoices")
     end
   end
+
+  describe "User Story 21" do
+    it "displays top five customers" do
+      
+    end
+
+    it "displays top five customers' transaction count" do
+      
+    end
+  end
 end

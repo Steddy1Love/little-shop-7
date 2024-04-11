@@ -7,4 +7,14 @@ class Customer < ApplicationRecord
 
   validates :first_name, presence: true
   validates :last_name, presence: true
+
+
+  def self.goated_five_customers
+    joins(:transactions)
+    .select("customers.*, COUNT(*) AS transaction_count")
+    .where("result = 1")
+    .group(:id)
+    .order(transaction_count: :desc)
+    .limit(5)
+  end
 end
