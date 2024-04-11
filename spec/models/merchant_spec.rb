@@ -60,4 +60,8 @@ RSpec.describe Merchant, type: :model do
       expect(@merchant1.top_five_customers).to_not include(@customer7)
     end
   end
+
+  describe "enums" do
+    it { should define_enum_for(:status).with_values({ disabled: 0, enabled: 1 }) }
+  end
 end
