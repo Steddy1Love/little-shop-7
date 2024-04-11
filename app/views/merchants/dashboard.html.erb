@@ -9,7 +9,7 @@
     <% @merchant.top_five_customers.each do |customer| %>
       <li>
         <%="Customer name: #{customer.first_name} #{customer.last_name} 
-        - #{customer.successful_transactions_count} successful transactions"%>
+        - #{customer.transaction_count} successful transactions"%>
       </li>
     <%end%>
   <ul>

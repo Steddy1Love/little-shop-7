@@ -17,7 +17,6 @@ RSpec.describe 'merchant dashboard show page', type: :feature do
         @invoices_customer5 = create_list(:invoice, 3, customer: @customers.fifth, status: 1)
         @invoices_customer6 = create_list(:invoice, 2, customer: @customers.last, status: 1)
 
-
         @invoice_items1 = create_list(:invoice_item, 3, invoice: @invoices_customer1.first, item: @items_merchant1.first )
         @invoice_items2 = create_list(:invoice_item, 4, invoice: @invoices_customer2.second, item: @items_merchant1.first )
         @invoice_items3 = create_list(:invoice_item, 6, invoice: @invoices_customer3.first, item: @items_merchant1.second )
@@ -68,7 +67,7 @@ RSpec.describe 'merchant dashboard show page', type: :feature do
       # conducted with my merchant
       within '.top5' do
         @merchant1.top_five_customers.each do |customer|
-          expect(page).to have_content("Customer name: #{customer.first_name} #{customer.last_name} - #{customer.successful_transactions_count} successful transactions")
+          expect(page).to have_content("Customer name: #{customer.first_name} #{customer.last_name} - #{customer.transaction_count} successful transactions")
         end
       end
     end

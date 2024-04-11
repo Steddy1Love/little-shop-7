@@ -6,4 +6,8 @@ class Merchant < ApplicationRecord
   has_many :customers, through: :invoices
 
   validates :name, presence: true
+
+  def top_five_customers
+    customers.joins(:transactions).where("result = 1").select("customers.*, COUNT(DISTINCT transactions.id) AS transaction_count").order("transaction_count DESC").group(:id).limit(5)
+  end
 end
