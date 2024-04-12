@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe "the admin merchants index page" do
   before(:each) do
-    @merchant_list = FactoryBot.create_list(:merchant, 3)
+    @merchant_list = create_list(:merchant, 3)
   end
 
   describe 'User Story 24' do
@@ -58,6 +58,32 @@ RSpec.describe "the admin merchants index page" do
               expect(page).to_not have_button('Enable')
             end
           end
+        end
+      end
+    end
+  end
+
+  describe 'User Story 28' do
+    it 'only shows enabled merchants in the enabled merchants section and disabled merchants in the disabled merchants section' do
+      enabled_merchant = create(:merchant, status: 1)
+      disabled_merchant = create(:merchant, status: 0)
+      visit admin_merchants_path
+
+      within '#enabled_merchants' do
+        expect(page).to have_content(enabled_merchant.name)
+        expect(page).to_not have_content(disabled_merchant.name)
+
+        @merchant_list.each do |merchant|
+          expect(page).to have_content(merchant.name) if merchant.enabled?
+        end
+      end
+
+      within '#disabled_merchants' do
+        expect(page).to have_content(disabled_merchant.name)
+        expect(page).to_not have_content(enabled_merchant.name)
+
+        @merchant_list.each do |merchant|
+          expect(page).to have_content(merchant.name) if merchant.disabled?
         end
       end
     end
