@@ -2,6 +2,7 @@
 
 <div id="admin_merchants_list">
   <div id="enabled_merchants">
+    <h2>Enabled Merchants</h2>
     <% @enabled_merchants.each do |merchant| %>
       <div id="admin_merchant_<%= merchant.id %>">
         <p><%= link_to merchant.name, admin_merchant_path(merchant) %>
@@ -11,6 +12,7 @@
   </div>
 
   <div id="disabled_merchants">
+    <h2>Disabled Merchants</h2>
     <% @disabled_merchants.each do |merchant| %>
       <div id="admin_merchant_<%= merchant.id %>">
         <p><%= link_to merchant.name, admin_merchant_path(merchant) %>
