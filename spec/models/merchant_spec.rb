@@ -4,9 +4,9 @@ RSpec.describe Merchant, type: :model do
 
   before(:each) do
     @merchant1 = create(:merchant)
-   
+
     @items_merchant1 = create_list(:item, 5, merchant: @merchant1)
-   
+
     # @customers = create_list(:customer, 6)
     @customer1 = create(:customer)
     @customer2 = create(:customer)
