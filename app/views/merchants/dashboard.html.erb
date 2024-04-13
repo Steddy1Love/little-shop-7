@@ -16,11 +16,11 @@
 </section>
 
 <section class='items_ready_to_ship'>
-  <h2> Items Not Shipped </h2>
+  <h2> Items Ready To Ship </h2>
   <ul>
-    <% @merchant.invoice_items.items_not_shipped.each do |unshipped_item| %>
-      <%= link_to "#{unshipped_item.invoice_id}", merchant_invoices_path %>
-      <%= unshipped_item.name %>
+    <% @merchant.invoice_items.ready_to_ship.each do |invoice_item| %>
+      <%= invoice_item.name - (link_to "#{invoice_item.invoice_id}", merchant_invoices_path(@merchant))%>
+      
     <% end %>
   <ul>
 </section>

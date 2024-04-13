@@ -22,10 +22,10 @@ RSpec.describe 'merchant dashboard show page', type: :feature do
     @invoices_customer5 = create(:invoice, customer: @customers.fifth, status: 1)
     @invoices_customer6 = create(:invoice, customer: @customers.last, status: 1)
 
-    @invoice_items1 = create(:invoice_item, invoice: @invoices_customer1, item: @table, status: 0 )
-    @invoice_items2 = create(:invoice_item, invoice: @invoices_customer2, item: @pen, status: 0 )
-    @invoice_items3 = create(:invoice_item, invoice: @invoices_customer3, item: @mat, status: 1 )
-    @invoice_items4 = create(:invoice_item, invoice: @invoices_customer4, item: @mug, status: 1 )
+    @invoice_items1 = create(:invoice_item, invoice: @invoices_customer1, item: @table, status: 0 ) #pending
+    @invoice_items2 = create(:invoice_item, invoice: @invoices_customer2, item: @pen, status: 0 ) #pending
+    @invoice_items3 = create(:invoice_item, invoice: @invoices_customer3, item: @mat, status: 1 ) #packaged
+    @invoice_items4 = create(:invoice_item, invoice: @invoices_customer4, item: @mug, status: 1 ) #packaged
     @invoice_items5 = create(:invoice_item, invoice: @invoices_customer5, item: @ember, status: 2 )#shiped
     @invoice_items6 = create(:invoice_item, invoice: @invoices_customer6, item: @plant, status: 2 )#shipped
     
@@ -78,24 +78,34 @@ RSpec.describe 'merchant dashboard show page', type: :feature do
 
   describe "User Story 4" do
     it "shows a section for items ready to ship with list of names of items not shipped" do
+      # 4. Merchant Dashboard Items Ready to Ship
+      # As a merchant
+      # When I visit my merchant dashboard (/merchants/:merchant_id/dashboard)
+      # Then I see a section for "Items Ready to Ship"
       within '.items_ready_to_ship' do
-        save_and_open_page
-          expect(page).to have_content("Items Not Shipped")
-          expect(page).to have_content(@table.name)
-          expect(page).to have_content(@pen.name)
-          expect(page).to have_content(@mat.name)
-          expect(page).to have_content(@mug.name)
-
-          expect(page).to_not have_content(@ember.name)
-          expect(page).to_not have_content(@plant.name)
+        # In that section I see a list of the names of all of my items that
+        # have been ordered and have not yet been shipped,
+        # save_and_open_page
+        expect(page).to have_content("Items Ready To Ship")
+        # expect(page).to have_content(@table.name)
+        # expect(page).to have_content(@pen.name)
+        expect(page).to have_content(@mat.name)
+        expect(page).to have_content(@mug.name)
+        
+        expect(page).to_not have_content(@ember.name)
+        expect(page).to_not have_content(@plant.name)
+        expect(page).to_not have_content(@table.name)
+        expect(page).to_not have_content(@pen.name)
       end
     end
-
+    
     it "has a link next to each invoice item titled as ID from the invoice item is on" do
-      within '.items_not_shipped' do
-        self.items_not_shipped.each do |unshipped_item|
-          expect(page).to have_link(unshipped_item.invoice_id)
-          expect(page).to have_content(unshipped_item.name)
+      within '.items_ready_to_ship' do
+        @merchant1.invoice_items.ready_to_ship.each do |invoice_item|
+          # And next to each Item I see the id of the invoice that ordered my item
+          # And each invoice id is a link to my merchant's invoice show page
+          expect(page).to have_content(invoice_item.name)
+          expect(page).to have_link(invoice_item.invoice_id)
         end
       end
     end
