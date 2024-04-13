@@ -16,6 +16,7 @@ class Merchant < ApplicationRecord
 
   def pending_items #this returns an object of packaged items on merchants invoice_items
     invoice_items.packaged.map do |invoice_item|
+      require 'pry' ; binding.pry
       invoice_item.item
     end
     # Item

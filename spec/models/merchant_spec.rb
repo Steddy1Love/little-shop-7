@@ -67,8 +67,8 @@ RSpec.describe Merchant, type: :model do
 
     @invoice_items1 = create(:invoice_item, invoice: @invoices_customer1, item: @table, status: 0 )
     @invoice_items2 = create(:invoice_item, invoice: @invoices_customer2, item: @pen, status: 0 )
-    @invoice_items3 = create(:invoice_item, invoice: @invoices_customer3, item: @mat, status: 1 )
-    @invoice_items4 = create(:invoice_item, invoice: @invoices_customer4, item: @mug, status: 1 )
+    @invoice_items3 = create(:invoice_item, invoice: @invoices_customer3, item: @mat, status: 1 ) #pending
+    @invoice_items4 = create(:invoice_item, invoice: @invoices_customer4, item: @mug, status: 1 ) #pending
     @invoice_items5 = create(:invoice_item, invoice: @invoices_customer5, item: @ember, status: 2 )#shiped
     @invoice_items6 = create(:invoice_item, invoice: @invoices_customer6, item: @plant, status: 2 )#shipped
     
@@ -97,9 +97,12 @@ RSpec.describe Merchant, type: :model do
       expect(@merchant1.top_five_customers).to eq([@customer6, @customer4, @customer3, @customer1, @customer2])
       expect(@merchant1.top_five_customers).to_not include(@customer5)
     end
+
     describe "#items_not_shipped" do
       it "returns all invoice_items with pending or packaged status" do
-        expect(@merchant1.items_not_shipped).to eq([@table.name, @pen.name, @mat.name, @mug.name])
+        expect(@merchant1.pending_items).to eq([ @mat.name, @mug.name])
+
+        expect(page).to_not have_content(@ember.name, @plant.name, @table.name, @pen.name)
       end
     end
   end
