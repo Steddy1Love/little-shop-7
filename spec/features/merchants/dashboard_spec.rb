@@ -40,9 +40,7 @@ RSpec.describe 'merchant dashboard show page', type: :feature do
     @transactions_invoice4 = create_list(:transaction, 7, invoice: @invoices_customer4, result: 1)
     @transactions_invoice5 = create_list(:transaction, 3, invoice: @invoices_customer5, result: 1)
     @transactions_invoice6 = create_list(:transaction, 9, invoice: @invoices_customer6, result: 1)
-        visit dashboard_merchant_path(@merchant1)
-        #"/merchants/#{@merchant1.id}/dashboard"
-        #
+    visit dashboard_merchant_path(@merchant1)
   end
 
   describe ' USER STORY #1' do
@@ -56,11 +54,7 @@ RSpec.describe 'merchant dashboard show page', type: :feature do
 
   describe 'User Story 2' do
     it 'has links for merchant items index and invoices index' do
-      # As a merchant,
-      # When I visit my merchant dashboard (/merchants/:merchant_id/dashboard)
-      # Then I see link to my merchant items index (/merchants/:merchant_id/items)
       expect(page).to have_link("Merchant Items")
-      # And I see a link to my merchant invoices index (/merchants/:merchant_id/invoices)
       expect(page).to have_link("Merchant Invoices")
     end
   end
