@@ -8,12 +8,4 @@ class InvoiceItem < ApplicationRecord
 
   validates :quantity, presence: true
   validates :unit_price, presence: true
-
-  def self.items_not_shipped
-    Item
-    .joins(:invoice_items)
-    .distinct
-    .select(:name)
-    .where(status: "pending")
-  end
 end

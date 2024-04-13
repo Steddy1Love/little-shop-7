@@ -12,4 +12,16 @@ class Merchant < ApplicationRecord
   def top_five_customers
     customers.joins(:transactions).where("result = 1").select("customers.*, COUNT(DISTINCT transactions.id) AS transaction_count").order("transaction_count DESC").group(:id).limit(5)
   end
+
+
+  def pending_items #this returns an object of packaged items on merchants invoice_items
+    invoice_items.packaged.map do |invoice_item|
+      invoice_item.item
+    end
+    # Item
+    # .joins(items: :invoice_items)
+    # .distinct
+    # .select(:name)
+    # .where(status: "packaged")
+  end
 end

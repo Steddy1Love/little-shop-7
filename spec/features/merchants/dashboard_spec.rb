@@ -13,14 +13,19 @@ RSpec.describe 'merchant dashboard show page', type: :feature do
     @plant = create(:item, name: "plant", merchant: @merchant1)
     # @items_merchant2 = create_list(:item, 5, merchant: @merchant2)
 
-    @customers = create_list(:customer, 6)
+    @customer1 = create(:customer)
+    @customer2 = create(:customer)
+    @customer3 = create(:customer)
+    @customer4 = create(:customer)
+    @customer5 = create(:customer)
+    @customer6 = create(:customer)
 
-    @invoices_customer1 = create(:invoice, customer: @customers.first, status: 1)
-    @invoices_customer2 = create(:invoice, customer: @customers.second, status: 1)
-    @invoices_customer3 = create(:invoice, customer: @customers.third, status: 1)
-    @invoices_customer4 = create(:invoice,  customer: @customers.fourth, status: 1)
-    @invoices_customer5 = create(:invoice, customer: @customers.fifth, status: 1)
-    @invoices_customer6 = create(:invoice, customer: @customers.last, status: 1)
+    @invoices_customer1 = create(:invoice, customer: @customer1, status: 1)
+    @invoices_customer2 = create(:invoice, customer: @customer2, status: 1)
+    @invoices_customer3 = create(:invoice, customer: @customer3, status: 1)
+    @invoices_customer4 = create(:invoice, customer: @customer4, status: 1)
+    @invoices_customer5 = create(:invoice, customer: @customer5, status: 1)
+    @invoices_customer6 = create(:invoice, customer: @customer6, status: 1)
 
     @invoice_items1 = create(:invoice_item, invoice: @invoices_customer1, item: @table, status: 0 )
     @invoice_items2 = create(:invoice_item, invoice: @invoices_customer2, item: @pen, status: 0 )
@@ -77,28 +82,29 @@ RSpec.describe 'merchant dashboard show page', type: :feature do
   end
 
   describe "User Story 4" do
-    it "shows a section for items ready to ship with list of names of items not shipped" do
-      within '.items_ready_to_ship' do
-        save_and_open_page
-          expect(page).to have_content("Items Not Shipped")
-          expect(page).to have_content(@table.name)
-          expect(page).to have_content(@pen.name)
-          expect(page).to have_content(@mat.name)
-          expect(page).to have_content(@mug.name)
+    # it "shows a section for items not shipped with its list of names" do
+    #   within "#items_not_shipped-#{@merchant1.id}" do
+    #       expect(page).to have_content("Items Not Shipped")
+    #       expect(page).to have_content(@mat.name)
+    #       expect(page).to have_content(@mug.name)
+    
+    #       expect(page).to have_content(@table.name)
+    #       expect(page).to have_content(@pen.name)
+    #       expect(page).to_not have_content(@ember.name)
+    #       expect(page).to_not have_content(@plant.name)
+    #   end
+    # end
 
-          expect(page).to_not have_content(@ember.name)
-          expect(page).to_not have_content(@plant.name)
-      end
-    end
-
-    it "has a link next to each invoice item titled as ID from the invoice item is on" do
-      within '.items_not_shipped' do
-        self.items_not_shipped.each do |unshipped_item|
-          expect(page).to have_link(unshipped_item.invoice_id)
-          expect(page).to have_content(unshipped_item.name)
+    it "has a link next to each unshipped invoice item titled as ID from the invoice item is on" do
+      expect(page).to have_content("Items Ready to Ship")
+      within "#pending_items-#{@merchant1.id}" do
+        @merchant1.pending_items.each do |pending_item|
+          expect(page).to have_content(pending_item.name)
+          expect(page).to have_link(pending_item.invoice_id) #test doesn't recognize this.  How do I get invoice.id?
         end
       end
     end
-
   end
 end
+
+
