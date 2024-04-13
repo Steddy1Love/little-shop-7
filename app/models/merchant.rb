@@ -14,15 +14,8 @@ class Merchant < ApplicationRecord
   end
 
 
-  def pending_items #this returns an object of packaged items on merchants invoice_items
-    # invoice_items.packaged.map do |invoice_item|
-    #   require 'pry' ; binding.pry
-    #   invoice_item.item
-    # end
-    require 'pry' ; binding.pry
-    Item
-    .joins(:invoice_items)
-    .where(status: "packaged")
+  def packaged_items 
+    invoice_items.where(status: "packaged")
   end
 end
 #Item.select('items.*, invoice_items.*').joins(:invoice_items).where(status: "pending") -> empty array

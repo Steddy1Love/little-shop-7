@@ -97,10 +97,10 @@ RSpec.describe 'merchant dashboard show page', type: :feature do
 
     it "has a link next to each unshipped invoice item titled as ID from the invoice item is on" do
       expect(page).to have_content("Items Ready to Ship")
-      within "#pending_items-#{@merchant1.id}" do
-        @merchant1.pending_items.each do |pending_item|
-          expect(page).to have_content(pending_item.name)
-          expect(page).to have_link(pending_item.invoice_id) #test doesn't recognize this.  How do I get invoice.id?
+      within "#packaged_items-#{@merchant1.id}" do
+        @merchant1.packaged_items.each do |packaged_item|
+          expect(page).to have_content(packaged_item.item.name)
+          expect(page).to have_link(packaged_item.invoice_id) #test doesn't recognize this.  How do I get invoice.id?
         end
       end
     end
