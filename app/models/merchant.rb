@@ -12,4 +12,14 @@ class Merchant < ApplicationRecord
   def top_five_customers
     customers.joins(:transactions).where("result = 1").select("customers.*, COUNT(DISTINCT transactions.id) AS transaction_count").order("transaction_count DESC").group(:id).limit(5)
   end
+
+
+  def packaged_items 
+    invoice_items.where(status: "packaged")
+  end
 end
+#Item.select('items.*, invoice_items.*').joins(:invoice_items).where(status: "pending") -> empty array
+
+# joins(:merchant, :invoice_items).pluck('items.name', 'invoice_items.id')
+
+# Item.joins(merchant: { items: { invoices: :invoice_items } }).pluck('items.name', 'invoice_items.id')
