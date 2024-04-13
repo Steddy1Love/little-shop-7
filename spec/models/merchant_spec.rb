@@ -71,9 +71,9 @@ RSpec.describe Merchant, type: :model do
       @disabled_merchant_list = create_list(:merchant, 5, status: 0)
     end
 
-    describe '::enabled_merchants' do
+    describe '::enabled' do
       it 'returns only merchants with an enabled status' do
-        full_enabled_merchant_list = Merchant.enabled_merchants
+        full_enabled_merchant_list = Merchant.enabled
 
         @enabled_merchant_list.each do |enabled_merchant|
           expect(full_enabled_merchant_list).to include(enabled_merchant)
@@ -85,9 +85,9 @@ RSpec.describe Merchant, type: :model do
       end
     end
 
-    describe '::disabled_merchants' do
+    describe '::disabled' do
       it 'returns only merchants with an disabled status' do
-        full_disabled_merchant_list = Merchant.disabled_merchants
+        full_disabled_merchant_list = Merchant.disabled
 
         @disabled_merchant_list.each do |disabled_merchant|
           expect(full_disabled_merchant_list).to include(disabled_merchant)
