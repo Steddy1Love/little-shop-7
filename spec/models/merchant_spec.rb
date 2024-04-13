@@ -64,4 +64,39 @@ RSpec.describe Merchant, type: :model do
   describe "enums" do
     it { should define_enum_for(:status).with_values({ disabled: 0, enabled: 1 }) }
   end
+
+  describe '::class methods' do
+    before(:each) do
+      @enabled_merchant_list = create_list(:merchant, 5, status: 1)
+      @disabled_merchant_list = create_list(:merchant, 5, status: 0)
+    end
+
+    describe '::enabled' do
+      it 'returns only merchants with an enabled status' do
+        full_enabled_merchant_list = Merchant.enabled
+
+        @enabled_merchant_list.each do |enabled_merchant|
+          expect(full_enabled_merchant_list).to include(enabled_merchant)
+        end
+
+        @disabled_merchant_list.each do |disabled_merchant|
+          expect(full_enabled_merchant_list).to_not include(disabled_merchant)
+        end
+      end
+    end
+
+    describe '::disabled' do
+      it 'returns only merchants with an disabled status' do
+        full_disabled_merchant_list = Merchant.disabled
+
+        @disabled_merchant_list.each do |disabled_merchant|
+          expect(full_disabled_merchant_list).to include(disabled_merchant)
+        end
+
+        @enabled_merchant_list.each do |enabled_merchant|
+          expect(full_disabled_merchant_list).to_not include(enabled_merchant)
+        end
+      end
+    end
+  end
 end
