@@ -27,10 +27,10 @@ RSpec.describe 'merchant dashboard show page', type: :feature do
     @invoices_customer5 = create(:invoice, customer: @customer5, status: 1)
     @invoices_customer6 = create(:invoice, customer: @customer6, status: 1)
 
-    @invoice_items1 = create(:invoice_item, invoice: @invoices_customer1, item: @table, status: 0 )
-    @invoice_items2 = create(:invoice_item, invoice: @invoices_customer2, item: @pen, status: 0 )
-    @invoice_items3 = create(:invoice_item, invoice: @invoices_customer3, item: @mat, status: 1 )
-    @invoice_items4 = create(:invoice_item, invoice: @invoices_customer4, item: @mug, status: 1 )
+    @invoice_items1 = create(:invoice_item, invoice: @invoices_customer1, item: @table, status: 0 ) #pending
+    @invoice_items2 = create(:invoice_item, invoice: @invoices_customer2, item: @pen, status: 0 ) #pending
+    @invoice_items3 = create(:invoice_item, invoice: @invoices_customer3, item: @mat, status: 1 ) #packaged
+    @invoice_items4 = create(:invoice_item, invoice: @invoices_customer4, item: @mug, status: 1 ) #packaged
     @invoice_items5 = create(:invoice_item, invoice: @invoices_customer5, item: @ember, status: 2 )#shiped
     @invoice_items6 = create(:invoice_item, invoice: @invoices_customer6, item: @plant, status: 2 )#shipped
     
