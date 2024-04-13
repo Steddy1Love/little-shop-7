@@ -26,3 +26,7 @@ class Merchant < ApplicationRecord
   end
 end
 #Item.select('items.*, invoice_items.*').joins(:invoice_items).where(status: "pending") -> empty array
+
+# joins(:merchant, :invoice_items).pluck('items.name', 'invoice_items.id')
+
+# Item.joins(merchant: { items: { invoices: :invoice_items } }).pluck('items.name', 'invoice_items.id')
