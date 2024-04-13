@@ -98,11 +98,11 @@ RSpec.describe Merchant, type: :model do
       expect(@merchant1.top_five_customers).to_not include(@customer5)
     end
 
-    describe "#items_not_shipped" do
+    describe "#packaged_items" do
       it "returns all invoice_items with pending or packaged status" do
-        expect(@merchant1.pending_items).to eq([ @mat.name, @mug.name])
+        expect(@merchant1.packaged_items).to eq([@mat, @mug])
 
-        expect(page).to_not have_content(@ember.name, @plant.name, @table.name, @pen.name)
+        expect(@merchant1.packaged_items).to_not include(@ember, @plant, @table, @pen)
       end
     end
   end
