@@ -17,10 +17,9 @@
 
 <div id=<%="packaged_items-#{@merchant.id}" %>>
   <h2> Items Ready to Ship </h2>
-    <% @merchant.packaged_items do |packaged_item| %>
-    <% binding.pry %>
-      <%= packaged_item.name  %>
-      <%= link_to "#{[packaged_item].id}", merchant_invoice_path(@merchant) %>
+    <% @merchant.packaged_items.each do |packaged_item| %>
+      <%= packaged_item.item.name %>
+      <%= link_to "#{packaged_item.invoice_id}", merchant_invoice_path(@merchant) %>
     <% end %>
 </div>
 

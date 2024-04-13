@@ -95,7 +95,7 @@ RSpec.describe 'merchant dashboard show page', type: :feature do
     #   end
     # end
 
-    it "has a link next to each unshipped invoice item titled as ID from the invoice item is on" do
+    it "has a link next to each packaged invoice item titled as ID from the invoice item is on" do
       expect(page).to have_content("Items Ready to Ship")
       within "#packaged_items-#{@merchant1.id}" do
         @merchant1.packaged_items.each do |packaged_item|
