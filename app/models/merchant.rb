@@ -15,8 +15,12 @@ class Merchant < ApplicationRecord
 
 
   def packaged_items 
-    items.joins(:invoice_items).where("invoice_items.status = 1").select("items.*, invoice_items.invoice_id, invoice_items.created_at")
-    # invoice_items.where(status: "packaged")
+    items
+    .joins(:invoice_items)
+    .where("invoice_items.status = 1")
+    .select("items.*, invoice_items.invoice_id, invoice_items.created_at")
+    # .order("created_at desc")
+    # returns items in an array
   end
 end
 #Item.select('items.*, invoice_items.*').joins(:invoice_items).where(status: "pending") -> empty array

@@ -6,4 +6,8 @@ class Invoice < ApplicationRecord
   has_many :invoice_items, dependent: :destroy
   has_many :items, through: :invoice_items
   has_many :merchants, through: :items
+
+  def formatted_date
+    created_at.strftime("%A, %B %e, %Y")
+  end
 end
