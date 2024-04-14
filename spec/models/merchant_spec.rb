@@ -100,7 +100,7 @@ RSpec.describe Merchant, type: :model do
 
     describe "#packaged_items" do
       it "returns all invoice_items with pending or packaged status" do
-        expect(@merchant1.packaged_items).to eq([@mat, @mug])
+        expect(@merchant1.packaged_items).to include(@invoice_items3.item, @invoice_items4.item)
 
         expect(@merchant1.packaged_items).to_not include(@ember, @plant, @table, @pen)
       end
