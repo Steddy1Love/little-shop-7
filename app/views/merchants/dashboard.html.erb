@@ -15,15 +15,11 @@
   <ul>
 </section>
 
+<h2> Items Ready to Ship </h2>
 <div id=<%="packaged_items-#{@merchant.id}" %>>
-  <h2> Items Ready to Ship </h2>
     <% @merchant.packaged_items.each do |packaged_item| %>
-      <div id=<%="packaged_item-#{packaged_item.id}" %>>
         <p>  <%= packaged_item.name %>
-        <% packaged_item.invoices.each do |invoice| %>
-          <%= invoice.formatted_date %>
-        <% end %>
+        <%= @merchant.formatted_date(packaged_item.created_at) %>
         <%= link_to "#{packaged_item.invoice_id}", merchant_invoice_path(@merchant, packaged_item.invoice_id) %> </p>
-      </div>
     <% end %> 
 </div>

@@ -19,9 +19,13 @@ class Merchant < ApplicationRecord
     .select("items.name, invoice_items.invoice_id, invoices.created_at, invoice_items.status")
     .joins(invoices: :invoice_items)
     .where("invoice_items.status = 1")
-    .order("invoices.created_at")
+    .order("invoices.created_at ASC")
     .distinct
     # returns items in an array
+  end
+
+  def formatted_date(date)
+    date.strftime("%A, %B %e, %Y")
   end
 end
 
