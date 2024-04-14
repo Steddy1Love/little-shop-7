@@ -40,9 +40,9 @@ RSpec.describe 'merchant dashboard show page', type: :feature do
     @transactions_invoice4 = create_list(:transaction, 7, invoice: @invoices_customer4, result: 1)
     @transactions_invoice5 = create_list(:transaction, 3, invoice: @invoices_customer5, result: 1)
     @transactions_invoice6 = create_list(:transaction, 9, invoice: @invoices_customer6, result: 1)
-        visit dashboard_merchant_path(@merchant1)
-        #"/merchants/#{@merchant1.id}/dashboard"
-        #
+
+    visit dashboard_merchant_path(@merchant1)
+    #"/merchants/#{@merchant1.id}/dashboard"
   end
 
   describe ' USER STORY #1' do
@@ -99,8 +99,8 @@ RSpec.describe 'merchant dashboard show page', type: :feature do
       expect(page).to have_content("Items Ready to Ship")
       within "#packaged_items-#{@merchant1.id}" do
         @merchant1.packaged_items.each do |packaged_item|
-          expect(page).to have_content(packaged_item.item.name)
-          expect(page).to have_link(packaged_item.invoice_id) #test doesn't recognize this.  How do I get invoice.id?
+          expect(page).to have_content(packaged_item.name)
+          expect(page).to have_link("Invoice ##{packaged_item.invoice_id}", href: merchant_invoice_path(@merchant1, packaged_item.invoice_id)) #test doesn't recognize this.  How do I get invoice.id?
         end
       end
     end
