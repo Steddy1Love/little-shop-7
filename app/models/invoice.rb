@@ -11,6 +11,7 @@ class Invoice < ApplicationRecord
     joins(:invoice_items)
     .distinct
     .where.not(invoice_items: { status: 2 })
+    .order(created_at: :desc)
   end
 
   def clean_date
