@@ -34,4 +34,6 @@ RSpec.describe "the admin merchants show page" do
       expect(page).to have_link("Update #{second_merchant.name}", href: edit_admin_merchant_path(second_merchant))
     end
   end
+
+  
 end
