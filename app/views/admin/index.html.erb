@@ -1,15 +1,27 @@
 <h1>Admin Dashboard</h1>
 
-<%= link_to 'All Merchants', admin_merchants_path %><br>
-<%= link_to 'All Invoices', admin_invoices_path %><br>
+<%= button_to 'Dashboard', admin_index_path %><br>
+<%= button_to 'All Merchants', admin_merchants_path %><br>
+<%= button_to 'All Invoices', admin_invoices_path %><br>
 
-<div id= "top five customers">
+<div id= "top_five_customers">
   <h2>Top 5 Customers</h2>
   <ul>
   <% @customers.goated_five_customers.each do |customer| %>
     <li><%= "Customer name: #{customer.first_name} #{customer.last_name} 
-    - #{customer.transaction_count} successful transactions" %><br>
+    - #{customer.transaction_count} successful purchases" %><br>
     </li>
   <% end %>
+  </ul>
+</div>
+
+<div id= "incomplete_invoices">
+  <h2>Incomplete Invoices</h2>
+  <ul>
+  <% binding.pry %>
+    <% @invoices.incomplete_invoices.each do |invoice| %>
+    <li><%= link_to "Invoice: #{invoice.id}", admin_invoice_path(invoice.id) %>
+    - <%= "#{invoice.formatted_date}" %>
+    <% end %>
   </ul>
 </div>
