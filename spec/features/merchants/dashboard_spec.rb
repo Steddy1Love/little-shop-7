@@ -75,7 +75,7 @@ RSpec.describe 'merchant dashboard show page', type: :feature do
       within "#packaged_items-#{@merchant1.id}" do
         @merchant1.packaged_items.each do |packaged_item|
           expect(page).to have_content(packaged_item.name)
-          expect(page).to have_link(packaged_item.invoice_id, href: merchant_invoice_path(@merchant1, packaged_item.invoice_id)) 
+          expect(page).to have_link(packaged_item.invoice_id.to_s, href: merchant_invoice_path(@merchant1, packaged_item.invoice_id)) 
         end
       end
     end
