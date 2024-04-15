@@ -93,9 +93,11 @@ RSpec.describe Merchant, type: :model do
   end
 
   describe '#instance methods' do
-    it 'should return the top five customers based off of successful transactions for a merchant' do
-      expect(@merchant1.top_five_customers).to eq([@customer6, @customer4, @customer3, @customer1, @customer2])
-      expect(@merchant1.top_five_customers).to_not include(@customer5)
+    describe "#top_five_customers" do
+      it 'should return the top five customers based off of successful transactions for a merchant' do
+        expect(@merchant1.top_five_customers).to eq([@customer6, @customer4, @customer3, @customer1, @customer2])
+        expect(@merchant1.top_five_customers).to_not include(@customer5)
+      end
     end
 
     describe "#packaged_items" do
@@ -103,6 +105,15 @@ RSpec.describe Merchant, type: :model do
         expect(@merchant1.packaged_items).to include(@invoice_items3.item, @invoice_items4.item)
 
         expect(@merchant1.packaged_items).to_not include(@ember, @plant, @table, @pen)
+      end
+    end
+
+    describe "#formatted_date" do
+      it "formats a date in this fashion Monday, July 18, 2019" do
+        expect(@merchant1.formatted_date(@invoice_items3.created_at)).to match(/\A[A-Z][a-z]+, [A-Z][a-z]+ \d{1,2}, \d{4}\z/)
+                                                                          #this is called a regular expression pattern for a date format
+                                                                          #don't ask me to explain what all of it means, but I found it on google
+                                                                          #asking .to match date
       end
     end
   end

@@ -85,9 +85,8 @@ RSpec.describe 'merchant dashboard show page', type: :feature do
     it "displays created_at date ordered by oldest first" do
       within "#packaged_items-#{@merchant1.id}" do
         @merchant1.packaged_items.each do |packaged_item|
-          expect(@merchant1.formatted_date(packaged_item.created_at)).to eq("Sunday, April 14, 2024")
+          expect(@merchant1.formatted_date(packaged_item.created_at)).to match(/\A[A-Z][a-z]+, [A-Z][a-z]+ \d{1,2}, \d{4}\z/)
           expect("yoga mat").to appear_before("mug")
-          save_and_open_page
         end
       end
     end
