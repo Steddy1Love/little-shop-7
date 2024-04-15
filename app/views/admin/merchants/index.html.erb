@@ -1,14 +1,23 @@
 <h1>Admin Merchants Index</h1>
 
 <div id="admin_merchants_list">
-  <% @merchants.each do |merchant| %>
-    <div id="admin_merchant_<%= merchant.id %>">
-      <p><%= link_to merchant.name, admin_merchant_path(merchant) %></p>
-      <% if merchant.enabled? %>
-        <%= button_to 'Disable', admin_merchant_path(merchant), params: { status: 'disabled' }, method: :patch, data: { turbo: false } %>
-      <% else %>
-        <%= button_to 'Enable', admin_merchant_path(merchant), params: { status: 'enabled' }, method: :patch, data: { turbo: false }, params: { status: 'enabled' } %>
-      <% end %>
-    </div>
-  <% end %>
+  <div id="enabled_merchants">
+    <h2>Enabled Merchants</h2>
+    <% @enabled_merchants.each do |merchant| %>
+      <div id="admin_merchant_<%= merchant.id %>">
+        <p><%= link_to merchant.name, admin_merchant_path(merchant) %>
+        <%= button_to 'Disable', admin_merchant_path(merchant), params: { status: 'disabled' }, method: :patch, data: { turbo: false } %></p>
+      </div>
+    <% end %>
+  </div>
+
+  <div id="disabled_merchants">
+    <h2>Disabled Merchants</h2>
+    <% @disabled_merchants.each do |merchant| %>
+      <div id="admin_merchant_<%= merchant.id %>">
+        <p><%= link_to merchant.name, admin_merchant_path(merchant) %>
+        <%= button_to 'Enable', admin_merchant_path(merchant), params: { status: 'enabled' }, method: :patch, data: { turbo: false } %></p>
+      </div>
+    <% end %>
+  </div>
 </div>
