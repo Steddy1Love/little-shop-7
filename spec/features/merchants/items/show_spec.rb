@@ -6,7 +6,7 @@ RSpec.describe "Merchant Show Spec" do
     @merchant2 = create(:merchant)
 
     @table = create(:item, name: "table", merchant: @merchant1)
-    @pen = create(:item, name: "pen", merchant: @merchant1)
+    @pen = create(:item, name: "pen", merchant: @merchant2)
     @mat = create(:item, name: "yoga mat", merchant: @merchant1)
     @mug = create(:item, name: "mug", merchant: @merchant1)
     @ember = create(:item, name: "ember", merchant: @merchant2)
@@ -14,6 +14,16 @@ RSpec.describe "Merchant Show Spec" do
     visit merchant_item_path(@merchant1, @mat)
   end
   
+  describe 'User story 7b' do
+    it 'displays item attributes' do
+      # And I see all of the item's attributes including:
+      expect(page).to have_content(@mat.name)
+      expect(page).to have_content(@mat.description)
+      expect(page).to have_content(@mat.unit_price)
+      expect(page).to_not have_content(@pen.name)
+    end
+  end
+
   describe "User Story 8" do
     it "contains a link to update the item information" do
       # As a merchant,

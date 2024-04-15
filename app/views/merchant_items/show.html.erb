@@ -1,3 +1,12 @@
-<h1><%=@item.name%></h1>
+<h1> <%= @merchant.name %> Items </h1>
 
+<ol>
+<% @merchant_items.each do |item| %>
+  <h3><%= item.name %></h3>
+  <li>
+    Description: <%= item.description %>
+    Price: <%= item.unit_price %>
+  </li>
+<% end %>
+</ol>
 <%= link_to "Update #{@item.name} info" , edit_merchant_item_path(@merchant, @item) %>
