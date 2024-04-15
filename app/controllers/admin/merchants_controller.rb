@@ -3,6 +3,7 @@ class Admin::MerchantsController < ApplicationController
     @merchants = Merchant.all
     @enabled_merchants = Merchant.enabled
     @disabled_merchants = Merchant.disabled
+    @top_5_merchants_by_revenue = Merchant.top_5_merchants_by_revenue
   end
 
   def show
@@ -25,6 +26,10 @@ class Admin::MerchantsController < ApplicationController
       merchant.update!(status: params[:status])
       redirect_to admin_merchants_path
     end
+  end
+
+  def new
+    @merchant = Merchant.new
   end
 
   private

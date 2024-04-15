@@ -12,14 +12,33 @@ class Merchant < ApplicationRecord
   def top_five_customers
     customers.joins(:transactions).where("result = 1").select("customers.*, COUNT(DISTINCT transactions.id) AS transaction_count").order("transaction_count DESC").group(:id).limit(5)
   end
-
-
+  
   def packaged_items 
-    invoice_items.where(status: "packaged")
+    self.items
+    .select("items.name, invoice_items.invoice_id, invoices.created_at, invoice_items.status")
+    .joins(invoices: :invoice_items)
+    .where("invoice_items.status = 1")
+    .order("invoices.created_at ASC")
+    .distinct
+  end
+
+  def formatted_date(date)
+    date.strftime("%A, %B %e, %Y")
+  end
+
+  def self.top_5_merchants_by_revenue
+    joins(:transactions)
+    .where("transactions.result = 1")
+    .group(:id)
+    .select("merchants.*, SUM(invoice_items.quantity * invoice_items.unit_price) AS total_revenue")
+    .order(total_revenue: :desc)
+    .limit(5)
+  end
+
+  def top_sales_day
+    invoices.joins(:invoice_items)
+    .select("DATE_TRUNC('day', invoices.created_at) AS date, SUM(invoice_items.quantity * invoice_items.unit_price) AS daily_revenue")
+    .group("date").order("daily_revenue DESC, date DESC").limit(1).first.date
   end
 end
-#Item.select('items.*, invoice_items.*').joins(:invoice_items).where(status: "pending") -> empty array
 
-# joins(:merchant, :invoice_items).pluck('items.name', 'invoice_items.id')
-
-# Item.joins(merchant: { items: { invoices: :invoice_items } }).pluck('items.name', 'invoice_items.id')

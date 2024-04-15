@@ -14,7 +14,7 @@ class Invoice < ApplicationRecord
     .order(created_at: :desc)
   end
 
-  def clean_date
+  def formatted_date
     self.created_at.strftime("%A, %B %d, %Y")
   end
 end

@@ -40,9 +40,8 @@ RSpec.describe 'merchant dashboard show page', type: :feature do
     @transactions_invoice4 = create_list(:transaction, 7, invoice: @invoices_customer4, result: 1)
     @transactions_invoice5 = create_list(:transaction, 3, invoice: @invoices_customer5, result: 1)
     @transactions_invoice6 = create_list(:transaction, 9, invoice: @invoices_customer6, result: 1)
-        visit dashboard_merchant_path(@merchant1)
-        #"/merchants/#{@merchant1.id}/dashboard"
-        #
+
+    visit dashboard_merchant_path(@merchant1)
   end
 
   describe ' USER STORY #1' do
@@ -56,23 +55,13 @@ RSpec.describe 'merchant dashboard show page', type: :feature do
 
   describe 'User Story 2' do
     it 'has links for merchant items index and invoices index' do
-      # As a merchant,
-      # When I visit my merchant dashboard (/merchants/:merchant_id/dashboard)
-      # Then I see link to my merchant items index (/merchants/:merchant_id/items)
       expect(page).to have_link("Merchant Items")
-      # And I see a link to my merchant invoices index (/merchants/:merchant_id/invoices)
       expect(page).to have_link("Merchant Invoices")
     end
   end
 
   describe 'User Story 3' do
     it 'shows the names of the top 5 customers with the largest number of successful transactions' do
-      # As a merchant,
-      # When I visit my merchant dashboard (/merchants/:merchant_id/dashboard)
-      # Then I see the names of the top 5 customers
-      # who have conducted the largest number of successful transactions with my merchant
-      # And next to each customer name I see the number of successful transactions they have
-      # conducted with my merchant
       within '.top5' do
         @merchant1.top_five_customers.each do |customer|
           expect(page).to have_content("Customer name: #{customer.first_name} #{customer.last_name} - #{customer.transaction_count} successful transactions")
@@ -81,30 +70,26 @@ RSpec.describe 'merchant dashboard show page', type: :feature do
     end
   end
 
-  describe "User Story 4" do
-    # it "shows a section for items not shipped with its list of names" do
-    #   within "#items_not_shipped-#{@merchant1.id}" do
-    #       expect(page).to have_content("Items Not Shipped")
-    #       expect(page).to have_content(@mat.name)
-    #       expect(page).to have_content(@mug.name)
-    
-    #       expect(page).to have_content(@table.name)
-    #       expect(page).to have_content(@pen.name)
-    #       expect(page).to_not have_content(@ember.name)
-    #       expect(page).to_not have_content(@plant.name)
-    #   end
-    # end
-
+  describe "User Story 4" do # Would like to refactor this hardcoded so nested within blocks isn't so visually taxing"
     it "has a link next to each packaged invoice item titled as ID from the invoice item is on" do
       expect(page).to have_content("Items Ready to Ship")
       within "#packaged_items-#{@merchant1.id}" do
         @merchant1.packaged_items.each do |packaged_item|
-          expect(page).to have_content(packaged_item.item.name)
-          expect(page).to have_link(packaged_item.invoice_id) #test doesn't recognize this.  How do I get invoice.id?
+          expect(page).to have_content(packaged_item.name)
+          expect(page).to have_link(packaged_item.invoice_id.to_s, href: merchant_invoice_path(@merchant1, packaged_item.invoice_id)) 
+        end
+      end
+    end
+  end
+
+  describe "US 5" do
+    it "displays created_at date ordered by oldest first" do
+      within "#packaged_items-#{@merchant1.id}" do
+        @merchant1.packaged_items.each do |packaged_item|
+          expect(@merchant1.formatted_date(packaged_item.created_at)).to match(/\A[A-Z][a-z]+, [A-Z][a-z]+ \d{1,2}, \d{4}\z/)
+          expect("yoga mat").to appear_before("mug")
         end
       end
     end
   end
 end
-
-

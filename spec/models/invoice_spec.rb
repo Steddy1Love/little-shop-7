@@ -75,9 +75,12 @@ RSpec.describe Invoice, type: :model do
     end
   end
 
-  describe "instance methods" do
-    it "#cleans the date from UTC to Day, Month, number date, number year" do
-      expect(@invoice_customer1.clean_date).to eq(Date.today.strftime("%A, %B %d, %Y"))
+  describe "instance method" do
+    it "formatted_date" do
+      @customer = Customer.create!(first_name: "Blake", last_name: "Sergesketter")
+      @invoice = Invoice.create!(status: 1, customer_id: @customer.id, created_at: "Sat, 13 Apr 2024 23:10:10.717784000 UTC +00:00")
+      expect(@invoice.formatted_date).to eq("Saturday, April 13, 2024")
+      #Saturday, April 13, 2024
     end
   end
 end
