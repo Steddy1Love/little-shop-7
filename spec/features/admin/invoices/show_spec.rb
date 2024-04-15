@@ -7,7 +7,7 @@ RSpec.describe "the admin invoices show page" do
     @customer3 = create(:customer, first_name: 'Spongebob', last_name: 'SquarePants')
     @customer4 = create(:customer, first_name: 'Luffy', last_name: 'Monkey')
 
-    @item1 = create(:item)
+    @item1 = create(:item, name: "Cool Item Name")
     @item2 = create(:item)
     @item3 = create(:item)
     @item4 = create(:item)
@@ -39,7 +39,7 @@ RSpec.describe "the admin invoices show page" do
     create(:invoice_item, item: @item2, invoice: @invoice5, quantity: 8, unit_price: 4500, status: 1)
   end
 
-  describe 'User Story 34' do
+  describe 'User Story 33' do
     it 'lists all invoice IDs in the system and each ID links to the admin invoice show page' do
       visit admin_invoice_path(@invoice1)
 
@@ -47,6 +47,31 @@ RSpec.describe "the admin invoices show page" do
       expect(page).to have_content("Status: in progress")
       expect(page).to have_content("Created on: Monday, April 15, 1996")
       expect(page).to have_content("Customer: Ron Burgundy")
+
+      expect(page).to_not have_content("Invoice ##{@invoice2.id}")
+      expect(page).to_not have_content("Customer: Fred Flintstone")
+    end
+  end
+
+  describe 'User Story 34' do
+    it 'lists all of the items for that invoice including their name, quantity ordered, price sold for and status' do
+      visit admin_invoice_path(@invoice1)
+
+      within '#admin_invoice_items' do
+        expect(page).to have_content("Item Name: Cool Item Name")
+        expect(page).to have_content("Quantity: 10")
+        expect(page).to have_content("Unit Price: 5000")
+        expect(page).to have_content("Status: Shipped")
+
+        @invoice1.invoice_items.each do |invoice_item|
+          within "#invoice_item_#{invoice_item.id}_info" do
+            expect(page).to have_content("Item Name: #{invoice_item.item.name}")
+            expect(page).to have_content("Quantity: #{invoice_item.quantity}")
+            expect(page).to have_content("Unit Price: #{invoice_item.unit_price}")
+            expect(page).to have_content("Status: #{invoice_item.status.capitalize}")
+          end
+        end
+      end
     end
   end
 end
