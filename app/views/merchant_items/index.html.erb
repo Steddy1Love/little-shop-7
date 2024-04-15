@@ -1,9 +1,15 @@
 <h1><%= @merchant.name %> Items</h1>
 
 <ol>
+  <div class="merchant_items" >
   <% @merchant.items.each do |item| %>
     <li>
     <h3>Item name: <%= item.name %></h3>
+      <%= link_to item.name,  merchant_item_path(@merchant, item) %>
     </li>
   <%end%>
+  </div>
 </ol>
+
+
+
