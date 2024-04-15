@@ -76,7 +76,7 @@ RSpec.describe Invoice, type: :model do
   end
 
   describe "instance method" do
-    it "formatted_date" do
+    it "#formatted_date" do
       @customer = Customer.create!(first_name: "Blake", last_name: "Sergesketter")
       @invoice = Invoice.create!(status: 1, customer_id: @customer.id, created_at: "Sat, 13 Apr 2024 23:10:10.717784000 UTC +00:00")
       expect(@invoice.formatted_date).to eq("Saturday, April 13, 2024")
