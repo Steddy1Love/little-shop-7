@@ -41,7 +41,6 @@ RSpec.describe 'Merchant Items Index' do
 
         click_link @table.name
         expect(current_path).to eq(merchant_item_path(@merchant1, @table))
-        visit merchant_items_path(@merchant2)
       end
     end
   end
