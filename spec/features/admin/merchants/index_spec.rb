@@ -88,4 +88,16 @@ RSpec.describe "the admin merchants index page" do
       end
     end
   end
+
+  describe 'User Story 29' do
+    it 'has a link to create a new merchant' do
+      visit admin_merchants_path
+
+      expect(page).to have_link('New Merchant', href: new_admin_merchant_path)
+
+      click_link('New Merchant')
+
+      expect(current_path).to eq(new_admin_merchant_path)
+    end
+  end
 end
