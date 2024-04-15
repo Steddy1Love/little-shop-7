@@ -9,9 +9,8 @@ class Invoice < ApplicationRecord
 
   def self.incomplete_invoices
     joins(:invoice_items)
-    .select("invoice_items.* AS invoice_item_id")
-    .where.not(status: 2)
-    .group("invoice_items.id")
+    .distinct
+    .where.not(invoice_items: { status: 2 })
   end
 
   def clean_date

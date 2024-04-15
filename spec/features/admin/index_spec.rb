@@ -38,7 +38,7 @@ RSpec.describe "Admin Dashboard Page", type: :feature do
     @invoice_items12 = create(:invoice_item, invoice: @invoice_customer5, item: @items_merchant2.third )
     @invoice_items13 = create(:invoice_item, invoice: @invoice_customer6, item: @items_merchant2.fifth )
     @invoice_items14 = create(:invoice_item, invoice: @invoice_customer7, item: @items_merchant2.fifth )
-
+    
     @transactions_invoice1 = create_list(:transaction, 5, invoice: @invoice_customer1, result: 1)
     @transactions_invoice2 = create_list(:transaction, 4, invoice: @invoice_customer2, result: 0)
     @transactions_invoice3 = create_list(:transaction, 6, invoice: @invoice_customer3, result: 1)
@@ -92,7 +92,7 @@ RSpec.describe "Admin Dashboard Page", type: :feature do
     end
 
     it "has a link to the invoice show page from the invoice ID" do
-      expect(page).to have_link("Invoice ##{@invoice_customer1.id}")
+      expect(page).to have_link("Invoice: #{@invoice_customer7.id}")
     end
   end
 end
