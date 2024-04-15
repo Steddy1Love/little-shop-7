@@ -26,7 +26,10 @@
 
 <div id="top_5_merchants_by_revenue">
   <h2>Top Merchants</h2>
-  <% @top_5_merchants_by_revenue.each do |merchant| %>
-    <p><%= link_to merchant.name, admin_merchant_path(merchant) %> - <%= number_to_currency(merchant.total_revenue / 100) %> in sales</p>
-  <% end %>
+  <ol>
+    <% @top_5_merchants_by_revenue.each do |merchant| %>
+      <li><%= link_to merchant.name, admin_merchant_path(merchant) %> - <%= number_to_currency(merchant.total_revenue / 100) %> in sales</li>
+      <p>Top day for <%= merchant.name %> was <%= merchant.top_sales_day.strftime("%m/%d/%y") %></p>
+    <% end %>
+  </ol>
 </div>
