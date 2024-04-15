@@ -435,17 +435,3 @@ When I click this button
 I am taken back to the admin invoice show page
 And I see that my Invoice's status has now been updated
 ```
-
-
-
-
-
-      <ul>
-    <div id=<%="items_not_shipped-#{@merchant.id}" %>>
-      <% binding.pry %>
-    <% @merchant.items_not_shipped.each do |unshipped_item| %>
-      <%= link_to "#{unshipped_item.invoice_id}", merchant_invoice_path(@merchant) %>
-      <%= unshipped_item.name %>
-    <% end %>
-    </div>
-  <ul>
