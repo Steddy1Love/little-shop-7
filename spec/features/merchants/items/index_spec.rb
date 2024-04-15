@@ -11,6 +11,7 @@ RSpec.describe 'Merchant Items Index' do
     @mug = create(:item, name: "mug", merchant: @merchant1)
     @ember = create(:item, name: "ember", merchant: @merchant2)
     @plant = create(:item, name: "plant", merchant: @merchant2)
+
     visit merchant_items_path(@merchant1)
   end
 
@@ -26,6 +27,22 @@ RSpec.describe 'Merchant Items Index' do
       # And I do not see items for any other merchant
       expect(page).to_not have_content(@ember.name)
       expect(page).to_not have_content(@plant.name)
+    end
+
+    describe "User story 7a" do
+      it 'has a link for each item' do
+        within ".merchant_items" do
+          expect(page).to have_link("#{@table.name}", href: merchant_item_path(@merchant1, @table))
+          expect(page).to have_link("#{@pen.name}", href: merchant_item_path(@merchant1, @pen))
+          expect(page).to have_link("#{@mat.name}", href: merchant_item_path(@merchant1, @mat))
+          expect(page).to have_link("#{@mug.name}", href: merchant_item_path(@merchant1, @mug))
+          expect(page).not_to have_link("#{@ember.name}", href: merchant_item_path(@merchant1, @ember))
+        end
+
+        click_link @table.name
+        expect(current_path).to eq(merchant_item_path(@merchant1, @table))
+        visit merchant_items_path(@merchant2)
+      end
     end
   end
 end
