@@ -12,10 +12,18 @@ class Merchant < ApplicationRecord
   def top_five_customers
     customers.joins(:transactions).where("result = 1").select("customers.*, COUNT(DISTINCT transactions.id) AS transaction_count").order("transaction_count DESC").group(:id).limit(5)
   end
-
-
+  
   def packaged_items 
-    items.joins(:invoice_items).where("invoice_items.status = 1").select("items.*, invoice_items.invoice_id, invoice_items.created_at")
+    self.items
+    .select("items.name, invoice_items.invoice_id, invoices.created_at, invoice_items.status")
+    .joins(invoices: :invoice_items)
+    .where("invoice_items.status = 1")
+    .order("invoices.created_at ASC")
+    .distinct
+  end
+
+  def formatted_date(date)
+    date.strftime("%A, %B %e, %Y")
   end
 
   def self.top_5_merchants_by_revenue
@@ -33,3 +41,4 @@ class Merchant < ApplicationRecord
     .group("date").order("daily_revenue DESC, date DESC").limit(1).first.date
   end
 end
+
