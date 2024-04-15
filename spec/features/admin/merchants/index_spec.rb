@@ -155,10 +155,10 @@ RSpec.describe "the admin merchants index page" do
           expect(page).to have_content("#{@merchant5.name} - $375.00 in sales")
           expect(page).to have_content("#{@merchant2.name} - $300.00 in sales")
 
-          expect(" - $1,250.00 in sales").to appear_before(" - $1,200.00 in sales")
-          expect(" - $1,200.00 in sales").to appear_before(" - $450.00 in sales")
-          expect(" - $450.00 in sales").to appear_before(" - $375.00 in sales")
-          expect(" - $375.00 in sales").to appear_before(" - $300.00 in sales")
+          expect("#{@merchant1.name} - $1,250.00 in sales").to appear_before("#{@merchant3.name} - $1,200.00 in sales", only_text: true)
+          expect("#{@merchant3.name} - $1,200.00 in sales").to appear_before("#{@merchant4.name} - $450.00 in sales", only_text: true)
+          expect("#{@merchant4.name} - $450.00 in sales").to appear_before("#{@merchant5.name} - $375.00 in sales", only_text: true)
+          expect("#{@merchant5.name} - $375.00 in sales").to appear_before("#{@merchant2.name} - $300.00 in sales", only_text: true)
 
           expect(page).to have_link("#{@merchant1.name}", href: admin_merchant_path(@merchant1))
           expect(page).to have_link("#{@merchant2.name}", href: admin_merchant_path(@merchant2))

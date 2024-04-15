@@ -1,0 +1,15 @@
+<h1>Invoice #<%= @invoice.id %></h1>
+<p>Status: <%= @invoice.status %></p>
+<p>Created on: <%= @invoice.formatted_date %></p>
+<p>Customer: <%= @invoice.customer_name %></p>
+
+<div id="admin_invoice_items">
+  <% @invoice.invoice_items.each do |invoice_item| %>
+    <div id="invoice_item_<%= invoice_item.id %>_info">
+      <p>Item Name: <%= invoice_item.item.name %></p>
+      <p>Quantity: <%= invoice_item.quantity %></p>
+      <p>Unit Price: <%= invoice_item.unit_price %></p>
+      <p>Status: <%= invoice_item.status.capitalize %></p>
+    </div>
+  <% end %>
+</div>
