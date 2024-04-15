@@ -119,13 +119,21 @@ RSpec.describe "the admin merchants index page" do
       invoice6 = create(:invoice)
       invoice7 = create(:invoice)
 
-      invoice_items_m1 = create_list(:invoice_item, 5, unit_price: 5000, quantity: 5, merchant: merchant1, invoice: invoice1) #Total Revenue: 125000
-      invoice_items_m2 = create_list(:invoice_item, 5, unit_price: 2000, quantity: 3, merchant: merchant2, invoice: invoice2) #Total Revenue: 30000
-      invoice_items_m3 = create_list(:invoice_item, 5, unit_price: 4000, quantity: 6, merchant: merchant3, invoice: invoice3) #Total Revenue: 120000
-      invoice_items_m4 = create_list(:invoice_item, 5, unit_price: 3000, quantity: 3, merchant: merchant4, invoice: invoice4) #Total Revenue: 45000
-      invoice_items_m5 = create_list(:invoice_item, 5, unit_price: 2500, quantity: 3, merchant: merchant5, invoice: invoice5) #Total Revenue: 37500
-      invoice_items_m6 = create_list(:invoice_item, 10, unit_price: 10000, quantity: 8, merchant: merchant6, invoice: invoice6) #Total Revenue: 800000
-      invoice_items_m7 = create_list(:invoice_item, 1, unit_price: 500, quantity: 3, merchant: merchant7, invoice: invoice7) #Total Revenue: 1500
+      item1 = create(:item, merchant: merchant1)
+      item2 = create(:item, merchant: merchant2)
+      item3 = create(:item, merchant: merchant3)
+      item4 = create(:item, merchant: merchant4)
+      item5 = create(:item, merchant: merchant5)
+      item6 = create(:item, merchant: merchant6)
+      item7 = create(:item, merchant: merchant7)
+
+      invoice_items_m1 = create_list(:invoice_item, 5, unit_price: 5000, quantity: 5, merchant: merchant1, invoice: invoice1, item: item1) #Total Revenue: 125000
+      invoice_items_m2 = create_list(:invoice_item, 5, unit_price: 2000, quantity: 3, merchant: merchant2, invoice: invoice2, item: item2) #Total Revenue: 30000
+      invoice_items_m3 = create_list(:invoice_item, 5, unit_price: 4000, quantity: 6, merchant: merchant3, invoice: invoice3, item: item3) #Total Revenue: 120000
+      invoice_items_m4 = create_list(:invoice_item, 5, unit_price: 3000, quantity: 3, merchant: merchant4, invoice: invoice4, item: item4) #Total Revenue: 45000
+      invoice_items_m5 = create_list(:invoice_item, 5, unit_price: 2500, quantity: 3, merchant: merchant5, invoice: invoice5, item: item5) #Total Revenue: 37500
+      invoice_items_m6 = create_list(:invoice_item, 10, unit_price: 10000, quantity: 8, merchant: merchant6, invoice: invoice6, item: item6) #Total Revenue: 800000
+      invoice_items_m7 = create_list(:invoice_item, 1, unit_price: 500, quantity: 3, merchant: merchant7, invoice: invoice7, item: item7) #Total Revenue: 1500
 
       create(:transaction, result: 1, invoice: invoice1)
       create(:transaction, result: 1, invoice: invoice2)
@@ -137,15 +145,23 @@ RSpec.describe "the admin merchants index page" do
 
       visit admin_merchants_path
 
-      #merchant1, merchant3, merchant4, merchant5, merchant2
       within '#top_5_merchants_by_revenue' do
-      save_and_open_page
-      require 'pry'; binding.pry
-        expect("#{merchant1.name} - 125000 in sales").to appear_before("#{merchant3.name} - 120000 in sales")
-        # expect("#{merchant1.name} - $1,250 in sales").to appear_before("#{merchant3.name} - $,1200 in sales")
-        # expect("#{merchant3.name} - $,1200 in sales").to appear_before("#{merchant4.name} - $450 in sales")
-        # expect("#{merchant4.name} - $450 in sales").to appear_before("#{merchant5.name} - $375 in sales")
-        # expect("#{merchant5.name} - $375 in sales").to appear_before("#{merchant2.name} - $300 in sales")
+        expect(page).to have_content("#{merchant1.name} - $1,250.00 in sales")
+        expect(page).to have_content("#{merchant3.name} - $1,200.00 in sales")
+        expect(page).to have_content("#{merchant4.name} - $450.00 in sales")
+        expect(page).to have_content("#{merchant5.name} - $375.00 in sales")
+        expect(page).to have_content("#{merchant2.name} - $300.00 in sales")
+
+        expect(" - $1,250.00 in sales").to appear_before(" - $1,200.00 in sales")
+        expect(" - $1,200.00 in sales").to appear_before(" - $450.00 in sales")
+        expect(" - $450.00 in sales").to appear_before(" - $375.00 in sales")
+        expect(" - $375.00 in sales").to appear_before(" - $300.00 in sales")
+
+        expect(page).to have_link("#{merchant1.name}", href: admin_merchant_path(merchant1))
+        expect(page).to have_link("#{merchant2.name}", href: admin_merchant_path(merchant2))
+        expect(page).to have_link("#{merchant3.name}", href: admin_merchant_path(merchant3))
+        expect(page).to have_link("#{merchant4.name}", href: admin_merchant_path(merchant4))
+        expect(page).to have_link("#{merchant5.name}", href: admin_merchant_path(merchant5))
 
         expect(page).to_not have_content(merchant6.name)
         expect(page).to_not have_content(merchant7.name)

@@ -27,6 +27,6 @@
 <div id="top_5_merchants_by_revenue">
   <h2>Top Merchants</h2>
   <% @top_5_merchants_by_revenue.each do |merchant| %>
-    <p><%= merchant.name %> - <%= merchant.total_revenue %> in sales</p>
+    <p><%= link_to merchant.name, admin_merchant_path(merchant) %> - <%= number_to_currency(merchant.total_revenue / 100) %> in sales</p>
   <% end %>
 </div>
