@@ -21,7 +21,7 @@
   <% binding.pry %>
     <% @invoices.incomplete_invoices.each do |invoice| %>
     <li><%= link_to "Invoice: #{invoice.id}", admin_invoice_path(invoice.id) %>
-    - <%= "#{invoice.clean_date}" %>
+    - <%= "#{invoice.formatted_date}" %>
     <% end %>
   </ul>
 </div>
