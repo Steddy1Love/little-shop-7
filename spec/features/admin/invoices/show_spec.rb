@@ -86,4 +86,20 @@ RSpec.describe "the admin invoices show page" do
       expect(page).to have_content('Total Revenue: $352.50')
     end
   end
+
+  describe 'User Story 36' do
+    it 'has a select field and the current status is selected and i can select a different status and click Update Invoice Status to update its status and Im redirected back to the show page' do
+      visit admin_invoice_path(@invoice1)
+
+      expect(page).to have_field(:status, with: 'in progress')
+
+      select('completed', from: :status)
+      click_button('Update Invoice Status')
+
+      expect(current_path).to eq(admin_invoice_path(@invoice1))
+      expect(page).to have_field(:status, with: 'completed')
+
+
+    end
+  end
 end
