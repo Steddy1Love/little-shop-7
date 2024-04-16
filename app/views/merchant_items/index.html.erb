@@ -2,6 +2,7 @@
 
 <ol>
   <div class="merchant_items" >
+<h2>Enabled Items: </h2>
   <% @merchant.items.each do |item| %>
     <li>
 
@@ -15,6 +16,8 @@
         <% end %>
     </li>
       </div>
+
   <%end%>
+<h2>Disabled Items: </h2>
   </div>
 </ol>

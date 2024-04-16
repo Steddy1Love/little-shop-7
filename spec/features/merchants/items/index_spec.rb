@@ -48,7 +48,7 @@ RSpec.describe 'Merchant Items Index' do
       it "can enable/disable items" do
         @merchant1.items.each do |item|
           within "#item-#{item.id}" do
-            if item.status == "disabled" #disabled
+            if item.disabled? #disabled
               # Next to each item name I see a button to disable or enable that item.
               expect(page).to have_button("Enable")
               expect(page).not_to have_button("Disable")
