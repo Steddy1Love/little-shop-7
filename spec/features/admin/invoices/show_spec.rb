@@ -97,8 +97,6 @@ RSpec.describe "the admin invoices show page" do
 
       expect(current_path).to eq(admin_invoice_path(@invoice1))
       expect(page).to have_field(:status, with: 'completed')
-
-
     end
   end
 end

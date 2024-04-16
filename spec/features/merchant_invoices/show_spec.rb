@@ -30,8 +30,8 @@ RSpec.describe 'Merchant Invoices Show' do
     @invoice4 = create(:invoice, customer: @customer4, created_at: 'Sat, 16 Mar 2024 00:00:00.800830000 UTC +00:00', status: 1)
     @invoice5 = create(:invoice, customer: @customer1, created_at: 'Tue, 25 Jun 1997 00:00:00.800830000 UTC +00:00', status: 0)
 
-    create(:invoice_item, item: @item1, invoice: @invoice1, quantity: 10, unit_price: 5000, status: 2)
-    create(:invoice_item, item: @item2, invoice: @invoice1, quantity: 3, unit_price: 55000, status: 1)
+    @invoice_item1 = create(:invoice_item, item: @item1, invoice: @invoice1, quantity: 10, unit_price: 5000, status: 2)
+    @invoice_item2 = create(:invoice_item, item: @item2, invoice: @invoice1, quantity: 3, unit_price: 55000, status: 1)
     create(:invoice_item, item: @item8, invoice: @invoice1, quantity: 8, unit_price: 41000, status: 0)
     create(:invoice_item, item: @item5, invoice: @invoice1, quantity: 4, unit_price: 1000, status: 2)
     create(:invoice_item, item: @item3, invoice: @invoice2, quantity: 5, unit_price: 2000, status: 2)
@@ -67,14 +67,14 @@ RSpec.describe 'Merchant Invoices Show' do
           if invoice_item.merchant == @merchant1
             expect(page).to have_content("Item Name: #{invoice_item.item.name}")
             expect(page).to have_content("Quantity: #{invoice_item.quantity}")
-            expect(page).to have_content("Status: #{invoice_item.status.capitalize}")
+            expect(page).to have_content(invoice_item.status)
           end
-
-          expect(page).to have_content("Name: Cool Item Name")
-          expect(page).to have_content("Quantity: 10")
-          expect(page).to have_content("Unit Price: $50.00")
-          expect(page).to have_content("Status: Shipped")
         end
+
+        expect(page).to have_content("Name: Cool Item Name")
+        expect(page).to have_content("Quantity: 10")
+        expect(page).to have_content("Unit Price: $50.00")
+        expect(page).to have_content("shipped")
       end
     end
   end
@@ -91,6 +91,30 @@ RSpec.describe 'Merchant Invoices Show' do
 
       within '#merchant_invoice_info' do
         expect(page).to have_content("Total Revenue: $352.50")
+      end
+    end
+  end
+
+  describe 'User Story 18' do
+    it 'has a select field next to each item and the current status is selected and i can select a different status and click Update Invoice Status to update its status and Im redirected back to the show page' do
+      visit merchant_invoice_path(@merchant1, @invoice1)
+
+      within '#merchant_invoice_items' do
+        within "#merchant_invoice_item_#{@invoice_item1.id}" do
+          page.select('pending', from: :status)
+          click_button('Update Item Status')
+
+          expect(current_path).to eq(merchant_invoice_path(@merchant1, @invoice1))
+          expect(page).to have_field(:status, with: 'pending')
+        end
+
+        within "#merchant_invoice_item_#{@invoice_item2.id}" do
+          page.select('shipped', from: :status)
+          click_button('Update Item Status')
+
+          expect(current_path).to eq(merchant_invoice_path(@merchant1, @invoice1))
+          expect(page).to have_field(:status, with: 'shipped')
+        end
       end
     end
   end

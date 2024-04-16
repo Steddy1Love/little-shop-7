@@ -14,10 +14,18 @@
   <ul>
     <% @invoice.invoice_items.each do |invoice_item| %>
       <% if invoice_item.merchant == @merchant %>
-        <li>Item Name: <%= invoice_item.item.name %></li>
-        <li>Quantity: <%= invoice_item.quantity %></li>
-        <li>Unit Price: <%= number_to_currency(invoice_item.unit_price / 100.0) %></li>
-        <li>Status: <%= invoice_item.status.capitalize %></li>
+        <div id="merchant_invoice_item_<%= invoice_item.id %>">
+          <li>Item Name: <%= invoice_item.item.name %></li>
+          <li>Quantity: <%= invoice_item.quantity %></li>
+          <li>Unit Price: <%= number_to_currency(invoice_item.unit_price / 100.0) %></li>
+          <li>
+            <%= form_with url: invoice_item_path(invoice_item), method: :patch, data: { turbo: false } do |f| %>
+              <%= f.label :status, 'Status:' %>
+              <%= f.select :status, ['pending', 'packaged', 'shipped'], selected: invoice_item.status  %>
+              <%= f.submit 'Update Item Status' %>
+            <% end %>
+          </li>
+        </div>
       <% end %>
     <% end %>
   </ul>
