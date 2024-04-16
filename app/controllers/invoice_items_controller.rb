@@ -4,7 +4,7 @@ class InvoiceItemsController < ApplicationController
     merchant = invoice_item.merchant
     invoice = invoice_item.invoice
 
-    InvoiceItem.update(status: params[:status])
+    invoice_item.update(status: params[:status])
 
     redirect_to merchant_invoice_path(merchant, invoice)
   end

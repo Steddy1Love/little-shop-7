@@ -100,20 +100,18 @@ RSpec.describe 'Merchant Invoices Show' do
       visit merchant_invoice_path(@merchant1, @invoice1)
 
       within '#merchant_invoice_items' do
-        within "#merchant_invoice_item_#{@invoice_item1.id}" do
-          page.select('pending', from: :status)
-          click_button('Update Item Status')
+        @invoice1.invoice_items.each do |invoice_item|
+          if invoice_item.merchant == @merchant1
+            within "#merchant_invoice_item_#{invoice_item.id}" do
+              expect(page).to have_field(:status, with: invoice_item.status)
 
-          expect(current_path).to eq(merchant_invoice_path(@merchant1, @invoice1))
-          expect(page).to have_field(:status, with: 'pending')
-        end
+              select('shipped', from: :status)
+              click_button('Update Item Status')
 
-        within "#merchant_invoice_item_#{@invoice_item2.id}" do
-          page.select('shipped', from: :status)
-          click_button('Update Item Status')
-
-          expect(current_path).to eq(merchant_invoice_path(@merchant1, @invoice1))
-          expect(page).to have_field(:status, with: 'shipped')
+              expect(current_path).to eq(merchant_invoice_path(@merchant1, @invoice1))
+              expect(page).to have_field(:status, with: 'shipped')
+            end
+          end
         end
       end
     end
