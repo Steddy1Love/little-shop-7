@@ -64,8 +64,8 @@ RSpec.describe "Admin Dashboard Page", type: :feature do
 
   describe "User Story 20" do
     it "displays links to merchants index and invoice index" do
-      expect(page).to have_link("All Merchants")
-      expect(page).to have_link("All Invoices")
+      expect(page).to have_button("All Merchants")
+      expect(page).to have_button("All Invoices")
     end
   end
 
@@ -81,7 +81,7 @@ RSpec.describe "Admin Dashboard Page", type: :feature do
     end
 
     it "displays top five customers' transaction count" do
-      expect(page).to have_content("successful transactions", count: 5)
+      expect(page).to have_content("successful purchases", count: 5)
     end
   end
 
@@ -97,7 +97,6 @@ RSpec.describe "Admin Dashboard Page", type: :feature do
 
   describe "User Story 23" do
     it "displays the order of incomplete invoices from oldest to newest" do
-      binding.pry
       expect("#{@invoice_customer7.id}").to appear_before("#{@invoice_customer5.id}")
     end
   end
