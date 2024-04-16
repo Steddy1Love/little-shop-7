@@ -1,0 +1,9 @@
+<h1>Invoice #<%= @invoice.id %></h1>
+
+<div id="merchant_invoice_info">
+  <ul>
+    <li>Status: <%= @invoice.status %></li>
+    <li>Created on: <%= @invoice.formatted_date %></li>
+    <li>Customer: <%= @invoice.customer_name %></li>
+  </ul>
+</div>

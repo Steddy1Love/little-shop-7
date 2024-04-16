@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Merchant Invoices Index' do
+RSpec.describe 'Merchant Invoices Show' do
   before(:each) do
     @customer1 = create(:customer, first_name: 'Ron', last_name: 'Burgundy')
     @customer2 = create(:customer, first_name: 'Fred', last_name: 'Flintstone')
@@ -44,15 +44,16 @@ RSpec.describe 'Merchant Invoices Index' do
     create(:invoice_item, item: @item2, invoice: @invoice5, quantity: 8, unit_price: 4500, status: 1)
   end
 
-  describe 'User Story 14' do
-    it 'lists all of the invoices that include at least one of my merchants items and for each invoice I see its ID and each ID links ot the merchant invoice show page' do
-      visit merchant_invoices_path(@merchant1)
+  describe 'User Story 15' do
+    it 'shows information related to that invoice including invoice id, invoice status, invoice created at date and the customers name' do
+      visit merchant_invoice_path(@merchant1, @invoice1)
 
-      within '#merchant_invoices' do
-        @merchant1.unique_invoices.each do |invoice|
-          expect(page).to have_content("Invoice ##{invoice.id}")
-          expect(page).to have_link("Invoice ##{invoice.id}", href: merchant_invoice_path(@merchant1, invoice))
-        end
+      expect(page).to have_content("Invoice ##{@invoice1.id}")
+
+      within '#merchant_invoice_info' do
+        expect(page).to have_content("Status: in progress")
+        expect(page).to have_content("Created on: Monday, April 15, 1996")
+        expect(page).to have_content("Customer: Ron Burgundy")
       end
     end
   end
