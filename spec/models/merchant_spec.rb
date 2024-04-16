@@ -78,6 +78,31 @@ RSpec.describe Merchant, type: :model do
                                                                           #asking .to match date
       end
     end
+
+    describe '#unique_invoices' do
+      it 'returns a unique list of invoices that have its items on them' do
+        merchant2 = create(:merchant)
+
+        item1 = create(:item, merchant: merchant2)
+        item2 = create(:item, merchant: merchant2)
+
+        invoice1 = create(:invoice)
+        invoice2 = create(:invoice)
+        invoice3 = create(:invoice)
+        invoice4 = create(:invoice)
+
+        create(:invoice_item, item: item1, invoice: invoice1)
+        create(:invoice_item, item: item1, invoice: invoice2)
+        create(:invoice_item, item: @pen, invoice: invoice1)
+        create(:invoice_item, item: @table, invoice: invoice1)
+        create(:invoice_item, item: item2, invoice: invoice1)
+        create(:invoice_item, item: item1, invoice: invoice4)
+        create(:invoice_item, item: @mat, invoice: invoice3)
+
+        expect(merchant2.unique_invoices).to eq([invoice1, invoice2, invoice4])
+        expect(merchant2.unique_invoices).to_not include(invoice3)
+      end
+    end
   end
 
   describe "enums" do
