@@ -5,12 +5,12 @@ RSpec.describe 'Merchant Items Index' do
     @merchant1 = create(:merchant)
     @merchant2 = create(:merchant)
 
-    @table = create(:item, name: "table", merchant: @merchant1)
-    @pen = create(:item, name: "pen", merchant: @merchant1)
-    @mat = create(:item, name: "yoga mat", merchant: @merchant1)
-    @mug = create(:item, name: "mug", merchant: @merchant1)
-    @ember = create(:item, name: "ember", merchant: @merchant2)
-    @plant = create(:item, name: "plant", merchant: @merchant2)
+    @table = create(:item, name: "table", merchant: @merchant1, status: 0)
+    @pen = create(:item, name: "pen", merchant: @merchant1, status: 0)
+    @mat = create(:item, name: "yoga mat", merchant: @merchant1, status: 0)
+    @mug = create(:item, name: "mug", merchant: @merchant1, status: 1)
+    @ember = create(:item, name: "ember", merchant: @merchant2, status: 1)
+    @plant = create(:item, name: "plant", merchant: @merchant2, status: 1)
 
     visit merchant_items_path(@merchant1)
   end
@@ -41,6 +41,39 @@ RSpec.describe 'Merchant Items Index' do
 
         click_link @table.name
         expect(current_path).to eq(merchant_item_path(@merchant1, @table))
+      end
+    end
+
+    describe "User Story 9" do
+      it "can enable/disable items" do
+        @merchant1.items.each do |item|
+          within "#item-#{item.id}" do
+            if item.status == "disabled" #disabled
+              # Next to each item name I see a button to disable or enable that item.
+              expect(page).to have_button("Enable")
+              expect(page).not_to have_button("Disable")
+              # When I click this button
+              click_button("Enable")
+              
+              # Then I am redirected back to the items index
+              expect(current_path).to eq(merchant_items_path(@merchant1))
+
+              expect(page).to have_button("Disable")
+              expect(page).not_to have_button("Enable")
+
+            else
+              expect(page).to have_button("Disable")
+              expect(page).not_to have_button("Enable")
+              
+              click_button("Disable")
+              
+              expect(current_path).to eq(merchant_items_path(@merchant1))
+              
+              expect(page).to have_button("Enable")
+              expect(page).not_to have_button("Disable")
+            end
+          end
+        end
       end
     end
   end
