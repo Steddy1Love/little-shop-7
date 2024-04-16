@@ -114,5 +114,29 @@ RSpec.describe Invoice, type: :model do
       expect(invoice1.total_revenue).to eq(547000)
       expect(invoice2.total_revenue).to eq(35250)
     end
+
+    it 'total_revenue_for_merchant' do
+      merchant1 = create(:merchant)
+      merchant2 = create(:merchant)
+
+      item1 = create(:item, merchant: merchant1)
+      item2 = create(:item, merchant: merchant1)
+      item3 = create(:item, merchant: merchant2)
+      item4 = create(:item, merchant: merchant2)
+
+      invoice1 = create(:invoice)
+      invoice2 = create(:invoice)
+
+      create(:invoice_item, invoice: invoice1, item: item1, quantity: 10, unit_price: 400)
+      create(:invoice_item, invoice: invoice1, item: item2, quantity: 5, unit_price: 12000)
+      create(:invoice_item, invoice: invoice1, item: item3, quantity: 8, unit_price: 5000)
+      create(:invoice_item, invoice: invoice1, item: item4, quantity: 1, unit_price: 4000)
+      create(:invoice_item, invoice: invoice2, item: item1, quantity: 11, unit_price: 650)
+      create(:invoice_item, invoice: invoice2, item: item3, quantity: 7, unit_price: 8000)
+      create(:invoice_item, invoice: invoice2, item: item4, quantity: 5, unit_price: 90000)
+
+      expect(invoice1.total_revenue_for_merchant(merchant1)).to eq(64000)
+      expect(invoice2.total_revenue_for_merchant(merchant1)).to eq(7150)
+    end
   end
 end

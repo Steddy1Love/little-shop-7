@@ -4,6 +4,21 @@
   <ul>
     <li>Status: <%= @invoice.status %></li>
     <li>Created on: <%= @invoice.formatted_date %></li>
+    <li>Total Revenue: <%= number_to_currency(@invoice.total_revenue_for_merchant(@merchant) / 100.0) %></li>
     <li>Customer: <%= @invoice.customer_name %></li>
+  </ul>
+</div>
+
+<div id="merchant_invoice_items">
+  <h2>Items on this Invoice:</h2>
+  <ul>
+    <% @invoice.invoice_items.each do |invoice_item| %>
+      <% if invoice_item.merchant == @merchant %>
+        <li>Item Name: <%= invoice_item.item.name %></li>
+        <li>Quantity: <%= invoice_item.quantity %></li>
+        <li>Unit Price: <%= number_to_currency(invoice_item.unit_price / 100.0) %></li>
+        <li>Status: <%= invoice_item.status.capitalize %></li>
+      <% end %>
+    <% end %>
   </ul>
 </div>

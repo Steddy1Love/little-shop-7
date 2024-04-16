@@ -57,4 +57,41 @@ RSpec.describe 'Merchant Invoices Show' do
       end
     end
   end
+
+  describe 'User Story 16' do
+    it 'lists all of my items on the invoice including their name, quantity ordered, price sold for and status and does not show items from other merchants' do
+      visit merchant_invoice_path(@merchant1, @invoice1)
+
+      within '#merchant_invoice_items' do
+        @invoice1.invoice_items.each do |invoice_item|
+          if invoice_item.merchant == @merchant1
+            expect(page).to have_content("Item Name: #{invoice_item.item.name}")
+            expect(page).to have_content("Quantity: #{invoice_item.quantity}")
+            expect(page).to have_content("Status: #{invoice_item.status.capitalize}")
+          end
+
+          expect(page).to have_content("Name: Cool Item Name")
+          expect(page).to have_content("Quantity: 10")
+          expect(page).to have_content("Unit Price: $50.00")
+          expect(page).to have_content("Status: Shipped")
+        end
+      end
+    end
+  end
+
+  describe 'User Story 17' do
+    it 'shows the total revenue that will be generated from all of my items on the invoice' do
+      visit merchant_invoice_path(@merchant1, @invoice1)
+
+      within '#merchant_invoice_info' do
+        expect(page).to have_content("Total Revenue: $2,150.00")
+      end
+
+      visit merchant_invoice_path(@merchant1, @invoice2)
+
+      within '#merchant_invoice_info' do
+        expect(page).to have_content("Total Revenue: $352.50")
+      end
+    end
+  end
 end
