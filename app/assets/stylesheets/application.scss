@@ -19,11 +19,6 @@ header {
   background-color: rgb(202, 202, 202);
 }
 
-.right_button {
-  margin-left: 10px; 
-  background-position-x: 500px;
-}
-
 ol {
   margin-left: 50px;
   padding: 0;
@@ -36,6 +31,12 @@ ul {
 }
 
 .button_to {
+  display: inline;
+}
+
+.right_button {
+  margin-left: 10px; 
+  background-position-x: 500px;
   display: inline;
 }
 

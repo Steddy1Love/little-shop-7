@@ -2,26 +2,40 @@
   <%= render 'shared/merchant_navbar' %>
 
   <div class="row">
-    <div class="col">
       <h1 class="main_headings"><%= @merchant.name %> Items</h1>
-    </div>
   </div>
 
   <div class="row">
     <div class="col">
-    </div>
-    <div class="col">
-      <ol>
-        <div class="merchant_items" >
-          <% @merchant.items.each do |item| %>
-            <li>
-              <h3>Item name: <%= item.name %></h3>
-              <%= link_to item.name,  merchant_item_path(@merchant, item) %>
-            </li>
+      <div class="enabled_items">
+        <h2 class="main_headings">Enabled Items</h2>
+        <ul>
+          <% @merchant.items.enabled.each do |item| %>
+            <div class="enabled_item-<%=item.id%>">
+              <li>
+                <%= link_to item.name,  merchant_item_path(@merchant, item) %>
+                <%= button_to "Disable #{item.name}", merchant_item_path(@merchant, item), params: { new_status: 'disabled' }, method: :patch, data: { turbo: false }, class: "right_button" %>
+              </li>
+            </div>
           <%end%>
-        </div>
-      </ol>
+        </ul>
+      </div>
+
+      <div class="disabled_items">
+        <h2 class="main_headings">Disabled Items</h2>
+        <ul>
+          <% @merchant.items.disabled.each do |item| %>
+            <div class="disabled_item-<%=item.id%>">
+              <li>
+                <%= link_to item.name,  merchant_item_path(@merchant, item) %>
+                <%= button_to "Enable #{item.name}", merchant_item_path(@merchant, item), params: { new_status: 'enabled' }, method: :patch, data: { turbo: false }, class: "right_button" %>
+              </li>
+            </div>
+          <%end%>
+        </ul>
+      </div>
     </div>
+
     <div class="col">
     </div>
   </div>

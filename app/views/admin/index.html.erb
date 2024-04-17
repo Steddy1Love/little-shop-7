@@ -3,25 +3,25 @@
 
   <div class="row">
     <div class="col">
-      <div class= "top_five_customers">
-        <h2 class="main_headings">Top 5 Customers</h2>
-        <ul>
-        <% @customers.goated_five_customers.each do |customer| %>
-          <li><%= "Customer name: #{customer.first_name} #{customer.last_name} 
-          - #{customer.transaction_count} successful purchases" %><br>
-          </li>
-        <% end %>
-        </ul>
-      </div>
-    </div>
-
-    <div class="col">
       <div class= "incomplete_invoices">
         <h2 class="main_headings">Incomplete Invoices</h2>
         <ul>
           <% @invoices.incomplete_invoices.each do |invoice| %>
           <li><%= link_to "Invoice: #{invoice.id}", admin_invoice_path(invoice.id) %>
           - <%= "#{invoice.formatted_date}" %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class= "top_five_customers">
+        <h2 class="main_headings">Top Customers</h2>
+        <ul>
+          <% @customers.goated_five_customers.each do |customer| %>
+            <li><%= "Customer name: #{customer.first_name} #{customer.last_name} 
+            - #{customer.transaction_count} successful purchases" %><br>
+            </li>
           <% end %>
         </ul>
       </div>
