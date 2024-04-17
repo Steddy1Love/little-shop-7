@@ -1,6 +1,8 @@
 class MerchantItemsController < ApplicationController
   def index
     @merchant = Merchant.find(params[:merchant_id])
+    @enabled_merchants = Merchant.enabled
+    @disabled_merchants = Merchant.disabled
   end
   def show
     @merchant = Merchant.find(params[:merchant_id])
@@ -16,8 +18,11 @@ class MerchantItemsController < ApplicationController
   def update
     @merchant = Merchant.find(params[:merchant_id])
     @item = @merchant.items.find(params[:id])
-
-    if params[:name].present?
+    
+    if params[:new_status]
+      @item.update!(status: params[:new_status])
+      redirect_to merchant_items_path(@merchant)
+    elsif params[:name].present?
       if @item.update!(item_params)
         flash[:notice] = "#{@item.name} info updated successfully."
         redirect_to merchant_item_path(@merchant, @item)

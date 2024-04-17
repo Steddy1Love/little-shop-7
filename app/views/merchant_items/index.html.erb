@@ -4,12 +4,17 @@
   <div class="merchant_items" >
   <% @merchant.items.each do |item| %>
     <li>
-    <h3>Item name: <%= item.name %></h3>
-      <%= link_to item.name,  merchant_item_path(@merchant, item) %>
+
+      <div id=<%="item-#{item.id}" %>>
+      <h3>Item name: <%= item.name %></h3>
+        <%= link_to item.name,  merchant_item_path(@merchant, item) %>
+        <% if item.disabled? %>
+          <%= button_to 'Enable', merchant_item_path(@merchant, item), params: { new_status: 'enabled' }, method: :patch, data: { turbo: false } %>
+        <% else %>
+          <%= button_to 'Disable', merchant_item_path(@merchant, item), params: { new_status: 'disabled' }, method: :patch, data: { turbo: false } %>
+        <% end %>
     </li>
+      </div>
   <%end%>
   </div>
 </ol>
-
-
-
