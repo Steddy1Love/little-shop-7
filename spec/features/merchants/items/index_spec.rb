@@ -101,12 +101,12 @@ RSpec.describe 'Merchant Items Index' do
       fill_in 'name', with: 'Something that costs more than it should'
       fill_in 'description', with: 'It is literally made from trash'
       fill_in 'unit price', with: 1111
-      click "submit"
+      click_on "submit"
       # Then I am taken back to the items index page
       expect(current_path).to eq(merchant_items_path(@merchant1))
       # And I see the item I just created displayed in the list of items.
       # And I see my item was created with a default status of disabled.
-      within ".enabled_items" do
+      within ".disabled_items" do
         expect(page).to have_content("Item name: Something that costs more than it should")
       end
     end
