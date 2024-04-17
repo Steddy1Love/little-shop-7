@@ -10,12 +10,4 @@ class Item < ApplicationRecord
   validates :name, presence: true
   validates :description, presence: true
   validates :unit_price, presence: true
-
-  def disabled?
-    status == "disabled"
-  end
-
-  def enabled?
-    status == "enabled"
-  end
 end
