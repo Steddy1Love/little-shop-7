@@ -21,23 +21,23 @@ RSpec.describe "Admin Dashboard Page", type: :feature do
     @invoice_customer3 = create(:invoice, customer: @customer3, status: 1)
     @invoice_customer4 = create(:invoice, customer: @customer4, status: 1)
     @invoice_customer5 = create(:invoice, customer: @customer5, status: 1)
-    @invoice_customer6 = create(:invoice, customer: @customer6, status: 1)
-    @invoice_customer7 = create(:invoice, customer: @customer7, status: 1)
+    @invoice_customer6 = create(:invoice, customer: @customer6, status: 2)
+    @invoice_customer7 = create(:invoice, customer: @customer7, status: 2)
 
-    @invoice_items1 = create(:invoice_item, invoice: @invoice_customer1, item: @items_merchant1.first )
-    @invoice_items2 = create(:invoice_item, invoice: @invoice_customer2, item: @items_merchant1.first )
-    @invoice_items3 = create(:invoice_item, invoice: @invoice_customer3, item: @items_merchant1.second )
-    @invoice_items4 = create(:invoice_item, invoice: @invoice_customer4, item: @items_merchant1.third )
-    @invoice_items5 = create(:invoice_item, invoice: @invoice_customer5, item: @items_merchant1.third )
-    @invoice_items6 = create(:invoice_item, invoice: @invoice_customer6, item: @items_merchant1.fifth )
-    @invoice_items7 = create(:invoice_item, invoice: @invoice_customer7, item: @items_merchant1.fifth )
-    @invoice_items8 = create(:invoice_item, invoice: @invoice_customer1, item: @items_merchant2.first )
-    @invoice_items9 = create(:invoice_item, invoice: @invoice_customer2, item: @items_merchant2.first )
-    @invoice_items10 = create(:invoice_item, invoice: @invoice_customer3, item: @items_merchant2.second )
-    @invoice_items11 = create(:invoice_item, invoice: @invoice_customer4, item: @items_merchant2.third )
-    @invoice_items12 = create(:invoice_item, invoice: @invoice_customer5, item: @items_merchant2.third )
-    @invoice_items13 = create(:invoice_item, invoice: @invoice_customer6, item: @items_merchant2.fifth )
-    @invoice_items14 = create(:invoice_item, invoice: @invoice_customer7, item: @items_merchant2.fifth )
+    @invoice_items1 = create(:invoice_item, invoice: @invoice_customer1, item: @items_merchant1.first, status: 2 )
+    @invoice_items2 = create(:invoice_item, invoice: @invoice_customer2, item: @items_merchant1.first, status: 2 )
+    @invoice_items3 = create(:invoice_item, invoice: @invoice_customer3, item: @items_merchant1.second, status: 2 )
+    @invoice_items4 = create(:invoice_item, invoice: @invoice_customer4, item: @items_merchant1.third, status: 2 )
+    @invoice_items5 = create(:invoice_item, invoice: @invoice_customer5, item: @items_merchant1.third, status: 2 )
+    @invoice_items6 = create(:invoice_item, invoice: @invoice_customer6, item: @items_merchant1.fifth, status: 2 )
+    @invoice_items7 = create(:invoice_item, invoice: @invoice_customer7, item: @items_merchant1.fifth, status: 1 )
+    @invoice_items8 = create(:invoice_item, invoice: @invoice_customer1, item: @items_merchant2.first, status: 2 )
+    @invoice_items9 = create(:invoice_item, invoice: @invoice_customer2, item: @items_merchant2.first, status: 2 )
+    @invoice_items10 = create(:invoice_item, invoice: @invoice_customer3, item: @items_merchant2.second, status: 2 )
+    @invoice_items11 = create(:invoice_item, invoice: @invoice_customer4, item: @items_merchant2.third, status: 2 )
+    @invoice_items12 = create(:invoice_item, invoice: @invoice_customer5, item: @items_merchant2.third, status: 0 )
+    @invoice_items13 = create(:invoice_item, invoice: @invoice_customer6, item: @items_merchant2.fifth, status: 0 )
+    @invoice_items14 = create(:invoice_item, invoice: @invoice_customer7, item: @items_merchant2.fifth, status: 1 )
 
     @transactions_invoice1 = create_list(:transaction, 5, invoice: @invoice_customer1, result: 1)
     @transactions_invoice2 = create_list(:transaction, 4, invoice: @invoice_customer2, result: 0)
@@ -53,7 +53,7 @@ RSpec.describe "Admin Dashboard Page", type: :feature do
     @transactions_invoice12 = create_list(:transaction, 3, invoice: @invoice_customer5, result: 0)
     @transactions_invoice13 = create_list(:transaction, 9, invoice: @invoice_customer6, result: 0)
     @transactions_invoice14 = create_list(:transaction, 10, invoice: @invoice_customer7, result: 0)
-    visit "/admin"
+    visit admin_index_path
   end
 
   describe "User Story 19" do
@@ -64,8 +64,8 @@ RSpec.describe "Admin Dashboard Page", type: :feature do
 
   describe "User Story 20" do
     it "displays links to merchants index and invoice index" do
-      expect(page).to have_link("All Merchants")
-      expect(page).to have_link("All Invoices")
+      expect(page).to have_button("All Merchants")
+      expect(page).to have_button("All Invoices")
     end
   end
 
@@ -81,7 +81,23 @@ RSpec.describe "Admin Dashboard Page", type: :feature do
     end
 
     it "displays top five customers' transaction count" do
-      expect(page).to have_content("successful transactions", count: 5)
+      expect(page).to have_content("successful purchases", count: 5)
+    end
+  end
+
+  describe "User Story 22" do
+    it "displays the invoice IDs of incomplete invoices" do
+      expect(page).to have_content(@invoice_customer7.id)
+    end
+
+    it "has a link to the invoice show page from the invoice ID" do
+      expect(page).to have_link("Invoice: #{@invoice_customer7.id}")
+    end
+  end
+
+  describe "User Story 23" do
+    it "displays the order of incomplete invoices from oldest to newest" do
+      expect("#{@invoice_customer7.id}").to appear_before("#{@invoice_customer5.id}")
     end
   end
 end

@@ -7,11 +7,22 @@ class Invoice < ApplicationRecord
   has_many :items, through: :invoice_items
   has_many :merchants, through: :items
 
+  def self.incomplete_invoices
+    joins(:invoice_items)
+    .distinct
+    .where.not(invoice_items: { status: 2 })
+    .order(created_at: :desc)
+  end
+
   def formatted_date
-    created_at.strftime("%A, %B %e, %Y")
+    self.created_at.strftime("%A, %B %d, %Y")
   end
 
   def customer_name
     "#{customer.first_name} #{customer.last_name}"
+  end
+
+  def total_revenue
+    invoice_items.sum("unit_price * quantity")
   end
 end
