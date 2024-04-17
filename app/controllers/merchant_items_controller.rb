@@ -27,14 +27,11 @@ class MerchantItemsController < ApplicationController
         flash[:notice] = "#{@item.name} info updated successfully."
         redirect_to merchant_item_path(@merchant, @item)
       end
-    else
-      @item.update!(item_params)
-      redirect_to edit_merchant_item_path(@merchant, @item)
     end
   end
 
   private
-    def item_params
-      params.permit(:name, :description, :unit_price, :status)
-    end
+  def item_params
+    params.permit(:name, :description, :unit_price, :status)
   end
+end
