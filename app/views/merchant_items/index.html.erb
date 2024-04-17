@@ -1,5 +1,7 @@
 <h1><%= @merchant.name %> Items</h1>
 
+<h3><%= link_to "Create new item for #{@merchant.name}", new_merchant_item_path(@merchant) %></h3>
+
 <h2>Enabled Items: </h2>
   <div class="enabled_items" >
     <% @merchant.items.enabled.each do |item| %>

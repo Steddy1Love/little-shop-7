@@ -89,6 +89,26 @@ RSpec.describe 'Merchant Items Index' do
   end
 
   describe 'User Story 11' do
-    
+    it 'displays a link to create a new item' do
+      # When I visit my items index page
+      # I see a link to create a new item.
+      expect(page).to have_link("Create new item for #{@merchant1.name}")
+      # When I click on the link,
+      click_link("Create new item for #{@merchant1.name}")
+      # I am taken to a form that allows me to add item information.
+      expect(current_path).to eq(new_merchant_item_path(@merchant1))
+      # When I fill out the form I click ‘Submit’
+      fill_in 'name', with: 'Something that costs more than it should'
+      fill_in 'description', with: 'It is literally made from trash'
+      fill_in 'unit price', with: 1111
+      click "submit"
+      # Then I am taken back to the items index page
+      expect(current_path).to eq(merchant_items_path(@merchant1))
+      # And I see the item I just created displayed in the list of items.
+      # And I see my item was created with a default status of disabled.
+      within ".enabled_items" do
+        expect(page).to have_content("Item name: Something that costs more than it should")
+      end
+    end
   end
 end
