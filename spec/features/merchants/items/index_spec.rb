@@ -46,17 +46,24 @@ RSpec.describe 'Merchant Items Index' do
 
     describe "User Story 9" do
       it "can enable/disable items" do
-        @merchant1.items.each do |item|
-          within "#item-#{item.id}" do
-            if item.disabled? #disabled
+        @merchant1.items.enabled.each do |item|
+        within ".enabled_items .enabled_item-#{@mug.id}" do
+          expect(page).to have_content(@mug.name)
+          expect(page).to have_button('Disable')
+          expect(page).to_not have_button("Enable")
+        end
+        click_button("Disable")
+        expect(current_path).to eq(merchant_items_path(@merchant1))
+        within ".enabled_items" do
+          expect(page).to_not have_content(@mug.name)
+        end
+      end
               # Next to each item name I see a button to disable or enable that item.
-              expect(page).to have_button("Enable")
               expect(page).not_to have_button("Disable")
               # When I click this button
-              click_button("Enable")
               
               # Then I am redirected back to the items index
-              expect(current_path).to eq(merchant_items_path(@merchant1))
+              
 
               expect(page).to have_button("Disable")
               expect(page).not_to have_button("Enable")
@@ -84,14 +91,14 @@ RSpec.describe 'Merchant Items Index' do
         # Then I see two sections, one for "Enabled Items" and one for "Disabled Items"
         # And I see that each Item is listed in the appropriate section
         within '.enabled_items' do
-          @enabled_items.each do |item|
+          @merchant1.items.enabled.each do |item|
             expect(page).to have_content(@mug.name)
             expect(page).to_not have_content(@mat.name)
           end
         end
 
         within '.disabled_items' do
-          @disabled_items.each do |item|
+          @merchant1.items.each do |item|
             expect(page).to_not have_content(@mug.name)
             expect(page).to have_content(@mat.name)
             expect(page).to have_content(@pen.name)

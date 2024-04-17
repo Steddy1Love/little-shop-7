@@ -1,28 +1,19 @@
 <h1><%= @merchant.name %> Items</h1>
 
-<ol>
-<div class="merchant_items" >
-  <h2>Enabled Items: </h2>
-  <% @merchant.items.each do |item| %>
-    <li>
-<div class="enabled_items" >
 <h2>Enabled Items: </h2>
-  <% @merchant.items.enabled.each do |item| %>
-  <h3>Item name: <%= item.name %>
-  <%= button_to 'Disable', merchant_item_path(@merchant, item), params: { new_status: 'disabled' }, method: :patch, data: { turbo: false } %>
-<%end%>
-      <div id=<%="item-#{item.id}" %>>
-      <h3>Item name: <%= item.name %></h3>
-        <%= link_to item.name,  merchant_item_path(@merchant, item) %>
-        <% if item.disabled? %>
-          <%= button_to 'Enable', merchant_item_path(@merchant, item), params: { new_status: 'enabled' }, method: :patch, data: { turbo: false } %>
-        <% else %>
-          <%= button_to 'Disable', merchant_item_path(@merchant, item), params: { new_status: 'disabled' }, method: :patch, data: { turbo: false } %>
-        <% end %>
-    </li>
+  <div class="enabled_items" >
+    <% @merchant.items.enabled.each do |item| %>
+      <div class="enabled_item">
+        <h3>Item name: <%= item.name %>
+        <%= button_to 'Disable', merchant_item_path(@merchant, item), params: { new_status: 'disabled' }, method: :patch, data: { turbo: false } %>
       </div>
-
-  <%end%>
-<h2>Disabled Items: </h2>
+    <%end%>
   </div>
-</ol>
+
+<h2>Disabled Items: </h2>
+  <div class="disabled_items" >
+      <% @merchant.items.disabled.each do |item| %>
+      <h3>Item name: <%= item.name %>
+      <%= button_to 'Enable', merchant_item_path(@merchant, item), params: { new_status: 'enabled' }, method: :patch, data: { turbo: false } %>
+    <%end%>
+  </div>
