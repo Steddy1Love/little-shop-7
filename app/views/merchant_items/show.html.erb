@@ -1,5 +1,14 @@
-<h1> <%= @merchant.name %> Items </h1>
+<div class="container-fluid text-center">
+  <%= render 'shared/merchant_navbar' %>
 
+  <div class="row">
+    <div class="col">
+      <h1 class="main_headings"> <%= @merchant.name %> Items </h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col" align="left">
 <ol>
 <% @merchant_items.each do |item| %>
   <h3><%= item.name %></h3>
@@ -10,3 +19,6 @@
 <% end %>
 </ol>
 <%= link_to "Update #{@item.name} info" , edit_merchant_item_path(@merchant, @item) %>
+    </div>
+  </div>
+</div>

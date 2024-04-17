@@ -60,6 +60,9 @@ group :development, :test do
   gem "shoulda-matchers"
   gem "simplecov"
   gem "factory_bot_rails"
+  gem 'bootstrap'
+  gem 'dartsass-sprockets'
+  gem 'jquery-rails'
 end
 
 group :development do

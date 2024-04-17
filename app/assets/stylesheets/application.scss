@@ -1,0 +1,67 @@
+/* app/assets/stylesheets/application.css */
+
+@import "bootstrap";
+
+header {
+  background-color: rgb(173, 173, 173);
+  padding: 10px;
+  width: view;
+  margin: 0;
+  text-align: center;
+}
+
+.main_headings {
+  background-color: rgb(202, 202, 202);
+  border-top: 2px solid black;
+}
+
+.headings {
+  background-color: rgb(202, 202, 202);
+}
+
+ol {
+  margin-left: 50px;
+  padding: 0;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.button_to {
+  display: inline;
+}
+
+.right_button {
+  margin-left: 10px; 
+  background-position-x: 500px;
+  display: inline;
+}
+
+.navbar {
+  align-content: right;
+}
+
+.navbar-nav {
+  align-items: center;
+  align-self: center;
+  align-content: center;
+  text-align: center;
+  justify-content: right;
+}
+
+table {
+  width: 80%;
+  border: 2px solid black;
+  text-align: center;
+}
+
+thead, tr, th, td {
+  border: 2px solid black;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #ece8e8;
+}

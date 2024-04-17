@@ -1,22 +1,62 @@
-<h1>Invoice #<%= @invoice.id %></h1>
+<div class="container text-center">
+  <%= render 'shared/admin_navbar' %>
 
-<%= form_with url: admin_invoice_path(@invoice), method: :patch, data: { turbo: false } do |f| %>
-  <%= f.label :status, 'Status:' %>
-  <%= f.select :status, ['in progress', 'completed', 'cancelled'], selected: @invoice.status  %>
-  <%= f.submit 'Update Invoice Status' %>
-<% end %>
-
-<p>Created on: <%= @invoice.formatted_date %></p>
-<p>Total Revenue: <%= number_to_currency(@invoice.total_revenue / 100.0) %></p>
-<p>Customer: <%= @invoice.customer_name %></p>
-
-<div id="admin_invoice_items">
-  <% @invoice.invoice_items.each do |invoice_item| %>
-    <div id="invoice_item_<%= invoice_item.id %>_info">
-      <p>Item Name: <%= invoice_item.item.name %></p>
-      <p>Quantity: <%= invoice_item.quantity %></p>
-      <p>Unit Price: <%= invoice_item.unit_price %></p>
-      <p>Status: <%= invoice_item.status.capitalize %></p>
+  <div class="row">
+    <div class="col">
+      <h1 class="main_headings">Invoice #<%= @invoice.id %></h1>
     </div>
-  <% end %>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <%= form_with url: admin_invoice_path(@invoice), method: :patch, data: { turbo: false } do |f| %>
+        <%= f.label :status, 'Status:' %>
+        <%= f.select :status, ['in progress', 'completed', 'cancelled'], selected: @invoice.status  %>
+        <%= f.submit 'Update Invoice Status' %>
+      <% end %>
+
+      <p>Created on: <%= @invoice.formatted_date %></p>
+      <p>Total Revenue: <%= number_to_currency(@invoice.total_revenue / 100.0) %></p>
+      <p>Customer: <%= @invoice.customer_name %></p>
+    </div>
+    <div class="col">
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <h2>Items on this Invoice:</h2>
+    </div>
+    <div class="col">
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col" align="center">
+      <div id="admin_invoice_items">
+        <table>
+          <thead class="headings">
+            <tr>
+              <th>Item Name</th>
+              <th>Quantity</th>
+              <th>Unit Price</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @invoice.invoice_items.each do |invoice_item| %>
+              <div id="invoice_item_<%= invoice_item.id %>_info">
+                <tr>
+                  <td><%= invoice_item.item.name %></td>
+                  <td><%= invoice_item.quantity %></td>
+                  <td><%= number_to_currency(invoice_item.unit_price / 100.0) %></td>
+                  <td><%= invoice_item.status.capitalize %></td>
+                </tr>
+              </div>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>

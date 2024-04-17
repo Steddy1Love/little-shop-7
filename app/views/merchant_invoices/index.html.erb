@@ -1,0 +1,22 @@
+<div class="container-fluid text-center">
+  <%= render 'shared/merchant_navbar' %>
+  
+  <div class="row">
+    <div class="col">
+      <h1 class="main_headings">My Invoices</h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <div id="merchant_invoices">
+        <ul>
+          <% @merchant.unique_invoices.each do |invoice| %>
+            <li><%= link_to "Invoice ##{invoice.id}", merchant_invoice_path(@merchant, invoice) %></li>
+          <% end %>
+      </div>
+    </div>
+    <div class="col">
+    </div>
+  </div>
+</div>
