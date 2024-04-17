@@ -1,32 +1,66 @@
-<h1>Invoice #<%= @invoice.id %></h1>
+<div class="container-fluid text-center">
+  <%= render 'shared/merchant_navbar' %>
+  
+  <div class="row">
+    <div class="col">
+      <h1 class="main_headings">Invoice #<%= @invoice.id %></h1>
+    </div>
+  </div>
 
-<div id="merchant_invoice_info">
-  <ul>
-    <li>Status: <%= @invoice.status %></li>
-    <li>Created on: <%= @invoice.formatted_date %></li>
-    <li>Total Revenue: <%= number_to_currency(@invoice.total_revenue_for_merchant(@merchant) / 100.0) %></li>
-    <li>Customer: <%= @invoice.customer_name %></li>
-  </ul>
-</div>
+  <div id="merchant_invoice_info" class="row">
+    <div class="col">
+      <ul>
+        <li>Status: <%= @invoice.status %></li>
+        <li>Created on: <%= @invoice.formatted_date %></li>
+        <li>Total Revenue: <%= number_to_currency(@invoice.total_revenue_for_merchant(@merchant) / 100.0) %></li>
+        <li>Customer: <%= @invoice.customer_name %></li>
+      </ul>
+    </div>
+    <div class="col">
+    </div>
+  </div>
 
-<div id="merchant_invoice_items">
-  <h2>Items on this Invoice:</h2>
-  <ul>
-    <% @invoice.invoice_items.each do |invoice_item| %>
-      <% if invoice_item.merchant == @merchant %>
-        <div id="merchant_invoice_item_<%= invoice_item.id %>">
-          <li>Item Name: <%= invoice_item.item.name %></li>
-          <li>Quantity: <%= invoice_item.quantity %></li>
-          <li>Unit Price: <%= number_to_currency(invoice_item.unit_price / 100.0) %></li>
-          <li>
-            <%= form_with url: invoice_item_path(invoice_item), method: :patch, data: { turbo: false } do |f| %>
-              <%= f.label :status, 'Status:' %>
-              <%= f.select :status, ['pending', 'packaged', 'shipped'], selected: invoice_item.status  %>
-              <%= f.submit 'Update Item Status' %>
+  <div id="merchant_invoice_items">
+    <div class="row">
+      <div class="col">
+        <h2>Items on this Invoice:</h2>
+      </div>
+      <div class="col">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col" align="center">
+        <table>
+          <thead class="headings">
+            <tr>
+              <th>Item Name</th>
+              <th>Quantity</th>
+              <th>Unit Price</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @invoice.invoice_items.each do |invoice_item| %>
+              <% if invoice_item.merchant == @merchant %>
+                <div id="merchant_invoice_item_<%= invoice_item.id %>">
+                  <tr>
+                    <td><%= invoice_item.item.name %></td>
+                    <td><%= invoice_item.quantity %></td>
+                    <td><%= number_to_currency(invoice_item.unit_price / 100.0) %></td>
+                    <td>
+                      <%= form_with url: invoice_item_path(invoice_item), method: :patch, data: { turbo: false } do |f| %>
+                        <%= f.select :status, ['pending', 'packaged', 'shipped'], selected: invoice_item.status  %>
+                        <%= f.submit 'Update Item Status' %>
+                      <% end %>
+                    </td>
+                  </tr>
+                </div>
+              <% end %>
             <% end %>
-          </li>
-        </div>
-      <% end %>
-    <% end %>
-  </ul>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>

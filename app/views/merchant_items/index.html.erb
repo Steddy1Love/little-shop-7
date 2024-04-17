@@ -1,12 +1,15 @@
-<div class="container text-center">
+<div class="container-fluid text-center">
   <%= render 'shared/merchant_navbar' %>
+
   <div class="row">
     <div class="col">
-      <h1 class="headings"><%= @merchant.name %> Items</h1>
+      <h1 class="main_headings"><%= @merchant.name %> Items</h1>
     </div>
   </div>
 
   <div class="row">
+    <div class="col">
+    </div>
     <div class="col">
       <ol>
         <div class="merchant_items" >
@@ -19,8 +22,7 @@
         </div>
       </ol>
     </div>
+    <div class="col">
+    </div>
   </div>
 </div>
-
-
-

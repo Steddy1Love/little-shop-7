@@ -65,15 +65,15 @@ RSpec.describe 'Merchant Invoices Show' do
       within '#merchant_invoice_items' do
         @invoice1.invoice_items.each do |invoice_item|
           if invoice_item.merchant == @merchant1
-            expect(page).to have_content("Item Name: #{invoice_item.item.name}")
-            expect(page).to have_content("Quantity: #{invoice_item.quantity}")
+            expect(page).to have_content("#{invoice_item.item.name}")
+            expect(page).to have_content("#{invoice_item.quantity}")
             expect(page).to have_content(invoice_item.status)
           end
         end
 
-        expect(page).to have_content("Name: Cool Item Name")
-        expect(page).to have_content("Quantity: 10")
-        expect(page).to have_content("Unit Price: $50.00")
+        expect(page).to have_content("Cool Item Name")
+        expect(page).to have_content("10")
+        expect(page).to have_content("$50.00")
         expect(page).to have_content("shipped")
       end
     end

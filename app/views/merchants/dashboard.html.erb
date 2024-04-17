@@ -1,8 +1,9 @@
-<div class="container text-center">
+<div class="container-fluid text-center">
   <%= render 'shared/merchant_navbar' %>
+
   <div class="row">
     <div class="col">
-      <h2 class="headings"> Items Ready to Ship </h2>
+      <h2 class="main_headings"> Items Ready to Ship </h2>
       <div id=<%="packaged_items-#{@merchant.id}" %>>
         <% @merchant.packaged_items.each do |packaged_item| %>
           <p>  <%= packaged_item.name %>
@@ -15,7 +16,7 @@
 
     <div class="col">
       <section class='top5'>
-        <h2 class="headings">Top 5 Customers</h2>
+        <h2 class="main_headings">Top 5 Customers</h2>
         <ul>
           <% @merchant.top_five_customers.each do |customer| %>
             <li>
@@ -28,4 +29,3 @@
     </div>
   </div>
 </div>
-
