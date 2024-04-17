@@ -76,5 +76,29 @@ RSpec.describe 'Merchant Items Index' do
         end
       end
     end
+
+    describe 'User Story 10' do
+      it 'displays items grouped by enabled and disabled' do
+        # As a merchant,
+        # When I visit my merchant items index page
+        # Then I see two sections, one for "Enabled Items" and one for "Disabled Items"
+        # And I see that each Item is listed in the appropriate section
+        within '.enabled_items' do
+          @enabled_items.each do |item|
+            expect(page).to have_content(@mug.name)
+            expect(page).to_not have_content(@mat.name)
+          end
+        end
+
+        within '.disabled_items' do
+          @disabled_items.each do |item|
+            expect(page).to_not have_content(@mug.name)
+            expect(page).to have_content(@mat.name)
+            expect(page).to have_content(@pen.name)
+            expect(page).to have_content(@table.name)
+          end
+        end
+      end
+    end
   end
 end
