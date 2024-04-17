@@ -7,7 +7,7 @@ RSpec.describe "Merchant Show Spec" do
 
     @table = create(:item, name: "table", merchant: @merchant1)
     @pen = create(:item, name: "pen", merchant: @merchant2)
-    @mat = create(:item, name: "yoga mat", merchant: @merchant1)
+    @mat = create(:item, name: "yoga mat", merchant: @merchant1, unit_price: 5000)
     @mug = create(:item, name: "mug", merchant: @merchant1)
     @ember = create(:item, name: "ember", merchant: @merchant2)
     @plant = create(:item, name: "plant", merchant: @merchant2)
@@ -19,7 +19,7 @@ RSpec.describe "Merchant Show Spec" do
       # And I see all of the item's attributes including:
       expect(page).to have_content(@mat.name)
       expect(page).to have_content(@mat.description)
-      expect(page).to have_content(@mat.unit_price)
+      expect(page).to have_content("$50.00")
       expect(page).to_not have_content(@pen.name)
     end
   end
