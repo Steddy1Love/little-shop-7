@@ -87,4 +87,8 @@ RSpec.describe 'Merchant Items Index' do
       end
     end
   end
+
+  describe 'User Story 11' do
+    
+  end
 end
