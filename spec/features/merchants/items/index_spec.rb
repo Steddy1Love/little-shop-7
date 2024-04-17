@@ -45,14 +45,14 @@ RSpec.describe 'Merchant Items Index' do
 
   describe "User Story 9" do
     it "can enable/disable items" do
-      @merchant1.items.enabled.each do |item|
-        within ".enabled_items .enabled_item-#{item.id}" do
+      # @merchant1.items.enabled.each do |item|
+        within ".enabled_items .enabled_item-#{@mug.id}" do
           expect(page).to have_content(@mug.name)
           expect(page).to have_button("Disable #{@mug.name}")
           expect(page).to_not have_button("Enable #{@mat.name}")
           click_button("Disable #{@mug.name}")
         end
-      end
+      # end
       
       expect(current_path).to eq(merchant_items_path(@merchant1))
       
@@ -60,14 +60,14 @@ RSpec.describe 'Merchant Items Index' do
         expect(page).to_not have_content(@mug.name)
       end
 
-      @merchant1.items.disabled.each do |item|
-        within ".disabled_items .disabled_item-#{item.id}" do
+      # @merchant1.items.disabled.each do |item|
+        within ".disabled_items .disabled_item-#{@pen.id}" do
           expect(page).to have_content(@pen.name)
           expect(page).to have_button("Enable #{@pen.name}")
           expect(page).to_not have_button("Disable #{@pen.name}")
           click_button("Enable #{@pen.name}")
         end
-      end
+      # end
       
       expect(current_path).to eq(merchant_items_path(@merchant1))
       
