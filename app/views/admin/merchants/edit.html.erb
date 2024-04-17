@@ -1,5 +1,18 @@
-<%= form_with url: admin_merchant_path(@merchant), method: :patch, data: { turbo: false } do |f| %>
-  <%= f.label :name, 'Name: ' %>
-  <%= f.text_field :name, value: @merchant.name %>
-  <%= f.submit 'Submit' %>
-<% end %>
+<div class="container text-center">
+  <%= render 'shared/admin_navbar' %>
+  <div class="row">
+    <h1 class="headings">Update <%= @merchant.name %></h1>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <%= form_with url: admin_merchant_path(@merchant), method: :patch, data: { turbo: false } do |f| %>
+        <%= f.label :name, 'Name: ' %>
+        <%= f.text_field :name, value: @merchant.name %>
+        <%= f.submit 'Submit' %>
+      <% end %>
+    </div>
+    <div class="col">
+    </div>
+  </div>
+</div>

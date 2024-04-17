@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
 
+  get '/', to: 'home#index'
+
   resources :merchants, only: [:show, :create] do
     member { get "dashboard"}
     resources :items, only: [:index, :show, :edit, :update], :controller => 'merchant_items'

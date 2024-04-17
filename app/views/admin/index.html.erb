@@ -1,26 +1,30 @@
-<h1>Admin Dashboard</h1>
+<div class="container text-center">
+  <%= render 'shared/admin_navbar' %>
 
-<%= button_to 'Dashboard', admin_index_path %><br>
-<%= button_to 'All Merchants', admin_merchants_path %><br>
-<%= button_to 'All Invoices', admin_invoices_path %><br>
+  <div class="row">
+    <div class="col">
+      <div class= "top_five_customers">
+        <h2 class="headings">Top 5 Customers</h2>
+        <ul>
+        <% @customers.goated_five_customers.each do |customer| %>
+          <li><%= "Customer name: #{customer.first_name} #{customer.last_name} 
+          - #{customer.transaction_count} successful purchases" %><br>
+          </li>
+        <% end %>
+        </ul>
+      </div>
+    </div>
 
-<div class= "top_five_customers">
-  <h2>Top 5 Customers</h2>
-  <ul>
-  <% @customers.goated_five_customers.each do |customer| %>
-    <li><%= "Customer name: #{customer.first_name} #{customer.last_name} 
-    - #{customer.transaction_count} successful purchases" %><br>
-    </li>
-  <% end %>
-  </ul>
-</div>
-
-<div class= "incomplete_invoices">
-  <h2>Incomplete Invoices</h2>
-  <ul>
-    <% @invoices.incomplete_invoices.each do |invoice| %>
-    <li><%= link_to "Invoice: #{invoice.id}", admin_invoice_path(invoice.id) %>
-    - <%= "#{invoice.formatted_date}" %>
-    <% end %>
-  </ul>
+    <div class="col">
+      <div class= "incomplete_invoices">
+        <h2 class="headings">Incomplete Invoices</h2>
+        <ul>
+          <% @invoices.incomplete_invoices.each do |invoice| %>
+          <li><%= link_to "Invoice: #{invoice.id}", admin_invoice_path(invoice.id) %>
+          - <%= "#{invoice.formatted_date}" %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
 </div>
