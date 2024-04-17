@@ -107,7 +107,7 @@ RSpec.describe 'Merchant Items Index' do
       # And I see the item I just created displayed in the list of items.
       # And I see my item was created with a default status of disabled.
       within ".disabled_items" do
-        expect(page).to have_content("Item name: Something that costs more than it should")
+        expect(page).to have_content("Something that costs more than it should")
       end
     end
   end

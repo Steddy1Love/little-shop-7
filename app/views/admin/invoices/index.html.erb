@@ -1,6 +1,21 @@
-<h1>Invoices</h1>
-<ul>
-  <% @invoices.each do |invoice |%>
-    <li><%= link_to "Invoice ##{invoice.id}", admin_invoice_path(invoice) %></li>
-  <% end %>
-</ul>
+<div class="container text-center">
+  <%= render 'shared/admin_navbar' %>
+
+  <div class="row">
+    <div class="col">
+      <h1 class="main_headings">Invoices</h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <ul>
+        <% @invoices.each do |invoice |%>
+          <li><%= link_to "Invoice ##{invoice.id}", admin_invoice_path(invoice) %></li>
+        <% end %>
+      </ul>
+    </div>
+    <div class="col">
+    </div>
+  </div>
+</div>

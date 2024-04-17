@@ -40,5 +40,9 @@ class Merchant < ApplicationRecord
     .select("DATE_TRUNC('day', invoices.created_at) AS date, SUM(invoice_items.quantity * invoice_items.unit_price) AS daily_revenue")
     .group("date").order("daily_revenue DESC, date DESC").first.date
   end
+
+  def unique_invoices
+    invoices.distinct
+  end
 end
 

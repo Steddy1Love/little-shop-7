@@ -64,8 +64,8 @@ RSpec.describe "Admin Dashboard Page", type: :feature do
 
   describe "User Story 20" do
     it "displays links to merchants index and invoice index" do
-      expect(page).to have_button("All Merchants")
-      expect(page).to have_button("All Invoices")
+      expect(page).to have_link("All Merchants")
+      expect(page).to have_link("All Invoices")
     end
   end
 

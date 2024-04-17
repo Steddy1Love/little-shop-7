@@ -58,17 +58,16 @@ RSpec.describe "the admin invoices show page" do
       visit admin_invoice_path(@invoice1)
 
       within '#admin_invoice_items' do
-        expect(page).to have_content("Item Name: Cool Item Name")
-        expect(page).to have_content("Quantity: 10")
-        expect(page).to have_content("Unit Price: 5000")
-        expect(page).to have_content("Status: Shipped")
+        expect(page).to have_content("Cool Item Name")
+        expect(page).to have_content("10")
+        expect(page).to have_content("$50.00")
+        expect(page).to have_content("Shipped")
 
         @invoice1.invoice_items.each do |invoice_item|
           within "#invoice_item_#{invoice_item.id}_info" do
-            expect(page).to have_content("Item Name: #{invoice_item.item.name}")
-            expect(page).to have_content("Quantity: #{invoice_item.quantity}")
-            expect(page).to have_content("Unit Price: #{invoice_item.unit_price}")
-            expect(page).to have_content("Status: #{invoice_item.status.capitalize}")
+            expect(page).to have_content("#{invoice_item.item.name}")
+            expect(page).to have_content(" #{invoice_item.quantity}")
+            expect(page).to have_content("#{invoice_item.status.capitalize}")
           end
         end
       end
@@ -98,8 +97,6 @@ RSpec.describe "the admin invoices show page" do
 
       expect(current_path).to eq(admin_invoice_path(@invoice1))
       expect(page).to have_field(:status, with: 'completed')
-
-
     end
   end
 end

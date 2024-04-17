@@ -4,6 +4,7 @@ class MerchantItemsController < ApplicationController
     @enabled_items = @merchant.items.enabled
     @disabled_items = @merchant.items.disabled
   end
+
   def show
     @merchant = Merchant.find(params[:merchant_id])
     @item = @merchant.items.find(params[:id])
