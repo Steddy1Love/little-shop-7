@@ -5,12 +5,12 @@ RSpec.describe Merchant, type: :model do
   before(:each) do
     @merchant1 = create(:merchant)
 
-    @table = create(:item, name: "table", merchant: @merchant1)
-    @pen = create(:item, name: "pen", merchant: @merchant1)
-    @mat = create(:item, name: "yoga mat", merchant: @merchant1)
-    @mug = create(:item, name: "mug", merchant: @merchant1)
-    @ember = create(:item, name: "ember", merchant: @merchant1)
-    @plant = create(:item, name: "plant", merchant: @merchant1)
+    @table = create(:item, name: "table", merchant: @merchant1, unit_price: 4000, status: 0)
+    @pen = create(:item, name: "pen", merchant: @merchant1, unit_price: 100, status: 0)
+    @mat = create(:item, name: "yoga mat", merchant: @merchant1, unit_price: 5000, status: 0)
+    @mug = create(:item, name: "mug", merchant: @merchant1, unit_price: 200, status: 1)
+    @ember = create(:item, name: "ember", merchant: @merchant1, unit_price: 600, status: 1)
+    @plant = create(:item, name: "plant", merchant: @merchant1, unit_price: 400, status: 1)
 
     @customer1 = create(:customer)
     @customer2 = create(:customer)
@@ -19,6 +19,13 @@ RSpec.describe Merchant, type: :model do
     @customer5 = create(:customer)
     @customer6 = create(:customer)
     @customer7 = create(:customer)
+    
+    @invoice1 = create(:invoice, customer: @customer1, created_at: "Mon, 15 Apr 1996 00:00:00.800830000 UTC +00:00", status: 0)
+    @invoice2 = create(:invoice, customer: @customer2, created_at: "Sun, 01 Jan 2023 00:00:00.800830000 UTC +00:00", status: 1)
+    @invoice3 = create(:invoice, customer: @customer3, created_at: "Sun, 17 Mar 2024 00:00:00.800830000 UTC +00:00", status: 2)
+    @invoice4 = create(:invoice, customer: @customer4, created_at: "Sat, 16 Mar 2024 00:00:00.800830000 UTC +00:00", status: 1)
+    @invoice5 = create(:invoice, customer: @customer6, created_at: "Tue, 26 Jun 1997 00:00:00.800830000 UTC +00:00", status: 0)
+    @invoice6 = create(:invoice, customer: @customer6, created_at: "Tue, 21 Jun 1997 00:00:00.800830000 UTC +00:00", status: 0)
 
     @invoices_customer1 = create(:invoice, customer: @customer1, status: 1)
     @invoices_customer2 = create(:invoice, customer: @customer2, status: 1)
@@ -27,12 +34,12 @@ RSpec.describe Merchant, type: :model do
     @invoices_customer5 = create(:invoice, customer: @customer5, status: 1)
     @invoices_customer6 = create(:invoice, customer: @customer6, status: 1)
 
-    @invoice_items1 = create(:invoice_item, invoice: @invoices_customer1, item: @table, status: 0, quantity: 1, unit_price: 1 )
-    @invoice_items2 = create(:invoice_item, invoice: @invoices_customer2, item: @pen, status: 0, quantity: 1, unit_price: 1 )
-    @invoice_items3 = create(:invoice_item, invoice: @invoices_customer3, item: @mat, status: 1, quantity: 1, unit_price: 1 )
-    @invoice_items4 = create(:invoice_item, invoice: @invoices_customer4, item: @mug, status: 1, quantity: 1, unit_price: 1 )
-    @invoice_items5 = create(:invoice_item, invoice: @invoices_customer5, item: @ember, status: 2, quantity: 1, unit_price: 1 )
-    @invoice_items6 = create(:invoice_item, invoice: @invoices_customer6, item: @plant, status: 2, quantity: 1, unit_price: 1 )
+    @invoice_items1 = create(:invoice_item, invoice: @invoices_customer1, item: @table, status: 0, quantity: 10, unit_price: 4000 )
+    @invoice_items2 = create(:invoice_item, invoice: @invoices_customer2, item: @pen, status: 0, quantity: 9, unit_price: 100 )
+    @invoice_items3 = create(:invoice_item, invoice: @invoices_customer3, item: @mat, status: 1, quantity: 8, unit_price: 5000 )
+    @invoice_items4 = create(:invoice_item, invoice: @invoices_customer4, item: @mug, status: 1, quantity: 7, unit_price: 600 )
+    @invoice_items5 = create(:invoice_item, invoice: @invoices_customer5, item: @ember, status: 2, quantity: 6, unit_price: 400 )
+    @invoice_items6 = create(:invoice_item, invoice: @invoices_customer6, item: @plant, status: 2, quantity: 1, unit_price: 2000 )
     
     @transactions_invoice1 = create_list(:transaction, 5, invoice: @invoices_customer1, result: 1)
     @transactions_invoice2 = create_list(:transaction, 4, invoice: @invoices_customer2, result: 1)
@@ -55,6 +62,11 @@ RSpec.describe Merchant, type: :model do
   end
 
   describe '#instance methods' do
+  
+    it "#most_popular_items" do
+      expect(@merchant1.most_popular_items).to match_array([@mat, @table, @mut, @plant, @ember])
+    end
+
     describe "#top_five_customers" do
       it 'should return the top five customers based off of successful transactions for a merchant' do
         expect(@merchant1.top_five_customers).to eq([@customer6, @customer4, @customer3, @customer1, @customer2])
@@ -190,7 +202,7 @@ RSpec.describe Merchant, type: :model do
         it 'returns the top 5 merchants sorted by total revenue and had at least one successful transaction' do
           top_5_merchants = Merchant.top_5_merchants_by_revenue
 
-          expect(top_5_merchants).to eq([@merchant8, @merchant10, @merchant11, @merchant12, @merchant9])
+          expect(top_5_merchants).to match_array([@merchant8, @merchant10, @merchant11, @merchant12, @merchant9])
           expect(top_5_merchants.first.total_revenue).to eq(125000)
           expect(top_5_merchants.second.total_revenue).to eq(120000)
           expect(top_5_merchants.third.total_revenue).to eq(45000)

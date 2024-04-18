@@ -111,4 +111,35 @@ RSpec.describe 'Merchant Items Index' do
       end
     end
   end
+
+  describe "User Story 13" do
+    it "The 5 most popular items dates" do
+      invoice8 = create(:invoice, created_at: '1999-01-1 14:54:09')
+        invoice9 = create(:invoice, created_at: '2024-03-27 14:54:09')
+        invoice13 = create(:invoice, created_at: '2024-03-27 14:54:09')
+        item8 = create(:item, merchant: @merchant1)
+        create(:invoice_item, unit_price: 2500000, quantity: 10, merchant: @merchant1, invoice: invoice8, item: item8)
+        create(:invoice_item, unit_price: 1250000, quantity: 10, merchant: @merchant1, invoice: invoice9, item: item8)
+        create(:invoice_item, unit_price: 1250000, quantity: 10, merchant: @merchant1, invoice: invoice13, item: item8)
+        create(:transaction, result: 1, invoice: invoice8)
+        create(:transaction, result: 1, invoice: invoice9)
+        create(:transaction, result: 1, invoice: invoice13)
+
+        merchant9 = create(:merchant)
+        invoice10 = create(:invoice, created_at: '2024-03-17 14:54:09')
+        invoice11 = create(:invoice, created_at: '2024-03-18 14:54:09')
+        invoice12 = create(:invoice, created_at: '2024-03-18 12:12:09')
+        item9 = create(:item, merchant: merchant9)
+        create(:invoice_item, unit_price: 200000, quantity: 5, merchant: merchant9, invoice: invoice10, item: item9)
+        create(:invoice_item, unit_price: 190000, quantity: 5, merchant: merchant9, invoice: invoice11, item: item9)
+        create(:invoice_item, unit_price: 190000, quantity: 5, merchant: merchant9, invoice: invoice12, item: item9)
+        create(:transaction, result: 1, invoice: invoice10)
+        create(:transaction, result: 1, invoice: invoice11)
+        create(:transaction, result: 1, invoice: invoice12)
+      within '.top_selling_items' do
+        expect(page).to have_content(item8.name)
+        expect(page).to have_content(item8.top_selling_date)
+      end
+    end
+  end
 end
