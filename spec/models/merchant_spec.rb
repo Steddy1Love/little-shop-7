@@ -64,7 +64,7 @@ RSpec.describe Merchant, type: :model do
   describe '#instance methods' do
   
     it "#most_popular_items" do
-      expect(@merchant1.most_popular_items).to match_array([@mat, @table, @mut, @plant, @ember])
+      expect(@merchant1.most_popular_items).to match_array([@mat, @table, @mug, @plant, @ember])
     end
 
     describe "#top_five_customers" do
@@ -180,14 +180,14 @@ RSpec.describe Merchant, type: :model do
         @item12 = create(:item, merchant: @merchant12)
         @item13 = create(:item, merchant: @merchant13)
         @item14 = create(:item, merchant: @merchant14)
-  
-        create_list(:invoice_item, 5, unit_price: 5000, quantity: 5, merchant: @merchant8, invoice: @invoice8, item: @item8)
-        create_list(:invoice_item, 5, unit_price: 2000, quantity: 3, merchant: @merchant9, invoice: @invoice9, item: @item9)
-        create_list(:invoice_item, 5, unit_price: 4000, quantity: 6, merchant: @merchant10, invoice: @invoice10, item: @item10)
-        create_list(:invoice_item, 5, unit_price: 3000, quantity: 3, merchant: @merchant11, invoice: @invoice11, item: @item11)
-        create_list(:invoice_item, 5, unit_price: 2500, quantity: 3, merchant: @merchant12, invoice: @invoice12, item: @item12)
-        create_list(:invoice_item, 10, unit_price: 10000, quantity: 8, merchant: @merchant13, invoice: @invoice13, item: @item13)
-        create_list(:invoice_item, 1, unit_price: 500, quantity: 3, merchant: @merchant14, invoice: @invoice14, item: @item14)
+
+        create(:invoice_item, unit_price: 500000, quantity: 5, merchant: @merchant8, invoice: @invoice8, item: @item8)
+        create(:invoice_item, unit_price: 50000000, quantity: 25, merchant: @merchant9, invoice: @invoice9, item: @item9)
+        create(:invoice_item, unit_price: 4000000, quantity: 6, merchant: @merchant10, invoice: @invoice10, item: @item10)
+        create(:invoice_item, unit_price: 30000000, quantity: 3, merchant: @merchant11, invoice: @invoice11, item: @item11)
+        create(:invoice_item, unit_price: 25000000, quantity: 3, merchant: @merchant12, invoice: @invoice12, item: @item12)
+        create(:invoice_item, unit_price: 10000, quantity: 8, merchant: @merchant13, invoice: @invoice13, item: @item13)
+        create(:invoice_item, unit_price: 500, quantity: 3, merchant: @merchant14, invoice: @invoice14, item: @item14)
   
         create(:transaction, result: 1, invoice: @invoice8)
         create(:transaction, result: 1, invoice: @invoice9)
@@ -203,11 +203,11 @@ RSpec.describe Merchant, type: :model do
           top_5_merchants = Merchant.top_5_merchants_by_revenue
 
           expect(top_5_merchants).to match_array([@merchant8, @merchant10, @merchant11, @merchant12, @merchant9])
-          expect(top_5_merchants.first.total_revenue).to eq(125000)
-          expect(top_5_merchants.second.total_revenue).to eq(120000)
-          expect(top_5_merchants.third.total_revenue).to eq(45000)
-          expect(top_5_merchants.fourth.total_revenue).to eq(37500)
-          expect(top_5_merchants.last.total_revenue).to eq(30000)
+          expect(top_5_merchants.first.total_revenue).to eq(1250000000)
+          expect(top_5_merchants.second.total_revenue).to eq(90000000)
+          expect(top_5_merchants.third.total_revenue).to eq(75000000)
+          expect(top_5_merchants.fourth.total_revenue).to eq(24000000)
+          expect(top_5_merchants.last.total_revenue).to eq(2500000)
         end
       end
 
