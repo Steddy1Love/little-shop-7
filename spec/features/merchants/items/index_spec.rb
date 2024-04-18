@@ -45,7 +45,7 @@ RSpec.describe 'Merchant Items Index' do
       within ".enabled_items .enabled_item-#{@mug.id}" do
         expect(page).to have_content(@mug.name)
         expect(page).to have_button("Disable #{@mug.name}")
-        expect(page).to_not have_button("Enable #{@mat.name}")
+        expect(page).to_not have_button("Enable #{@mug.name}")
         click_button("Disable #{@mug.name}")
         expect(current_path).to eq(merchant_items_path(@merchant1))
       end
