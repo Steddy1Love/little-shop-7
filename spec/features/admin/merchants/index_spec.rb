@@ -31,6 +31,8 @@ RSpec.describe "the admin merchants index page" do
 
   describe 'User Story 27' do
     it 'has an enable and disable button next to each merchant and when I click one of these I am redirected to the index page and see that merchants status has changed' do
+      merchant_disabled = create(:merchant, status: 0)
+      merchant_enabled = create(:merchant, status: 1)
       visit admin_merchants_path
 
       within '#admin_merchants_list' do
