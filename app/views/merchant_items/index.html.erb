@@ -21,7 +21,15 @@
           <%end%>
         </ul>
       </div>
-
+      <div class="top_selling_items">
+        <h2>Most Popular Items and Date of most sales</h2>
+        <ul>
+          <% @merchant.most_popular_items.each do |item| %>
+          <% binding.pry %>
+          <%= item.name %> - <%= item.top_selling_date  %>
+          <% end %>
+        </ul>
+      </div>  
       <div class="disabled_items">
         <h2 class="main_headings">Disabled Items</h2>
         <ul>
