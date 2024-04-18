@@ -5,6 +5,7 @@
 - Project Board: https://github.com/users/JaredMHobson/projects/3
 - Project Schema DB Diagram: https://dbdiagram.io/d/6614b2de03593b6b6185924e
 - Project DTR: https://docs.google.com/document/d/1Xjl-11rwWg7Vugy38_FEegezFAYyIUg1pI-XZTSRSAg/edit?usp=sharing
+- Deployed Application: https://nameless-peak-56035-81000d2b992d.herokuapp.com/
 
 ## About Little Esty Shop
 
