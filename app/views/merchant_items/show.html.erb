@@ -3,22 +3,19 @@
 
   <div class="row">
     <div class="col">
-      <h1 class="main_headings"> <%= @merchant.name %> Items </h1>
+      <h1 class="main_headings"><%= @item.name %></h1>
     </div>
   </div>
 
   <div class="row">
     <div class="col" align="left">
-<ol>
-<% @merchant_items.each do |item| %>
-  <h3><%= item.name %></h3>
-  <li>
-    Description: <%= item.description %>
-    Price: <%= item.unit_price %>
-  </li>
-<% end %>
-</ol>
-<%= link_to "Update #{@item.name} info" , edit_merchant_item_path(@merchant, @item) %>
+      <ul>
+        <li>Description: <%= @item.description %></li>
+        <li>Current Price: <%= number_to_currency(@item.unit_price / 100.0) %></li>
+      </ul>
+      <%= link_to "Update #{@item.name} info" , edit_merchant_item_path(@merchant, @item) %>
+    </div>
+    <div class="col">
     </div>
   </div>
 </div>

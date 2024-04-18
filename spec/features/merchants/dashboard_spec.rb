@@ -55,8 +55,8 @@ RSpec.describe 'merchant dashboard show page', type: :feature do
 
   describe 'User Story 2' do
     it 'has links for merchant items index and invoices index' do
-      expect(page).to have_link("Merchant Items")
-      expect(page).to have_link("Merchant Invoices")
+      expect(page).to have_link("My Items", href: merchant_items_path(@merchant1))
+      expect(page).to have_link("My Invoices", href: merchant_invoices_path(@merchant1))
     end
   end
 
