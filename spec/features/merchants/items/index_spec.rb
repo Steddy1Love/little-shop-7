@@ -98,10 +98,10 @@ RSpec.describe 'Merchant Items Index' do
       # I am taken to a form that allows me to add item information.
       expect(current_path).to eq(new_merchant_item_path(@merchant1))
       # When I fill out the form I click ‘Submit’
-      fill_in 'name', with: 'Something that costs more than it should'
-      fill_in 'description', with: 'It is literally made from trash'
-      fill_in 'unit price', with: 1111
-      click_on "submit"
+      fill_in 'Name:', with: 'Something that costs more than it should'
+      fill_in 'Description:', with: 'It is literally made from trash'
+      fill_in 'Unit Price:', with: 1111
+      click_on "Submit"
       # Then I am taken back to the items index page
       expect(current_path).to eq(merchant_items_path(@merchant1))
       # And I see the item I just created displayed in the list of items.
