@@ -37,26 +37,21 @@ Merchant.destroy_all
 @coupon5 = Coupon.create(name: "10OFF", code: "10OFFM2", percent_off: 10, dollar_off: nil, merchant_id: @merchant2.id)
 @coupon6 = Coupon.create(name: "20BUCKS", code: "20OFFM2", percent_off: nil, dollar_off: 2000, merchant_id: @merchant2.id)
 
-@coupon_invoice1 = CouponInvoice.create(coupon_id: @coupon1.id, invoice_id: @invoice1.id)
-@coupon_invoice2 = CouponInvoice.create(coupon_id: @coupon2.id, invoice_id: @invoice2.id)
-@coupon_invoice3 = CouponInvoice.create(coupon_id: @coupon3.id, invoice_id: @invoice3.id)
-@coupon_invoice4 = CouponInvoice.create(coupon_id: @coupon4.id, invoice_id: @invoice4.id)
-@coupon_invoice5 = CouponInvoice.create(coupon_id: @coupon5.id, invoice_id: @invoice5.id)
-@coupon_invoice6 = CouponInvoice.create(coupon_id: @coupon6.id, invoice_id: @invoice6.id)
 
-@invoice1 = create(:invoice, customer: @customer1, status: 1)
-@invoice2 = create(:invoice, customer: @customer2, status: 1)
-@invoice3 = create(:invoice, customer: @customer3, status: 1)
-@invoice4 = create(:invoice, customer: @customer4, status: 1)
-@invoice5 = create(:invoice, customer: @customer5, status: 1)
-@invoice6 = create(:invoice, customer: @customer6, status: 1)
+@invoice1 = create(:invoice, customer: @customer1, status: 1, coupon_id: @coupon1.id)
+@invoice2 = create(:invoice, customer: @customer2, status: 1, coupon_id: @coupon2.id)
+@invoice3 = create(:invoice, customer: @customer3, status: 1, coupon_id: @coupon3.id)
+@invoice4 = create(:invoice, customer: @customer4, status: 1, coupon_id: @coupon4.id)
+@invoice5 = create(:invoice, customer: @customer5, status: 1, coupon_id: @coupon5.id)
+@invoice6 = create(:invoice, customer: @customer6, status: 1, coupon_id: @coupon6.id)
 
 @invoice_items1 = create(:invoice_item, invoice: @invoices_customer1, item: @table, status: 0 ) #pending
+@invoice_items1 = create(:invoice_item, invoice: @invoices_customer1, item: @plant2, status: 0 ) #pending
 @invoice_items2 = create(:invoice_item, invoice: @invoices_customer2, item: @pen, status: 0 ) #pending
 @invoice_items3 = create(:invoice_item, invoice: @invoices_customer3, item: @mat, status: 1 ) #packaged
-@invoice_items4 = create(:invoice_item, invoice: @invoices_customer4, item: @mug, status: 1 ) #packaged
-@invoice_items5 = create(:invoice_item, invoice: @invoices_customer5, item: @ember, status: 2 )#shiped
-@invoice_items6 = create(:invoice_item, invoice: @invoices_customer6, item: @plant, status: 2 )#shipped
+@invoice_items4 = create(:invoice_item, invoice: @invoices_customer4, item: @plant2, status: 1 ) #packaged
+@invoice_items5 = create(:invoice_item, invoice: @invoices_customer5, item: @ball, status: 2 )#shiped
+@invoice_items6 = create(:invoice_item, invoice: @invoices_customer6, item: @scent, status: 2 )#shipped
 
 @transactions_invoice1 = create_list(:transaction, 5, invoice: @invoices_customer1, result: 1)
 @transactions_invoice2 = create_list(:transaction, 4, invoice: @invoices_customer2, result: 1)
