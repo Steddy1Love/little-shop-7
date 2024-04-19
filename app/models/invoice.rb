@@ -1,6 +1,7 @@
 class Invoice < ApplicationRecord
   enum :status, ['in progress', 'completed', 'cancelled'], validate: true
 
+  belongs_to :coupon, optional: true
   belongs_to :customer
   has_many :transactions, dependent: :destroy
   has_many :invoice_items, dependent: :destroy
