@@ -15,7 +15,13 @@ Merchant.destroy_all
 @mug = create(:item, name: "mug", merchant: @merchant1)
 @ember = create(:item, name: "ember", merchant: @merchant1)
 @plant = create(:item, name: "plant", merchant: @merchant1)
-@items_merchant2 = create_list(:item, 5, merchant: @merchant2)
+@plant2 = create(:item, name: "Orchid", merchant: @merchant2)
+@pooltoy = create(:item, name: "Pool noodle", merchant: @merchant2)
+@bear = create(:item, name: "Teddy bear", merchant: @merchant2)
+@ball = create(:item, name: "baseball", merchant: @merchant2)
+@scent = create(:item, name: "perfume", merchant: @merchant2)
+@tool = create(:item, name: "screwdriver", merchant: @merchant2)
+
 
 @customer1 = create(:customer)
 @customer2 = create(:customer)
