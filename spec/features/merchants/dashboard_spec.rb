@@ -98,7 +98,6 @@ RSpec.describe 'merchant dashboard show page', type: :feature do
   describe "US 5" do
     it "displays created_at date ordered by oldest first" do
       within "#packaged_items-#{@merchant1.id}" do
-        save_and_open_page
         @merchant1.packaged_items.each do |packaged_item|
           expect(@merchant1.formatted_date(packaged_item.created_at)).to match(/\A[A-Z][a-z]+, [A-Z][a-z]+ \d{1,2}, \d{4}\z/)
           expect("yoga mat").to appear_before("mug")
@@ -110,9 +109,9 @@ RSpec.describe 'merchant dashboard show page', type: :feature do
   describe "US 1 FS pt 1" do
     it "Shows a link to the coupons' index page" do
       within '.coupons_link'
-      expect(page).to have_link("All Coupons", href: merchant_coupons_path)
+      expect(page).to have_link("All Coupons", href: merchant_coupons_path(@merchant1.id))
       click_link("All Coupons")
-      expect(current_path).to eq(merchant_coupons_path)
+      expect(current_path).to eq(merchant_coupons_path(@merchant1.id))
     end
   end
 end

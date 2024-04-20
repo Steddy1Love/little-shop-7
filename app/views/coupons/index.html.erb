@@ -3,7 +3,7 @@
     <div class="col">
       <h1 class="main_headings"> All Coupons for <%= @merchant.name %></h1>
         <% @coupons.each do |coupon| %>
-          <p><%= coupon.name %>
+          <p><%= link_to "#{coupon.name}", merchant_coupon_path(@merchant.id, coupon.id) %>
           <% if coupon.percent_off != nil %>
             <%= coupon.percent_off %>&#37 off</p>
           <% else %>
