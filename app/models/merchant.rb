@@ -15,12 +15,7 @@ class Merchant < ApplicationRecord
   end
   
   def packaged_items 
-    self.items
-    .select("items.name, invoice_items.invoice_id, invoices.created_at, invoice_items.status")
-    .joins(invoices: :invoice_items)
-    .where("invoice_items.status = 1")
-    .order("invoices.created_at ASC")
-    .distinct
+    invoice_items.where("invoice_items.status = 0 OR invoice_items.status = 1").order(:created_at)
   end
 
   def formatted_date(date)

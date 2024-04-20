@@ -10,11 +10,9 @@ class Coupon < ApplicationRecord
 
 private
 
-
-
-def check_coupon_value
-  if dollar_off && invoice && invoice.total_cost_for_merchant(merchant) < dollar_off
-    invoice.update(total_cost: 0)
-  end
-end
+  # def check_coupon_value
+  #   if dollar_off && invoice && invoice.total_cost_for_merchant(merchant) < dollar_off
+  #     invoice.update(total_cost: 0)
+  #   end
+  # end
 end
