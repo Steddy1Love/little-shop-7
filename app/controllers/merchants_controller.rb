@@ -1,6 +1,7 @@
 class MerchantsController < ApplicationController
   def dashboard 
     @merchant = Merchant.find(params[:id])
+    @coupons = @merchant.coupons 
   end
 
   def create

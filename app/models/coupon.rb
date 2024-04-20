@@ -10,9 +10,7 @@ class Coupon < ApplicationRecord
 
 private
 
-def check_coupon_limit
-  errors.add(:base, "Merchant cannot have more than 5 activated coupons") if merchant.coupons.where(active: true).count >= 5
-end
+
 
 def check_coupon_value
   if dollar_off && invoice && invoice.total_cost_for_merchant(merchant) < dollar_off

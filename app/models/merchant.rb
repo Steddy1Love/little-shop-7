@@ -1,6 +1,7 @@
 class Merchant < ApplicationRecord
   enum :status, [:disabled, :enabled], validate: true
 
+  has_many :coupons
   has_many :items, dependent: :destroy
   has_many :invoice_items, through: :items
   has_many :invoices, through: :invoice_items
@@ -54,5 +55,8 @@ class Merchant < ApplicationRecord
     .limit(5)
   end
     
+  # def check_coupon_limit
+  #   merchant.coupons.where(status: 1).count >= 5
+  # end
 end
 
