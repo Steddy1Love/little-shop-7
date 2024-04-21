@@ -1,0 +1,7 @@
+<h1><%= @coupon.name %></h1>
+  <% if coupon.percent_off != nil && coupon.status == 1 %>
+    <p><%= coupon.percent_off %>&#37 off</p>
+  <% else %>
+    <p><%= number_to_currency(coupon.dollar_off.to_f / 100.00) %></p><br>
+  <% end %>
+<h2><%= link_to 'Create New Coupon', new_merchant_coupon_path %>

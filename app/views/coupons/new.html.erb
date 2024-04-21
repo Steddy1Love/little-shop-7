@@ -1,0 +1,13 @@
+<h1>Create Coupon</h1>
+<%= form_with model: @coupon, data: {tubro: false} do |f| %>
+  <%= f.label :name, 'Name:' %>
+  <%= f.text_field :name %>
+  <%= f.label :code, 'Unique Code:' %>
+  <%= f.text_field :code %>
+  <h2>Percent Off or Dollar Off</h2>
+  <%= f.label :percent_off, 'Percent off 10-100%:' %>
+  <%= f.integer_field :percent_off %>
+  <%= f.label :dollar_off, 'Dollar off 5-unlimited:' %>
+  <%= f.integer_field :dollar_off %>
+  <%= f.submit %>
+<% end %>

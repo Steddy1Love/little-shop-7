@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "Merchant Coupon Index Page", type: :feature do
+RSpec.describe "Coupon Show Page", type: :feature do
   before :each do
     @merchant1 = FactoryBot.create(:merchant) 
     @merchant2 = FactoryBot.create(:merchant)
@@ -55,15 +55,12 @@ RSpec.describe "Merchant Coupon Index Page", type: :feature do
     @transactions_invoice4 = FactoryBot.create_list(:transaction, 7, invoice: @invoice4, result: 1)
     @transactions_invoice5 = FactoryBot.create_list(:transaction, 3, invoice: @invoice5, result: 1)
     @transactions_invoice6 = FactoryBot.create_list(:transaction, 9, invoice: @invoice6, result: 1)
-    visit merchant_coupons_path(@merchant1.id)
+    visit new_merchant_coupon_path(@merchant1.id)
   end
 
-  describe "US 1 pt 2" do
-    it "Shows list of coupons as an index for the specified merchant and each coupon has a link to its show page" do
-      expect(page).to have_content(@coupon1.name, count: 1)
-      expect(page).to have_content(@coupon2.name, count: 1)
-      expect(page).to have_content(@coupon3.name, count: 1)
-      expect(page).to have_link("#{@coupon1.name}", count: 1)
+  describe "US 2" do
+    it "I see a form to add a new coupon" do
+      
     end
   end
 end
