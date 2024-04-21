@@ -26,12 +26,12 @@ RSpec.describe "Coupon New Page", type: :feature do
     @customer5 = FactoryBot.create(:customer)
     @customer6 = FactoryBot.create(:customer)
 
-    @coupon1 = Coupon.create(name: "BOGO50", code: "BOGO50M1", percent_off: 50, dollar_off: nil, merchant_id: @merchant1.id)
-    @coupon2 = Coupon.create(name: "10OFF", code: "10OFFM1", percent_off: 10, dollar_off: nil, merchant_id: @merchant1.id)
-    @coupon3 = Coupon.create(name: "20BUCKS", code: "20OFFM1", percent_off: nil, dollar_off: 2000, merchant_id: @merchant1.id)
-    @coupon4 = Coupon.create(name: "BOGO50", code: "BOGO50M2", percent_off: 50, dollar_off: nil, merchant_id: @merchant2.id)
-    @coupon5 = Coupon.create(name: "10OFF", code: "10OFFM2", percent_off: 10, dollar_off: nil, merchant_id: @merchant2.id)
-    @coupon6 = Coupon.create(name: "20BUCKS", code: "20OFFM2", percent_off: nil, dollar_off: 2000, merchant_id: @merchant2.id)
+    @coupon1 = Coupon.create(name: "BOGO50", code: "BOGO50M1", amount_off: 50, percent_or_dollar: 0, merchant_id: @merchant1.id)
+    @coupon2 = Coupon.create(name: "10OFF", code: "10OFFM1", amount_off: 10, percent_or_dollar: 0, merchant_id: @merchant1.id)
+    @coupon3 = Coupon.create(name: "20BUCKS", code: "20OFFM1", amount_off: 2000, percent_or_dollar: 1, merchant_id: @merchant1.id)
+    @coupon4 = Coupon.create(name: "BOGO50", code: "BOGO50M2", amount_off: 50, percent_or_dollar: 0, merchant_id: @merchant2.id)
+    @coupon5 = Coupon.create(name: "10OFF", code: "10OFFM2", amount_off: 10, percent_or_dollar: 0, merchant_id: @merchant2.id)
+    @coupon6 = Coupon.create(name: "20BUCKS", code: "20OFFM2", amount_off: 2000, percent_or_dollar: 1, merchant_id: @merchant2.id)
 
 
     @invoice1 = FactoryBot.create(:invoice, customer: @customer1, status: 1, coupon_id: @coupon1.id)
@@ -62,9 +62,12 @@ RSpec.describe "Coupon New Page", type: :feature do
     it "I see a form and able to fill that form with a name, unique code, an amount, and whether that amount is a percent or a dollar amount" do
       expect(page).to have_field(:name)
       expect(page).to have_field(:code)
-      expect(page).to have_field(:percent_off)
-      expect(page).to have_field(:dollar_off)
+      expect(page).to have_field(:amount_off)
+      expect(page).to have_button(:dollar_off)
       expect(page).to have_button("Submit")
+
+      fill_in 'Name:', with: 'BOGO70'
+      fill_in 'Unique Code:', with: 'BOGO70M1'
     end
   end
 end
