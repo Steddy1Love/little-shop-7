@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "Coupon Show Page", type: :feature do
+RSpec.describe "Coupon New Page", type: :feature do
   before :each do
     @merchant1 = FactoryBot.create(:merchant) 
     @merchant2 = FactoryBot.create(:merchant)
@@ -55,12 +55,16 @@ RSpec.describe "Coupon Show Page", type: :feature do
     @transactions_invoice4 = FactoryBot.create_list(:transaction, 7, invoice: @invoice4, result: 1)
     @transactions_invoice5 = FactoryBot.create_list(:transaction, 3, invoice: @invoice5, result: 1)
     @transactions_invoice6 = FactoryBot.create_list(:transaction, 9, invoice: @invoice6, result: 1)
-    visit merchant_coupon_path(@merchant1.id)
+    visit new_merchant_coupon_path(@merchant1.id)
   end
 
-  describe "US 2 pt 1" do
-    it "I see a link to add a new coupon" do
-      expect(page).to have_link('Create New Coupon', count: 1)
+  describe "US 2 pt 2" do
+    it "I see a form and able to fill that form with a name, unique code, an amount, and whether that amount is a percent or a dollar amount" do
+      expect(page).to have_field(:name)
+      expect(page).to have_field(:code)
+      expect(page).to have_field(:percent_off)
+      expect(page).to have_field(:dollar_off)
+      expect(page).to have_button("Submit")
     end
   end
 end
