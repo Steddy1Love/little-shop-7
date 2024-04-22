@@ -13,6 +13,8 @@ class Coupon < ApplicationRecord
 
 
   def check_coupon_limit
+    return unless merchant # For whatever reason this validation is being run even when a coupon is not being created.
+
     if merchant.coupons.where(status: 1).count >= 5
       errors.add(:base, "Merchant cannot have more than 5 active coupons")
     end

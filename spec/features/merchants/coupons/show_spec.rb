@@ -40,6 +40,7 @@ RSpec.describe "Coupon Show Page", type: :feature do
     @invoice4 = FactoryBot.create(:invoice, customer: @customer4, status: 1, coupon_id: @coupon4.id)
     @invoice5 = FactoryBot.create(:invoice, customer: @customer5, status: 1, coupon_id: @coupon5.id)
     @invoice6 = FactoryBot.create(:invoice, customer: @customer6, status: 1, coupon_id: @coupon6.id)
+    @invoice7 = FactoryBot.create(:invoice, customer: @customer6, status: 0, coupon_id: @coupon1.id)
 
     @invoice_items1 = FactoryBot.create(:invoice_item, invoice: @invoice1, item: @table, status: 0 ) #pending
     @invoice_items1 = FactoryBot.create(:invoice_item, invoice: @invoice1, item: @plant2, status: 0 ) #pending
@@ -48,6 +49,7 @@ RSpec.describe "Coupon Show Page", type: :feature do
     @invoice_items4 = FactoryBot.create(:invoice_item, invoice: @invoice4, item: @plant2, status: 1 ) #packaged
     @invoice_items5 = FactoryBot.create(:invoice_item, invoice: @invoice5, item: @ball, status: 2 )#shiped
     @invoice_items6 = FactoryBot.create(:invoice_item, invoice: @invoice6, item: @scent, status: 2 )#shipped
+    @invoice_items7 = FactoryBot.create(:invoice_item, invoice: @invoice7, item: @scent, status: 0 )#shipped
 
     @transactions_invoice1 = FactoryBot.create_list(:transaction, 5, invoice: @invoice1, result: 1)
     @transactions_invoice2 = FactoryBot.create_list(:transaction, 4, invoice: @invoice2, result: 1)
@@ -55,6 +57,7 @@ RSpec.describe "Coupon Show Page", type: :feature do
     @transactions_invoice4 = FactoryBot.create_list(:transaction, 7, invoice: @invoice4, result: 1)
     @transactions_invoice5 = FactoryBot.create_list(:transaction, 3, invoice: @invoice5, result: 1)
     @transactions_invoice6 = FactoryBot.create_list(:transaction, 9, invoice: @invoice6, result: 1)
+    @transactions_invoice7 = FactoryBot.create_list(:transaction, 9, invoice: @invoice7, result: 0)
     visit merchant_coupon_path(@merchant1.id, @coupon1.id)
   end
 
@@ -67,6 +70,15 @@ RSpec.describe "Coupon Show Page", type: :feature do
       expect(@coupon1.number_purchases).to eq(5)
       expect(page).to_not have_content("$#{@coupon1.amount_off}")
       expect(page).to_not have_content("inactive")
+    end
+  end
+
+  describe "US 4" do
+    it "Has a button to activate or deactivate and cannot deactivate if invoice is in progress" do
+        expect(page).to have_button("Deactivate coupon")
+        #Coupon 1 has a in progress invoice
+        click_button 'Deactivate coupon'
+        expect(page).to have_content("inactive")
     end
   end
 end
