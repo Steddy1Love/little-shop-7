@@ -14,15 +14,11 @@ class CouponsController < ApplicationController
 
   def create
     @coupon = @merchant.coupons.new(coupon_params)
-    if @coupon.valid?
       if @coupon.save
-        redirect_to merchant_coupons_path(@merchant.id)
+        redirect_to merchant_coupons_path(@merchant.id), notice: 'Coupon was successfully saved'
       else
-        flash.now[:notice] = "Required information missing or code is not unique"
+        flash.now[:alert] = @coupon.erros.full_messages.join(", ")
         render :new
-      end
-    else
-      flash.now[:notice] = "Code is not unique!"
     end
   end
 

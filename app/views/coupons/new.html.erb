@@ -1,13 +1,14 @@
+
 <h1>Create Coupon</h1>
-<%= form_with model: @coupon, url: merchant_coupons(:merchant_id), data: {tubro: false} do |f| %>
+<%= form_with model: @coupon, url: merchant_coupons_path(:merchant_id), data: {tubro: false} do |f| %>
   <%= f.label :name, 'Name:' %>
-  <%= f.text_field :name %>
+  <%= f.text_field :name %><br>
   <%= f.label :code, 'Unique Code:' %>
   <%= f.text_field :code %>
   <h2>Percent Off or Dollar Off</h2>
   <%= f.label :amount_off, 'Amount off' %>
-  <%= f.integer_field :amount_off %>
-  <%= f.radio_button :percent_or_dollar, 'Percent' %> Percent<br>
-  <%= f.radio_button :percent_or_dollar, 'Dollar' %> Dollar<br>
+  <%= f.number_field :amount_off %><br>
+  <%= f.radio_button :percent_or_dollar, 'percent' %> Percent<br>
+  <%= f.radio_button :percent_or_dollar, 'dollar' %> Dollar<br>
   <%= f.submit %>
 <% end %>
