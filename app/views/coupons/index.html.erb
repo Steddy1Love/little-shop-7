@@ -4,15 +4,22 @@
       <h1 class="main_headings"> All Coupons for <%= @merchant.name %></h1>
       <h2><%= link_to 'Create New Coupon', new_merchant_coupon_path %></h2>
         <% @coupons.each do |coupon| %>
-          <% if coupon.percent_or_dollar == 0 && coupon.status == 1 %>
-            <p><%= link_to "#{coupon.name}", merchant_coupon_path(@merchant.id, coupon.id) %>
-            <%= coupon.percent_off %>&#37 off</p>
-          <% elsif coupon.status == 1 %>
-            <p><%= link_to "#{coupon.name}", merchant_coupon_path(@merchant.id, coupon.id) %>
-            <%= number_to_currency(coupon.amount_off.to_f / 100.00) %></p><br>
+          <% if coupon.status == 'active' %>
+            <h3>Active Coupon</h3>
+            <p><%= link_to "#{coupon.name}", merchant_coupon_path(@merchant.id, coupon.id) %></p>
+              <% if coupon.percent_or_dollar == 'percent' %>
+                <p><%= coupon.amount_off %>&#37 off</p>
+              <% else %>
+                <p><%= number_to_currency(coupon.amount_off.to_f / 100.00) %></p><br>
+              <% end %>
           <% else %>
-            <h3>Inactive Coupons:</h3>
-            <p><%= link_to "#{coupon.name}", merchant_coupon_path(@merchant.id, coupon.id) %>
+            <h3>Inactive Coupon</h3>
+            <p><%= link_to "#{coupon.name}", merchant_coupon_path(@merchant.id, coupon.id) %><p>
+            <% if coupon.percent_or_dollar == 'percent' %>
+                <p><%= coupon.amount_off %>&#37 off</p>
+              <% else %>
+                <p><%= number_to_currency(coupon.amount_off.to_f / 100.00) %></p><br>
+              <% end %>
           <% end %>
         <% end %>
     </div>

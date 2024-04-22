@@ -27,10 +27,10 @@ RSpec.describe "Coupon Show Page", type: :feature do
     @customer6 = FactoryBot.create(:customer)
 
     @coupon1 = Coupon.create(name: "BOGO50", code: "BOGO50M1", amount_off: 50, percent_or_dollar: 0, status: 1, merchant_id: @merchant1.id)
-    @coupon2 = Coupon.create(name: "10OFF", code: "10OFFM1", amount_off: 10, percent_or_dollar: 0, merchant_id: @merchant1.id)
+    @coupon2 = Coupon.create(name: "10OFF", code: "10OFFM1", amount_off: 10, percent_or_dollar: 0, status: 1, merchant_id: @merchant1.id)
     @coupon3 = Coupon.create(name: "20BUCKS", code: "20OFFM1", amount_off: 2000, percent_or_dollar: 1, merchant_id: @merchant1.id)
-    @coupon4 = Coupon.create(name: "BOGO50", code: "BOGO50M2", amount_off: 50, percent_or_dollar: 0, merchant_id: @merchant2.id)
-    @coupon5 = Coupon.create(name: "10OFF", code: "10OFFM2", amount_off: 10, percent_or_dollar: 0, merchant_id: @merchant2.id)
+    @coupon4 = Coupon.create(name: "BOGO50", code: "BOGO50M2", amount_off: 50, percent_or_dollar: 0, status: 1, merchant_id: @merchant2.id)
+    @coupon5 = Coupon.create(name: "10OFF", code: "10OFFM2", amount_off: 10, percent_or_dollar: 0, status: 1, merchant_id: @merchant2.id)
     @coupon6 = Coupon.create(name: "20BUCKS", code: "20OFFM2", amount_off: 2000, percent_or_dollar: 1, merchant_id: @merchant2.id)
 
 
@@ -58,12 +58,15 @@ RSpec.describe "Coupon Show Page", type: :feature do
     visit merchant_coupon_path(@merchant1.id, @coupon1.id)
   end
 
-  describe "Testing for show page US 1 pt 3" do
+  describe "Testing for show page US 3" do
     it "has information on coupon" do
-      expect(page).to have_content(@coupon1.name, count: 1)
+      expect(page).to have_content("Name: #{@coupon1.name}", count: 1)
+      expect(page).to have_content(@coupon1.code, count: 1)
       expect(page).to have_content("#{@coupon1.amount_off}%", count: 1)
+      expect(page).to have_content(@coupon1.number_purchases)
+      expect(@coupon1.number_purchases).to eq(5)
       expect(page).to_not have_content("$#{@coupon1.amount_off}")
-      expect(page).to_not have_content("This Coupon is disabled")
+      expect(page).to_not have_content("inactive")
     end
   end
 end

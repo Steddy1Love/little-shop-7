@@ -4,7 +4,7 @@ class Coupon < ApplicationRecord
 
   belongs_to :merchant
   has_many :invoices
-
+  has_many :transactions, through: :invoices
   
   validate :check_coupon_limit, on: :create
   validate :check_unique_code, on: :create
@@ -25,7 +25,12 @@ class Coupon < ApplicationRecord
   end
 
   def number_purchases
-    transaction.coupons.where("result = 1").count
+    self.transactions.where("result = 1").count
+  end
+
+  def cannot_deactivate
+    self.invoices.where(status: 0)
+    self.id
   end
   # def check_coupon_value
   #   if dollar_off && invoice && invoice.total_cost_for_merchant(merchant) < dollar_off

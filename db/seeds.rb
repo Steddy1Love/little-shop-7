@@ -30,12 +30,12 @@
 @customer5 = FactoryBot.create(:customer)
 @customer6 = FactoryBot.create(:customer)
 
-@coupon1 = Coupon.create(name: "BOGO50", code: "BOGO50M1", amount_off: 50, percent_or_dollar: 0, merchant_id: @merchant1.id)
+@coupon1 = Coupon.create(name: "BOGO50", code: "BOGO50M1", amount_off: 50, percent_or_dollar: 0, status: 1, merchant_id: @merchant1.id)
 @coupon2 = Coupon.create(name: "10OFF", code: "10OFFM1", amount_off: 10, percent_or_dollar: 0, merchant_id: @merchant1.id)
-@coupon3 = Coupon.create(name: "20BUCKS", code: "20OFFM1", amount_off: 2000, percent_or_dollar: 1, merchant_id: @merchant1.id)
+@coupon3 = Coupon.create(name: "20BUCKS", code: "20OFFM1", amount_off: 2000, percent_or_dollar: 1, status: 1, merchant_id: @merchant1.id)
 @coupon4 = Coupon.create(name: "BOGO50", code: "BOGO50M2", amount_off: 50, percent_or_dollar: 0, merchant_id: @merchant2.id)
-@coupon5 = Coupon.create(name: "10OFF", code: "10OFFM2", amount_off: 10, percent_or_dollar: 0, merchant_id: @merchant2.id)
-@coupon6 = Coupon.create(name: "20BUCKS", code: "20OFFM2", amount_off: 2000, percent_or_dollar: 21, merchant_id: @merchant2.id)
+@coupon5 = Coupon.create(name: "10OFF", code: "10OFFM2", amount_off: 10, percent_or_dollar: 0, status: 1, merchant_id: @merchant2.id)
+@coupon6 = Coupon.create(name: "20BUCKS", code: "20OFFM2", amount_off: 2000, percent_or_dollar: 21, status: 1, merchant_id: @merchant2.id)
 
 
 @invoice1 = FactoryBot.create(:invoice, customer: @customer1, status: 1, coupon_id: @coupon1.id)
@@ -58,4 +58,4 @@
 @transactions_invoice3 = FactoryBot.create_list(:transaction, 6, invoice: @invoice3, result: 1)
 @transactions_invoice4 = FactoryBot.create_list(:transaction, 7, invoice: @invoice4, result: 1)
 @transactions_invoice5 = FactoryBot.create_list(:transaction, 3, invoice: @invoice5, result: 1)
-@transactions_invoice6 = FactoryBot.create_list(:transaction, 9, invoice: @invoice6, result: 1)
+@transactions_invoice6 = FactoryBot.create_list(:transaction, 9, invoice: @invoice6, result: 0)
