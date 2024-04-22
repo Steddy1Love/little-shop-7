@@ -55,7 +55,7 @@ RSpec.describe "Coupon Show Page", type: :feature do
     @transactions_invoice4 = FactoryBot.create_list(:transaction, 7, invoice: @invoice4, result: 1)
     @transactions_invoice5 = FactoryBot.create_list(:transaction, 3, invoice: @invoice5, result: 1)
     @transactions_invoice6 = FactoryBot.create_list(:transaction, 9, invoice: @invoice6, result: 1)
-    visit merchant_coupon_path(@merchant1.id)
+    visit merchant_coupon_path(@merchant1.id, @coupon1.id)
   end
 
   describe "Testing for show page US 1 pt 3" do

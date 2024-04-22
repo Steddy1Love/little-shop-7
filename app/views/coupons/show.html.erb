@@ -1,11 +1,10 @@
 <%= render 'shared/admin_navbar' %>
 
 <h1><%= @coupon.name %></h1>
-  <% if @coupon.percent_or_dollar == 0 && @coupon.status == 1 %>
+  <% if @coupon.percent_or_dollar == 0 %>
     <p><%= @coupon.amount_off %>&#37 off</p>
-  <% elsif @coupon.status == 1%>
-    <p><%= number_to_currency(@coupon.amount_off.to_f / 100.00) %></p><br>
   <% else %>
-    <p>This Coupon is disabled</p>
+    <p><%= number_to_currency(@coupon.amount_off.to_f / 100.00) %></p><br>
   <% end %>
-
+  <p><%= @coupon.status.to_s %></p>
+  <p><%= @coupon.number_purchases %>

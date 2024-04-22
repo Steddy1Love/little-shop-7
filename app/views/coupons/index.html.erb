@@ -11,7 +11,7 @@
             <p><%= link_to "#{coupon.name}", merchant_coupon_path(@merchant.id, coupon.id) %>
             <%= number_to_currency(coupon.amount_off.to_f / 100.00) %></p><br>
           <% else %>
-            <h3>Disabled Coupons:</h3>
+            <h3>Inactive Coupons:</h3>
             <p><%= link_to "#{coupon.name}", merchant_coupon_path(@merchant.id, coupon.id) %>
           <% end %>
         <% end %>

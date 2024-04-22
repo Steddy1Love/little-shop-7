@@ -1,5 +1,5 @@
 class Coupon < ApplicationRecord
-  enum :status, ['disabled', 'enabled'], validate: true
+  enum :status, ['inactive', 'active'], validate: true
   enum :percent_or_dollar, ['percent', 'dollar'], validate: true
 
   belongs_to :merchant
@@ -24,6 +24,9 @@ class Coupon < ApplicationRecord
     end
   end
 
+  def number_purchases
+    transaction.coupons.where("result = 1").count
+  end
   # def check_coupon_value
   #   if dollar_off && invoice && invoice.total_cost_for_merchant(merchant) < dollar_off
   #     invoice.update(total_cost: 0)
