@@ -18,10 +18,10 @@
 
       <p>Created on: <%= @invoice.formatted_date %></p>
       <p>Subtotal Revenue: <%= number_to_currency(@invoice.total_revenue / 100.0) %></p>
-      <% if @invoice.coupon.present? %>
-        <p>Coupon Applied: <%= @invoice.coupon.name %></p>
-        <p>Coupon Code: <%= @invoice.coupon.code %></p>
-        <p>Grand Total Revenue: <%= number_to_currency(@invoice.grand_total(@invoice.coupon) / 100.0) %>
+      <% if @coupon.present? %>
+        <p>Coupon Applied: <%= @coupon.name %></p>
+        <p>Coupon Code: <%= @coupon.code %></p>
+        <p>Grand Total Revenue: <%= number_to_currency(@invoice.grand_total(@coupon) / 100.0) %>
       <% else %>
         <p>No coupon applied</p>
         <p>Grand Total Revenue: <%= number_to_currency(@invoice.total_revenue / 100.0) %></p>

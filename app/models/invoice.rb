@@ -43,16 +43,16 @@ class Invoice < ApplicationRecord
           number_of_items = invoice_item.quantity
           price_of_items = invoice_item.unit_price
           sub_total = number_of_items * price_of_items
-          total_per_invoice << (sub_total - (sub_total * (coupon.amount_off / 100.00)))
+          total_per_invoice << sub_total - (sub_total * (coupon.amount_off / 100.00))
         else 
           number_of_items = invoice_item.quantity
           price_of_items = invoice_item.unit_price
           sub_total = number_of_items * price_of_items
           total_per_invoice << sub_total
         end
-        total_for_invoice = total_per_invoice.sum
+        @total_for_invoice = total_per_invoice.sum
       end
-      grand_total
+      @total_for_invoice
     else
       self.total_revenue - coupon.amount_off
     end
