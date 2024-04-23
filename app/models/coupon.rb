@@ -8,9 +8,6 @@ class Coupon < ApplicationRecord
   
   validate :check_coupon_limit, on: :create
   validate :check_unique_code, on: :create
-  # validate :check_coupon_value, on: :update
-
-
 
   def check_coupon_limit
     return unless merchant # For whatever reason this validation is being run even when a coupon is not being created.
@@ -34,9 +31,4 @@ class Coupon < ApplicationRecord
     self.invoices.where(status: 0)
     self.id
   end
-  # def check_coupon_value
-  #   if dollar_off && invoice && invoice.total_cost_for_merchant(merchant) < dollar_off
-  #     invoice.update(total_cost: 0)
-  #   end
-  # end
 end

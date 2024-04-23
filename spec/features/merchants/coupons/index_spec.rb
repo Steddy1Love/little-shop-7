@@ -72,4 +72,10 @@ RSpec.describe "Merchant Coupon Index Page", type: :feature do
       expect(page).to have_link('Create New Coupon', count: 1)
     end
   end
+
+  describe "US 6" do
+    it "I see that my coupons are separated between active and inactive coupons" do
+      
+    end
+  end
 end

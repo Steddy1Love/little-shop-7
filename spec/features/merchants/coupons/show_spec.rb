@@ -73,12 +73,24 @@ RSpec.describe "Coupon Show Page", type: :feature do
     end
   end
 
-  describe "US 4" do
+  describe "US 4 & 5" do
     it "Has a button to activate or deactivate and cannot deactivate if invoice is in progress" do
         expect(page).to have_button("Deactivate coupon")
         #Coupon 1 has a in progress invoice
         click_button 'Deactivate coupon'
+        expect(page).to have_content("active")
+
+        visit merchant_coupon_path(@merchant1.id, @coupon2.id)
+
+        expect(page).to have_button("Deactivate coupon")
+
+        click_button 'Deactivate coupon'
+
         expect(page).to have_content("inactive")
+
+        click_button 'Activate coupon'
+
+        expect(page).to have_content('active')
     end
   end
 end

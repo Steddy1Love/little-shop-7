@@ -31,4 +31,12 @@ class Invoice < ApplicationRecord
     items.where(merchant: merchant)
     .sum("invoice_items.unit_price * invoice_items.quantity")
   end
+
+  def grand_total_calc(merchant, coupon)
+    if coupon.percent_or_dollar == 0
+      (self.total_revenue_for_merchant(merchant) - (self.total_revenue_for_merchant(merchant) * coupon.amount_off))
+    else
+      [(self.total_revenue_for_merchant - coupon.amount_off), 0].max
+    end
+  end
 end

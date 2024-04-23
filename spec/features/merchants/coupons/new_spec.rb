@@ -60,18 +60,19 @@ RSpec.describe "Coupon New Page", type: :feature do
 
   describe "US 2 pt 2" do
     it "I see a form and able to fill that form with a name, unique code, an amount, and whether that amount is a percent or a dollar amount" do
+
       expect(page).to have_field('Name:')
       expect(page).to have_field(:code)
       expect(page).to have_field(:amount_off)
-      expect(page).to have_button("Percent")
-      expect(page).to have_button("Dollar")
-      expect(page).to have_button("Submit")
-
+      save_and_open_page
+      expect(page).to have_field(:percent_or_dollar, with: 0)
+      expect(page).to have_field(:percent_or_dollar, with: 1)
+      expect(page).to have_button("Save")
       fill_in 'Name:', with: 'BOGO70'
       fill_in 'Unique Code:', with: 'BOGO70M1'
       fill_in 'Amount off:', with: '70'
       choose 'Percent'
-      click_button 'Submit'
+      click_button 'Save'
 
       expect(current_path).to eq(merchant_coupons_path(@merchant1.id))
       expect(page).to have_content("BOGO70", count: 1)

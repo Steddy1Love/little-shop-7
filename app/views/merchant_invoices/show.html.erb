@@ -12,7 +12,8 @@
       <ul>
         <li>Status: <%= @invoice.status %></li>
         <li>Created on: <%= @invoice.formatted_date %></li>
-        <li>Total Revenue: <%= number_to_currency(@invoice.total_revenue_for_merchant(@merchant) / 100.0) %></li>
+        <li>Subtotal Revenue: <%= number_to_currency(@invoice.total_revenue_for_merchant(@merchant) / 100.0) %></li>
+        <li>Grand total: <%= number_to_currency(@invoice) %>
         <li>Customer: <%= @invoice.customer_name %></li>
       </ul>
     </div>
