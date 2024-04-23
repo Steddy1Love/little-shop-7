@@ -33,34 +33,28 @@ class Invoice < ApplicationRecord
   end
 
   def grand_total(coupon)
-    if coupon.present?
-      merchant = coupon.merchant
-      if coupon.percent_or_dollar == 'percent'
-        total_per_invoice = []
-        # I want the coupon from a particular merchant apply only on the invoice items that are on a particular invoice
-        self.invoice_items.each do |invoice_item|
-          certain_merchant = invoice_item.item.merchant_id
-          if certain_merchant == merchant.id
-            binding.pry
-            number_of_items = invoice_item.quantity
-            price_of_items = invoice_item.unit_price
-            sub_total = number_of_items * price_of_items
-            total_per_invoice << (sub_total - (sub_total * (coupon.amount_off / 100.00)))
-          else 
-            binding.pry
-            number_of_items = invoice_item.quantity
-            price_of_items = invoice_item.unit_price
-            sub_total = number_of_items * price_of_items
-            total_per_invoice << sub_total
-          end
-          binding.pry
-          grand_total = total_per_invoice.sum
+    merchant = coupon.merchant
+    if coupon.percent_or_dollar == 'percent'
+      total_per_invoice = []
+      # I want the coupon from a particular merchant apply only on the invoice items that are on a particular invoice
+      self.invoice_items.each do |invoice_item|
+        certain_merchant = invoice_item.item.merchant_id
+        if certain_merchant == merchant.id
+          number_of_items = invoice_item.quantity
+          price_of_items = invoice_item.unit_price
+          sub_total = number_of_items * price_of_items
+          total_per_invoice << (sub_total - (sub_total * (coupon.amount_off / 100.00)))
+        else 
+          number_of_items = invoice_item.quantity
+          price_of_items = invoice_item.unit_price
+          sub_total = number_of_items * price_of_items
+          total_per_invoice << sub_total
         end
-      else
-        self.total_revenue - coupon.amount_off
+        total_for_invoice = total_per_invoice.sum
       end
+      grand_total
     else
-      "No coupons applied"
+      self.total_revenue - coupon.amount_off
     end
   end
 
