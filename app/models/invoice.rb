@@ -34,7 +34,8 @@ class Invoice < ApplicationRecord
 
   def grand_total_calc(merchant, coupon)
     if coupon.percent_or_dollar == 0
-      (self.total_revenue_for_merchant(merchant) - (self.total_revenue_for_merchant(merchant) * coupon.amount_off))
+      binding.pry
+      (self.total_revenue_for_merchant(merchant) - (self.total_revenue_for_merchant(merchant) * (coupon.amount_off.to_f / 100.00)))
     else
       [(self.total_revenue_for_merchant - coupon.amount_off), 0].max
     end

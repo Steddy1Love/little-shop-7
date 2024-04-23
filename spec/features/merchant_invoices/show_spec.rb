@@ -12,10 +12,10 @@ RSpec.describe 'Merchant Invoices Show' do
     @merchant3 = create(:merchant)
     @merchant4 = create(:merchant)
 
-    @coupon1 = Coupon.create(name: "BOGO50", code: "BOGO50M1", amount_off: 50, percent_or_dollar: 0, status: 1, merchant_id: @merchant1.id)
+    @coupon1 = Coupon.create(name: "BOGO", code: "BOGOM1", amount_off: 50, percent_or_dollar: 0, status: 1, merchant_id: @merchant1.id)
     @coupon2 = Coupon.create(name: "10OFF", code: "10OFFM1", amount_off: 10, percent_or_dollar: 0, merchant_id: @merchant1.id)
     @coupon3 = Coupon.create(name: "20BUCKS", code: "20OFFM1", amount_off: 2000, percent_or_dollar: 1, status: 1, merchant_id: @merchant1.id)
-    @coupon4 = Coupon.create(name: "BOGO50", code: "BOGO50M2", amount_off: 50, percent_or_dollar: 0, merchant_id: @merchant2.id)
+    @coupon4 = Coupon.create(name: "BOGO", code: "BOGOM2", amount_off: 50, percent_or_dollar: 0, merchant_id: @merchant2.id)
     @coupon5 = Coupon.create(name: "10OFF", code: "10OFFM2", amount_off: 10, percent_or_dollar: 0, status: 1, merchant_id: @merchant2.id)
     @coupon6 = Coupon.create(name: "20BUCKS", code: "20OFFM2", amount_off: 2000, percent_or_dollar: 1, status: 1, merchant_id: @merchant2.id)
 
@@ -41,8 +41,8 @@ RSpec.describe 'Merchant Invoices Show' do
     @invoice_item2 = create(:invoice_item, item: @item2, invoice: @invoice1, quantity: 3, unit_price: 55000, status: 1)
     create(:invoice_item, item: @item8, invoice: @invoice1, quantity: 8, unit_price: 41000, status: 0)
     create(:invoice_item, item: @item5, invoice: @invoice1, quantity: 4, unit_price: 1000, status: 2)
-    create(:invoice_item, item: @item3, invoice: @invoice2, quantity: 5, unit_price: 2000, status: 2)
-    create(:invoice_item, item: @item4, invoice: @invoice2, quantity: 5, unit_price: 5050, status: 1)
+    @invoice_item3 = create(:invoice_item, item: @item3, invoice: @invoice2, quantity: 1, unit_price: 2000, status: 1)
+    @invoice_item4 = create(:invoice_item, item: @item4, invoice: @invoice2, quantity: 1, unit_price: 5050, status: 1)
     create(:invoice_item, item: @item3, invoice: @invoice3, quantity: 1, unit_price: 400000, status: 0)
     create(:invoice_item, item: @item11, invoice: @invoice4, quantity: 1, unit_price: 1000, status: 2)
     create(:invoice_item, item: @item10, invoice: @invoice4, quantity: 5, unit_price: 5000, status: 2)
@@ -125,8 +125,26 @@ RSpec.describe 'Merchant Invoices Show' do
   end
 
   describe "US 7" do
-    it "" do
-      
+    it "I see the subtotal for my merchant from this invoice(before coupon discount)" do
+      visit merchant_invoice_path(@merchant1, @invoice2)
+      @revenue_item3 = (@invoice_item3.quantity * @invoice_item3.unit_price)
+      @revenue_item4 = (@invoice_item4.quantity * @invoice_item4.unit_price)
+      @total_revenue = @revenue_item3 + @revenue_item4
+      expect(page).to have_content("Subtotal Revenue: #{number_to_currency(@total_revenue)}")
+    end
+
+    it "I see the grand total revenue after the discount was applied" do
+      visit merchant_invoice_path(@merchant1, @invoice2)
+      @grand_total = @total_revenue - (@total_revenue * (@coupon.amount_off.to_f / 100.00))
+      save_and_open_page
+      expect(page).to have_content("Subtotal Revenue: #{number_to_currency(@grand_total)}")
+    end
+
+    it "I see the name and code of the coupon used as a link to that coupon's show page" do
+      visit merchant_invoice_path(@merchant1, @invoice2)
+      within "#merchant_invoice_info"
+        expect(page).to have_content("Coupon used: #{@coupon1.name}")
+        expect(page).to have_link("#{@coupon1.name}")
     end
   end
 end

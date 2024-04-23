@@ -30,10 +30,10 @@
 @customer5 = FactoryBot.create(:customer)
 @customer6 = FactoryBot.create(:customer)
 
-@coupon1 = Coupon.create(name: "BOGO50", code: "BOGO50M1", amount_off: 50, percent_or_dollar: 0, status: 1, merchant_id: @merchant1.id)
+@coupon1 = Coupon.create(name: "BOGO", code: "BOGOM1", amount_off: 50, percent_or_dollar: 0, status: 1, merchant_id: @merchant1.id)
 @coupon2 = Coupon.create(name: "10OFF", code: "10OFFM1", amount_off: 10, percent_or_dollar: 0, merchant_id: @merchant1.id)
 @coupon3 = Coupon.create(name: "20BUCKS", code: "20OFFM1", amount_off: 2000, percent_or_dollar: 1, status: 1, merchant_id: @merchant1.id)
-@coupon4 = Coupon.create(name: "BOGO50", code: "BOGO50M2", amount_off: 50, percent_or_dollar: 0, merchant_id: @merchant2.id)
+@coupon4 = Coupon.create(name: "BOGO", code: "BOGOM2", amount_off: 50, percent_or_dollar: 0, merchant_id: @merchant2.id)
 @coupon5 = Coupon.create(name: "10OFF", code: "10OFFM2", amount_off: 10, percent_or_dollar: 0, status: 1, merchant_id: @merchant2.id)
 @coupon6 = Coupon.create(name: "20BUCKS", code: "20OFFM2", amount_off: 2000, percent_or_dollar: 1, status: 1, merchant_id: @merchant2.id)
 
