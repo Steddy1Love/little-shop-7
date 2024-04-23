@@ -9,6 +9,7 @@
 
   <div class="row">
     <div class="col">
+      <div id="total_calc">
       <%= form_with url: admin_invoice_path(@invoice), method: :patch, data: { turbo: false } do |f| %>
         <%= f.label :status, 'Status:' %>
         <%= f.select :status, ['in progress', 'completed', 'cancelled'], selected: @invoice.status  %>
@@ -16,8 +17,17 @@
       <% end %>
 
       <p>Created on: <%= @invoice.formatted_date %></p>
-      <p>Total Revenue: <%= number_to_currency(@invoice.total_revenue / 100.0) %></p>
+      <p>Subtotal Revenue: <%= number_to_currency(@invoice.total_revenue / 100.0) %></p>
+      <% if @invoice.coupon.present? %>
+        <p>Coupon Applied: <%= @invoice.coupon.name %></p>
+        <p>Coupon Code: <%= @invoice.coupon.code %></p>
+        <p>Grand Total Revenue: <%= number_to_currency(@invoice.grand_total(@invoice.coupon) / 100.0) %>
+      <% else %>
+        <p>No coupon applied</p>
+        <p>Grand Total Revenue: <%= number_to_currency(@invoice.total_revenue / 100.0) %></p>
+      <% end %>
       <p>Customer: <%= @invoice.customer_name %></p>
+    </div>
     </div>
     <div class="col">
     </div>

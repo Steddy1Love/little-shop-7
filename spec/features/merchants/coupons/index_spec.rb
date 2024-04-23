@@ -79,7 +79,7 @@ RSpec.describe "Merchant Coupon Index Page", type: :feature do
       within("Active Coupons")
       expect(page).to have_link(@coupon1.name)
 
-      within("Inacctive Coupons")
+      within("Inactive Coupons")
       expect(page).to have_link(@coupon2.name)
     end
   end
