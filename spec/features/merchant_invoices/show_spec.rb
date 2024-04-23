@@ -91,13 +91,13 @@ RSpec.describe 'Merchant Invoices Show' do
       visit merchant_invoice_path(@merchant1, @invoice1)
 
       within '#merchant_invoice_info' do
-        expect(page).to have_content("Total Revenue: $2,150.00")
+        expect(page).to have_content("Subtotal Revenue: $2,150.00")
       end
 
       visit merchant_invoice_path(@merchant1, @invoice2)
 
       within '#merchant_invoice_info' do
-        expect(page).to have_content("Total Revenue: $352.50")
+        expect(page).to have_content("Subtotal Revenue: $70.50")
       end
     end
   end
@@ -127,17 +127,25 @@ RSpec.describe 'Merchant Invoices Show' do
   describe "US 7" do
     it "I see the subtotal for my merchant from this invoice(before coupon discount)" do
       visit merchant_invoice_path(@merchant1, @invoice2)
+
       @revenue_item3 = (@invoice_item3.quantity * @invoice_item3.unit_price)
       @revenue_item4 = (@invoice_item4.quantity * @invoice_item4.unit_price)
-      @total_revenue = @revenue_item3 + @revenue_item4
-      expect(page).to have_content("Subtotal Revenue: #{number_to_currency(@total_revenue)}")
+      @total_revenue = ((@revenue_item3 + @revenue_item4) / 100.00)
+      @total_cash = "%.2f" % @total_revenue
+
+      expect(page).to have_content("Subtotal Revenue: $#{@total_cash}")
     end
 
     it "I see the grand total revenue after the discount was applied" do
       visit merchant_invoice_path(@merchant1, @invoice2)
-      @grand_total = @total_revenue - (@total_revenue * (@coupon.amount_off.to_f / 100.00))
-      save_and_open_page
-      expect(page).to have_content("Subtotal Revenue: #{number_to_currency(@grand_total)}")
+
+      @revenue_item3 = (@invoice_item3.quantity * @invoice_item3.unit_price)
+      @revenue_item4 = (@invoice_item4.quantity * @invoice_item4.unit_price)
+      @total_revenue = ((@revenue_item3 + @revenue_item4) / 100.00)
+      @grand_total = (@total_revenue - (@total_revenue * (@coupon1.amount_off.to_f / 100.00))) 
+      @grand_cash = "%.2f" % @grand_total
+
+      expect(page).to have_content("Grand total: $#{@grand_cash}")
     end
 
     it "I see the name and code of the coupon used as a link to that coupon's show page" do

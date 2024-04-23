@@ -26,7 +26,7 @@ RSpec.describe "Merchant Coupon Index Page", type: :feature do
     @customer5 = FactoryBot.create(:customer)
     @customer6 = FactoryBot.create(:customer)
 
-    @coupon1 = Coupon.create(name: "BOGO50", code: "BOGO50M1", amount_off: 50, percent_or_dollar: 0, merchant_id: @merchant1.id)
+    @coupon1 = Coupon.create(name: "BOGO50", code: "BOGO50M1", amount_off: 50, percent_or_dollar: 0, status: 1, merchant_id: @merchant1.id)
     @coupon2 = Coupon.create(name: "10OFF", code: "10OFFM1", amount_off: 10, percent_or_dollar: 0, merchant_id: @merchant1.id)
     @coupon3 = Coupon.create(name: "20BUCKS", code: "20OFFM1", amount_off: 2000, percent_or_dollar: 1, merchant_id: @merchant1.id)
     @coupon4 = Coupon.create(name: "BOGO50", code: "BOGO50M2", amount_off: 50, percent_or_dollar: 0, merchant_id: @merchant2.id)
@@ -75,7 +75,12 @@ RSpec.describe "Merchant Coupon Index Page", type: :feature do
 
   describe "US 6" do
     it "I see that my coupons are separated between active and inactive coupons" do
-      
+      save_and_open_page
+      within("Active Coupons")
+      expect(page).to have_link(@coupon1.name)
+
+      within("Inacctive Coupons")
+      expect(page).to have_link(@coupon2.name)
     end
   end
 end

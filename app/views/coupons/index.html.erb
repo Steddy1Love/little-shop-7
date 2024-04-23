@@ -4,6 +4,7 @@
     <div class="col">
       <h2><%= link_to 'Create New Coupon', new_merchant_coupon_path %></h2>
     <h2 class="main_headings"> Active Coupons </h2>
+      <div id="AC">
         <% @coupons.each do |coupon| %>
           <% if coupon.status == 'active' %>
             <p><%= link_to "#{coupon.name}", merchant_coupon_path(@merchant.id, coupon.id) %></p>
@@ -14,21 +15,24 @@
             <% end %>           
           <% end %>      
         <% end %>
+      </div>
     </div>
   </div>
-    <div class="row">
-      <div class="col">
-        <section class='Inactive'>
-        <h2 class="main_headings">Inactive Coupons</h2>
-        <% @coupons.each do |coupon| %>
-        <% if coupon.status == "inactive" %>
-          <p><%= link_to "#{coupon.name}", merchant_coupon_path(@merchant.id, coupon.id) %><p>
-          <% if coupon.percent_or_dollar == 'percent' %>
-            <p><%= coupon.amount_off %>&#37 off</p>
-          <% else %>
-            <p><%= number_to_currency(coupon.amount_off.to_f / 100.00) %></p><br>
-          <% end %>
+  <div class="row">
+    <div class="col">
+      <div id="IC">
+      <h2 class="main_headings">Inactive Coupons</h2>
+      <% @coupons.each do |coupon| %>
+      <% if coupon.status == "inactive" %>
+        <p><%= link_to "#{coupon.name}", merchant_coupon_path(@merchant.id, coupon.id) %><p>
+        <% if coupon.percent_or_dollar == 'percent' %>
+          <p><%= coupon.amount_off %>&#37 off</p>
+        <% else %>
+          <p><%= number_to_currency(coupon.amount_off.to_f / 100.00) %></p><br>
         <% end %>
       <% end %>
+    <% end %>
     </div>
- </div>
+  </div>
+  </div>
+</div>
