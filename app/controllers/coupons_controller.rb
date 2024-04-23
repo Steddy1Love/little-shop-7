@@ -10,16 +10,16 @@ class CouponsController < ApplicationController
 
   def update
     if params.include? :deactivate_coupon
-      coup_id = params[:deactivate_coupon]
-      coupon = Coupon.find(params[:id])
-      if coupon.cannot_deactivate.include?(coup_id)
+      coupon_id_for_checking = params[:deactivate_coupon]
+      coupon_to_update = Coupon.find(params[:id])
+      if coupon_to_update.cannot_deactivate == coupon_id_for_checking.to_i
         flash.now[:notice] = "Coupon is currently in use in an invoice!"
       else
-        coupon.update(status: 0)
+        coupon_to_update.update(status: 0)
       end
-      redirect_to merchant_coupon_path(coupon.merchant_id)
+      redirect_to merchant_coupon_path(coupon_to_update.merchant_id)
     elsif params.include? :activate_coupon 
-      coup_id = params[:activate_coupon]
+      coupon = Coupon.find(params[:activate_coupon])
       coupon.update(status: 1)
       redirect_to merchant_coupon_path(coupon.merchant_id)
     end

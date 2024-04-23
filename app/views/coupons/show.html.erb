@@ -9,8 +9,8 @@
     <p><%= @coupon.status.to_s %></p>
     <p>Number of purchases: <%= @coupon.number_purchases %></p>
     <% if @coupon.status == 'active' %>
-      <%= button_to "Deactivate coupon", merchant_coupon_path(@coupon.merchant_id), method: :patch, params: {deactivate_coupon: @coupon.id}, style: "color: red; display: inline-block;" %>
+      <%= button_to "Deactivate coupon", merchant_coupon_path(@coupon.merchant_id), method: :patch, params: {deactivate_coupon: @coupon}, style: "color: red; display: inline-block;" %>
     <% else %>
-      <%= button_to "Activate coupon", merchant_coupon_path(@coupon.merchant_id), method: :patch, params: {activate_coupon: @coupon.id}, style: "color: green; display: inline-block;" %>
+      <%= button_to "Activate coupon", merchant_coupon_path(@coupon.merchant_id), method: :patch, params: {activate_coupon: @coupon}, style: "color: green; display: inline-block;" %>
     <% end %>
 </div>

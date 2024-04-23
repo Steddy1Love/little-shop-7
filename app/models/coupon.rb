@@ -28,7 +28,10 @@ class Coupon < ApplicationRecord
   end
 
   def cannot_deactivate
-    self.invoices.where(status: 0)
-    self.id
+    if self.invoices.where(status: 0) != []
+      self.id
+    else
+      false
+    end
   end
 end

@@ -31,7 +31,7 @@ RSpec.describe "Coupon Show Page", type: :feature do
     @coupon3 = Coupon.create(name: "20BUCKS", code: "20OFFM1", amount_off: 2000, percent_or_dollar: 1, merchant_id: @merchant1.id)
     @coupon4 = Coupon.create(name: "BOGO50", code: "BOGO50M2", amount_off: 50, percent_or_dollar: 0, status: 1, merchant_id: @merchant2.id)
     @coupon5 = Coupon.create(name: "10OFF", code: "10OFFM2", amount_off: 10, percent_or_dollar: 0, status: 1, merchant_id: @merchant2.id)
-    @coupon6 = Coupon.create(name: "20BUCKS", code: "20OFFM2", amount_off: 2000, percent_or_dollar: 1, merchant_id: @merchant2.id)
+    @coupon6 = Coupon.create(name: "20BUCKS", code: "20OFFM2", amount_off: 2000, percent_or_dollar: 1, status: 1, merchant_id: @merchant2.id)
 
 
     @invoice1 = FactoryBot.create(:invoice, customer: @customer1, status: 1, coupon_id: @coupon1.id)
@@ -78,9 +78,11 @@ RSpec.describe "Coupon Show Page", type: :feature do
         expect(page).to have_button("Deactivate coupon")
         #Coupon 1 has a in progress invoice
         click_button 'Deactivate coupon'
+
+        expect(current_path).to eq(merchant_coupon_path(@merchant1.id, @coupon1.id))
         expect(page).to have_content("active")
 
-        visit merchant_coupon_path(@merchant1.id, @coupon2.id)
+        visit merchant_coupon_path(@merchant2.id, @coupon6.id)
 
         expect(page).to have_button("Deactivate coupon")
 
