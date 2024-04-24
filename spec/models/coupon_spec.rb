@@ -69,6 +69,8 @@ RSpec.describe Coupon, type: :model do
 
   describe "validations" do
     
+    it { should validate_uniqueness_of(:code) }
+
     context "check_coupon_limit" do
 
       it "adds an error if merchant has 5 active coupons" do
@@ -83,22 +85,6 @@ RSpec.describe Coupon, type: :model do
         coupon = build(:coupon, merchant: @merchant2, status: 1)
         coupon.valid?
         expect(coupon.errors[:base]).to_not include("Merchant cannot have more than 5 enabled coupons")
-      end
-    end
-
-    context "check_unique_code" do
-
-      it "adds an error if coupon code is not unique" do
-        existing_coupon = create(:coupon)
-        coupon = build(:coupon, code: existing_coupon.code)
-        coupon.valid?
-        expect(coupon.errors[:base]).to include("Code is not unique")
-      end
-
-      it "does not add an error if coupon code is unique" do
-        coupon = build(:coupon)
-        coupon.valid?
-        expect(coupon.errors[:base]).to_not include("Code is not unique")
       end
     end
   end

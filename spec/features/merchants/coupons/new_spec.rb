@@ -69,7 +69,7 @@ RSpec.describe "Coupon New Page", type: :feature do
       fill_in 'Unique Code:', with: 'BOGO70M1'
       fill_in 'Amount off:', with: '70'
       within '.percent' do
-        choose("percent", visible: false)
+        choose("percent_or_dollar", visible: false)
       end
       click_button 'Save'
       expect(current_path).to eq(merchant_coupons_path(@merchant1.id))

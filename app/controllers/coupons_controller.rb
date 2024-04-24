@@ -31,8 +31,7 @@ class CouponsController < ApplicationController
   def create
     @merchant_for_new = Merchant.find(params[:merchant_id])
     @coupon = @merchant_for_new.coupons.new(coupon_params)
-      if @coupon.save
-        binding.pry
+      if @coupon.save!
         redirect_to merchant_coupons_path(@merchant_for_new.id), notice: 'Coupon was successfully saved'
       else
         flash.now[:alert] = @coupon.errors.full_messages.join(", ")
