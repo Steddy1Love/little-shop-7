@@ -54,7 +54,7 @@ class Invoice < ApplicationRecord
       end
       @total_for_invoice
     else
-      self.total_revenue - coupon.amount_off
+      (self.total_revenue.to_f - coupon.amount_off) / 100.00
     end
   end
 
