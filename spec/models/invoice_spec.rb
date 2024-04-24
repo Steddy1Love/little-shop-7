@@ -8,6 +8,10 @@ RSpec.describe Invoice, type: :model do
    
     @items_merchant1 = create_list(:item, 5, merchant: @merchant1)
     @items_merchant2 = create_list(:item, 5, merchant: @merchant2)
+
+    @coupon1 = Coupon.create(name: "BOGO50", code: "BOGO50M1", amount_off: 50, percent_or_dollar: 0, status: 1, merchant_id: @merchant1.id)
+    @coupon2 = Coupon.create(name: "20BUCKS", code: "20OFFM2", amount_off: 2000, percent_or_dollar: 1, status:1, merchant_id: @merchant2.id)
+
    
     @customer1 = create(:customer)
     @customer2 = create(:customer)
@@ -23,22 +27,25 @@ RSpec.describe Invoice, type: :model do
     @invoice_customer4 = create(:invoice, customer: @customer4, status: 1)
     @invoice_customer5 = create(:invoice, customer: @customer5, status: 1)
     @invoice_customer6 = create(:invoice, customer: @customer6, status: 2)
-    @invoice_customer7 = create(:invoice, customer: @customer7, status: 2)
+    @invoice_customer7 = create(:invoice, customer: @customer7, status: 1)
+    @invoice_customer8 = create(:invoice, customer: @customer7, status: 1)
 
-    @invoice_items1 = create(:invoice_item, invoice: @invoice_customer1, item: @items_merchant1.first, status: 2 )
-    @invoice_items2 = create(:invoice_item, invoice: @invoice_customer2, item: @items_merchant1.first, status: 2 )
+    @invoice_items1 = create(:invoice_item, invoice: @invoice_customer1, item: @items_merchant1.first, status: 2)
+    @invoice_items2 = create(:invoice_item, invoice: @invoice_customer2, item: @items_merchant1.first, status: 2)
     @invoice_items3 = create(:invoice_item, invoice: @invoice_customer3, item: @items_merchant1.second, status: 2 )
     @invoice_items4 = create(:invoice_item, invoice: @invoice_customer4, item: @items_merchant1.third, status: 2 )
     @invoice_items5 = create(:invoice_item, invoice: @invoice_customer5, item: @items_merchant1.third, status: 2 )
     @invoice_items6 = create(:invoice_item, invoice: @invoice_customer6, item: @items_merchant1.fifth, status: 2 )
-    @invoice_items7 = create(:invoice_item, invoice: @invoice_customer7, item: @items_merchant1.fifth, status: 1 )
+    @invoice_items7 = create(:invoice_item, invoice: @invoice_customer7, item: @items_merchant1.fifth, status: 1, unit_price: 4500, quantity: 8 )
     @invoice_items8 = create(:invoice_item, invoice: @invoice_customer1, item: @items_merchant2.first, status: 2 )
     @invoice_items9 = create(:invoice_item, invoice: @invoice_customer2, item: @items_merchant2.first, status: 2 )
     @invoice_items10 = create(:invoice_item, invoice: @invoice_customer3, item: @items_merchant2.second, status: 2 )
     @invoice_items11 = create(:invoice_item, invoice: @invoice_customer4, item: @items_merchant2.third, status: 2 )
     @invoice_items12 = create(:invoice_item, invoice: @invoice_customer5, item: @items_merchant2.third, status: 0 )
-    @invoice_items13 = create(:invoice_item, invoice: @invoice_customer6, item: @items_merchant2.fifth, status: 0 )
-    @invoice_items14 = create(:invoice_item, invoice: @invoice_customer7, item: @items_merchant2.fifth, status: 1 )
+    @invoice_items13 = create(:invoice_item, invoice: @invoice_customer7, item: @items_merchant1.fifth, status: 2, unit_price: 4500, quantity: 8)
+    @invoice_items14 = create(:invoice_item, invoice: @invoice_customer7, item: @items_merchant1.fifth, status: 2, unit_price: 4500, quantity: 8)
+    @invoice_items15 = create(:invoice_item, invoice: @invoice_customer8, item: @items_merchant2.fifth, status: 2, unit_price: 4500, quantity: 8)
+    @invoice_items16 = create(:invoice_item, invoice: @invoice_customer8, item: @items_merchant2.fifth, status: 2, unit_price: 4500, quantity: 8)
 
     @transactions_invoice1 = create_list(:transaction, 5, invoice: @invoice_customer1, result: 1)
     @transactions_invoice2 = create_list(:transaction, 4, invoice: @invoice_customer2, result: 0)
@@ -54,6 +61,8 @@ RSpec.describe Invoice, type: :model do
     @transactions_invoice12 = create_list(:transaction, 3, invoice: @invoice_customer5, result: 0)
     @transactions_invoice13 = create_list(:transaction, 9, invoice: @invoice_customer6, result: 0)
     @transactions_invoice14 = create_list(:transaction, 10, invoice: @invoice_customer7, result: 0)
+    @transactions_invoice15 = create_list(:transaction, 10, invoice: @invoice_customer8, result: 1)
+    @transactions_invoice16 = create_list(:transaction, 10, invoice: @invoice_customer8, result: 1)
   end
 
   describe "relationships" do
@@ -72,16 +81,28 @@ RSpec.describe Invoice, type: :model do
   describe "class methods" do
     it ".query for incomplete invoices ordered by oldest to newest" do
       list_test = Invoice.all.incomplete_invoices.limit(3)
-      expect(list_test).to match_array([@invoice_customer7, @invoice_customer6, @invoice_customer5])
+      expect(list_test).to match_array([@invoice_customer7, @invoice_customer5])
     end
   end
 
-  describe "instance method" do
+  describe "instance methods" do
     it "#formatted_date" do
       @customer = Customer.create!(first_name: "Blake", last_name: "Sergesketter")
       @invoice = Invoice.create!(status: 1, customer_id: @customer.id, created_at: "Sat, 13 Apr 2024 23:10:10.717784000 UTC +00:00")
       expect(@invoice.formatted_date).to eq("Saturday, April 13, 2024")
       #Saturday, April 13, 2024
+    end
+
+    it "#grand_total" do
+      #checked with pry to see if it is going in the correct order and it is because the calc with a coupon returns a float but when there isnt a coupon it returns an integer
+      #I also attempted to replicate the invoice show spec test under US 8 but I did add an additional transaction that did not go through
+      expect(@invoice_customer7.grand_total(@coupon1)).to eq(54000.0)
+      expect(@invoice_customer8.grand_total(@coupon2)).to eq(70000.0)
+    end
+
+    it "#grand_total_calc" do
+      expect(@invoice_customer7.grand_total_calc(@merchant1, @coupon1)).to eq(540.0)
+      expect(@invoice_customer8.grand_total_calc(@merchant2, @coupon2)).to eq(70000)
     end
 
     it 'customer_name' do

@@ -59,14 +59,10 @@ class Invoice < ApplicationRecord
   end
 
   def grand_total_calc(merchant, coupon)
-    if coupon.present? 
-      if coupon.percent_or_dollar == 'percent'
-        (self.total_revenue_for_merchant(merchant) - (self.total_revenue_for_merchant(merchant) * (coupon.amount_off.to_f / 100.00))) / 100
-      else
-        [(self.total_revenue_for_merchant(merchant) - coupon.amount_off), 0].max
-      end
+    if coupon.percent_or_dollar == 'percent'
+      (self.total_revenue_for_merchant(merchant) - (self.total_revenue_for_merchant(merchant) * (coupon.amount_off.to_f / 100.00))) / 100
     else
-      "No coupon applied"
+      [(self.total_revenue_for_merchant(merchant) - coupon.amount_off), 0].max
     end
   end
 end

@@ -13,9 +13,13 @@
         <li>Status: <%= @invoice.status %></li>
         <li>Created on: <%= @invoice.formatted_date %></li>
         <li>Subtotal Revenue: <%= number_to_currency(@invoice.total_revenue_for_merchant(@merchant) / 100.0) %></li>
-        <li>Grand total: <%= number_to_currency(@invoice.grand_total_calc(@merchant, @coupon)) %>
+        <% if @coupon.present? %>
+          <li>Coupon used: <%= link_to "#{@coupon.name}", merchant_coupon_path(@merchant, @coupon) %></li>
+          <li>Grand total: <%= number_to_currency(@invoice.grand_total_calc(@merchant, @coupon)) %>
+        <% else %>
+          <li>Grand Total Revenue: <%= number_to_currency(@invoice.total_revenue_for_merchant(@merchant) / 100.0) %></li>
+        <% end %>
         <li>Customer: <%= @invoice.customer_name %></li>
-        <li>Coupon used: <%= link_to "#{@coupon.name}", merchant_coupon_path(@merchant, @coupon) %></li>
       </ul>
     </div>
     <div class="col">
