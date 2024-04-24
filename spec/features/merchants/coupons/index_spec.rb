@@ -75,7 +75,6 @@ RSpec.describe "Merchant Coupon Index Page", type: :feature do
 
   describe "US 6" do
     it "I see that my coupons are separated between active and inactive coupons" do
-      save_and_open_page
       within("Active Coupons")
       expect(page).to have_link(@coupon1.name)
 
