@@ -62,7 +62,7 @@ class Invoice < ApplicationRecord
     if coupon.percent_or_dollar == 'percent'
       (self.total_revenue_for_merchant(merchant) - (self.total_revenue_for_merchant(merchant) * (coupon.amount_off.to_f / 100.00))) / 100
     else
-      [(self.total_revenue_for_merchant(merchant) - coupon.amount_off), 0].max
+      [((self.total_revenue_for_merchant(merchant) - coupon.amount_off) / 100.00), 0].max
     end
   end
 end
