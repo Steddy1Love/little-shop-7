@@ -121,13 +121,13 @@ RSpec.describe Merchant, type: :model do
     it { should define_enum_for(:status).with_values({ disabled: 0, enabled: 1 }) }
   end
 
-  describe '::class methods' do
+  describe '.class methods' do
     before(:each) do
       @enabled_merchant_list = create_list(:merchant, 5, status: 1)
       @disabled_merchant_list = create_list(:merchant, 5, status: 0)
     end
 
-    describe '::enabled' do
+    describe '.enabled' do
       it 'returns only merchants with an enabled status' do
         full_enabled_merchant_list = Merchant.enabled
 
@@ -141,7 +141,7 @@ RSpec.describe Merchant, type: :model do
       end
     end
 
-    describe '::disabled' do
+    describe '.disabled' do
       it 'returns only merchants with an disabled status' do
         full_disabled_merchant_list = Merchant.disabled
 
@@ -198,7 +198,7 @@ RSpec.describe Merchant, type: :model do
         create(:transaction, result: 1, invoice: @invoice14)
       end
 
-      describe '::top_5_merchants_by_revenue' do
+      describe '.top_5_merchants_by_revenue' do
         it 'returns the top 5 merchants sorted by total revenue and had at least one successful transaction' do
           top_5_merchants = Merchant.top_5_merchants_by_revenue
 

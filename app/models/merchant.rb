@@ -49,9 +49,5 @@ class Merchant < ApplicationRecord
     .order("total_revenue DESC")
     .limit(5)
   end
-    
-  # def check_coupon_limit
-  #   merchant.coupons.where(status: 1).count >= 5
-  # end
 end
 

@@ -29,6 +29,7 @@ RSpec.describe Invoice, type: :model do
     @invoice_customer6 = create(:invoice, customer: @customer6, status: 2)
     @invoice_customer7 = create(:invoice, customer: @customer7, status: 1)
     @invoice_customer8 = create(:invoice, customer: @customer7, status: 1)
+    @invoice_customer9 = create(:invoice, customer: @customer7, status: 1)
 
     @invoice_items1 = create(:invoice_item, invoice: @invoice_customer1, item: @items_merchant1.first, status: 2)
     @invoice_items2 = create(:invoice_item, invoice: @invoice_customer2, item: @items_merchant1.first, status: 2)
@@ -46,6 +47,7 @@ RSpec.describe Invoice, type: :model do
     @invoice_items14 = create(:invoice_item, invoice: @invoice_customer7, item: @items_merchant1.fifth, status: 2, unit_price: 4500, quantity: 8)
     @invoice_items15 = create(:invoice_item, invoice: @invoice_customer8, item: @items_merchant2.fifth, status: 2, unit_price: 4500, quantity: 8)
     @invoice_items16 = create(:invoice_item, invoice: @invoice_customer8, item: @items_merchant2.fifth, status: 2, unit_price: 4500, quantity: 8)
+    @invoice_items17 = create(:invoice_item, invoice: @invoice_customer9, item: @items_merchant2.fifth, status: 2, unit_price: 2000, quantity: 1)
 
     @transactions_invoice1 = create_list(:transaction, 5, invoice: @invoice_customer1, result: 1)
     @transactions_invoice2 = create_list(:transaction, 4, invoice: @invoice_customer2, result: 0)
@@ -103,6 +105,7 @@ RSpec.describe Invoice, type: :model do
     it "#grand_total_calc" do
       expect(@invoice_customer7.grand_total_calc(@merchant1, @coupon1)).to eq(540.0)
       expect(@invoice_customer8.grand_total_calc(@merchant2, @coupon2)).to eq(70000)
+      expect(@invoice_customer9.grand_total_calc(@merchant2, @coupon2)).to eq(0)
     end
 
     it 'customer_name' do

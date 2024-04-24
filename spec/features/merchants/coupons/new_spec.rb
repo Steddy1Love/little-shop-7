@@ -64,9 +64,8 @@ RSpec.describe "Coupon New Page", type: :feature do
       expect(page).to have_field('Name:')
       expect(page).to have_field(:code)
       expect(page).to have_field(:amount_off)
-      save_and_open_page
-      expect(page).to have_field(:percent_or_dollar, with: 0)
-      expect(page).to have_field(:percent_or_dollar, with: 1)
+      expect(page).to have_unchecked_field('Percent')
+      expect(page).to have_unchecked_field('Dollar')
       expect(page).to have_button("Save")
       fill_in 'Name:', with: 'BOGO70'
       fill_in 'Unique Code:', with: 'BOGO70M1'
