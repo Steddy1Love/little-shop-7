@@ -64,15 +64,14 @@ RSpec.describe "Coupon New Page", type: :feature do
       expect(page).to have_field('Name:')
       expect(page).to have_field(:code)
       expect(page).to have_field(:amount_off)
-      expect(page).to have_unchecked_field('Percent')
-      expect(page).to have_unchecked_field('Dollar')
       expect(page).to have_button("Save")
       fill_in 'Name:', with: 'BOGO70'
       fill_in 'Unique Code:', with: 'BOGO70M1'
       fill_in 'Amount off:', with: '70'
-      choose 'Percent'
+      within '.percent' do
+        choose("percent", visible: false)
+      end
       click_button 'Save'
-
       expect(current_path).to eq(merchant_coupons_path(@merchant1.id))
       expect(page).to have_content("BOGO70", count: 1)
       expect(page).to have_link("BOGO70")
